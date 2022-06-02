@@ -1,0 +1,175 @@
+---
+'<(META)>':
+  'docid': '918fad12-ddc5-4282-8ccd-940f074393cc'
+  name:
+  description: >
+    ''
+  expirary:
+  version:
+  authority: 'document|this'
+  security: 'sec|lvl2'
+  <(WT)>: '-32'
+nsmbl12Z0:
+  <(META)>:
+    Name: Ensemble Classifier
+    Description: >
+      Combined Model Training
+  a000:
+    name: AdaBoost Classifer
+    code: 'nsmbl12Z1_a000'
+    platform:
+      sklearn:
+        valid: 1
+        docs:
+          - 'https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.AdaBoostClassifier.html#sklearn.ensemble.AdaBoostClassifier'
+        model: 'sklearn.ensemble.AdaBoostClassifier'
+        dargs:
+          n_estimators: 100
+          learning_rate: 1.0
+          algorithm: 'SAMME.R'
+          random_state: 0
+        args:
+          -
+            uuid:
+            name:
+            dargs:
+  a001:
+    name: Bagging Classifer
+    code: 'nsmbl12Z1_a001'
+    platform:
+      sklearn:
+        valid: 1
+        docs:
+          - 'https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.BaggingClassifier.html#sklearn.ensemble.BaggingClassifier'
+        model: 'sklearn.ensemble.BaggingClassifier'
+        dargs:
+          n_estimators: 10
+          max_samples: 1.0
+          max_features: 1.0
+          bootstrap: True
+          bootstrap_features: False
+          oob_score: False
+          warm_start: False
+          n_jobs: None
+          random_state: None
+          verbose: 0
+        args:
+          -
+            uuid:
+            name:
+            dargs:
+  a002:
+    name: Extra Trees Classifer
+    code: 'nsmbl12Z1_a002'
+    platform:
+      sklearn:
+        valid: 1
+        docs:
+          - 'https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.ExtraTreesClassifier.html#sklearn.ensemble.ExtraTreesClassifier'
+        model: 'sklearn.ensemble.ExtraTreesClassifier'
+        dargs:
+          criterion: 'gini'
+          max_depth: None
+          min_samples_split: 2
+          min_samples_leaf: 1
+          min_weight_fraction_leaf: 0.0
+          max_features: 'auto'
+          max_leaf_nodes: None
+          min_impurity_decrease: 0.0
+          bootstrap: False
+          oob_score: False
+          n_jobs: None
+          random_state: None
+          verbose: 0
+          warm_start: False
+          class_weight: None
+        args:
+          -
+            uuid:
+            name:
+            dargs:
+  a003:
+    name: Gradient Boosting Classifer
+    code: 'nsmbl12Z1_a003'
+    platform:
+      sklearn:
+        valid: 1
+        docs:
+          - 'https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.GradientBoostingClassifier.html#sklearn.ensemble.GradientBoostingClassifier'
+        model: 'sklearn.ensemble.GradientBoostingClassifier'
+        dargs:
+          loss: 'deviance'
+          learning_rate: 0.1
+          n_estimators: 100
+          subsample: 1.0
+          criterion: 'friedman_mse'
+          min_samples_split: 2
+          min_samples_leaf: 1
+          min_weight_fraction_leaf: 0.0
+          max_depth: 3
+          min_impurity_decrease: 0.0
+          init: None
+          random_state: None
+          max_features: None
+          verbose: 0
+          max_leaf_nodes: None
+          warm_start: False
+          presort: 'auto'
+          validation_fraction: 0.1
+          n_iter_no_change: None
+          tol: 1e-4
+        args:
+          -
+            uuid:
+            name:
+            dargs:
+  a004:
+    name: Random Forest Classifer
+    code: 'nsmbl12Z1_a004'
+    platform:
+      sklearn:
+        valid: 1
+        docs:
+          - 'https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.RandomForestClassifier.html#sklearn.ensemble.RandomForestClassifier'
+        model: 'sklearn.ensemble.RandomForestClassifier'
+        dargs:
+          n_estimators: 10
+          criterion: 'gini'
+          max_depth: None
+          min_samples_split: 2
+          min_samples_leaf: 1
+          min_weight_fraction_leaf: 0.0
+          max_features: 'auto'
+          max_leaf_nodes: None
+          min_impurity_decrease: 0.0
+          bootstrap: True
+          oob_score: False
+          n_jobs: None
+          random_state: None
+          verbose: 0
+          warm_start: False
+          class_weight: None
+        args:
+          -
+            uuid:
+            name:
+            dargs:
+  a005:
+    name: Ensemble Voting Classifer
+    code: 'nsmbl12Z1_a005'
+    platform:
+      sklearn:
+        valid: 1
+        docs:
+          - 'https://scikit-learn.org/stable/modules/generated/sklearn.ensemble.VotingClassifier.html'
+        model: 'sklearn.ensemble.VotingClassifier'
+        dargs:
+          voting: 'soft'
+        args:
+          -
+            uuid:
+            name:
+            dargs:
+              voting:
+              weights: []
+              flatten_transform: True
