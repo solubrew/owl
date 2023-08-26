@@ -1,4 +1,4 @@
-#@@@@@@@@@@@@@@@@@@@@ Numerai Operation Command Line Interface @@@@@@@@@@@@@@@@@||
+#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 '''  #																			||
 ---  #																			||
 <(META)>:  #																	||
@@ -12,8 +12,6 @@
 		predict outcomes given raw data
 	expirary: <[expiration]>  #													||
 	version: <[version]>  #														||
-	path: <[LEXIvrs]>  #														||
-	outline: <[outline]>  #														||
 	authority: document|this  #													||
 	security: sec|lvl2  #														||
 	<(WT)>: -32  #																||
@@ -28,21 +26,13 @@ from memory_profiler import profile
 import threading
 import multiprocessing as mp
 #===============================================================================||
-# from fx import calcLimits, createViews, downloadData, extractTARGETs#	||
-# from fx import storeTblFile2DB, foldDataSets, outputEnsemble, runTARGBinning
-# from fx import testModel, trainModel, predictOutcomes, predictValidation
-# from fx import uploadPredictions, ensemble, ensembleSearch, ensembleSelect, outputModel#		||
-#===============================================================================||
 from excalc import data as calcd, tree as calctr
 from condor import condor, thing
 from fxsquirl.orgnql import sonql
 from owl import predictor, utils
 #===============================================================================||
 here = join(dirname(__file__),'')#							 		  			||
-there = join(dirname(__file__))#												||
-where = abspath(join(''))#													||set path at pheonix level
-module_path = abspath(join('../../../'))#										||
-version = '0.0.0.0.0.0'#														||
+log = True
 page = 200000#
 #===============================================================================||
 pxcfg = f'{here}_data_/owl.yaml'#								||use default configuration

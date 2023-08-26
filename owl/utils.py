@@ -28,18 +28,15 @@ except Exception as e:
 from excalc import data as calcd, tree as calctr, exam, ts as calcts#							||
 from condor import condor, thing#										||
 from fxsquirl.orgnql import fonql, sonql, yonql#								||
-from fxsquirl import analyzer, collector, encoder, worker
+from fxsquirl import analyzer, collector, encoder
 #===============================================================================||
 here = join(dirname(__file__),'')#												||
-there = abspath(join('../../..'))#												||set path at pheonix level
-version = '0.0.0.0.0.0'#														||
 log = True
 #===============================================================================||
+
 def _procData(cfg, params, dbo, fx, targs, filtr=None, ftrs=None, limit=0.8):
 	'''Process logicizer using provided data and configurations
-		generalize to the processor module
-
-	'''
+		generalize to the processor module	'''
 	print('ProcData Params', params)
 	if 'tables' in cfg.keys():
 		tables = cfg['tables']
@@ -78,6 +75,7 @@ def _procData(cfg, params, dbo, fx, targs, filtr=None, ftrs=None, limit=0.8):
 		if done == None:
 			return done
 	return done
+
 def _runAlgo(FTRs, TARGs, model, args, how='full'):
 	'''Modulize model and fit piecewise if possible and if not fit fully'''
 	done = False
@@ -177,6 +175,7 @@ def _runAlgo(FTRs, TARGs, model, args, how='full'):
 	if done == False:
 		return done
 	return model
+
 def _save(writer, res, name, code, model, scores={}, start=None):#				||
 	'''Save Predictions and Model Object along with a id of the DataSet'''#		||
 	predictCOLs = ['targetid','target','predicts','foldcycl','algoname',#		||
@@ -226,6 +225,7 @@ def _save(writer, res, name, code, model, scores={}, start=None):#				||
 # 	''' '''
 # 	plats = ['sklearn', 'pheonix','prophet','tensorflow']
 # 	return plats
+
 def split(data, columns, splits):#												||
 	''' '''
 	df = DataFrame(data, columns=columns)#										||
@@ -238,6 +238,7 @@ def split(data, columns, splits):#												||
 		CATs = df.iloc[:,splits[1]:splits[2]]
 		FTRs = df.iloc[:,splits[2]:splits[3]]#									||
 	return UUIDs, CATs, FTRs
+
 def _split(data, columns, splits=[]):#											||
 	''' '''#																	||
 	df = DataFrame(data, columns=columns)#										||
@@ -255,6 +256,7 @@ def _split(data, columns, splits=[]):#											||
 		cats = sliver[1]
 		ftrs = sliver[2]
 	return ids, cats, ftrs#														||
+
 def foldDataSets(db, table, tag=None):
 	''
 	if tag == None:
@@ -284,6 +286,7 @@ def foldDataSets(db, table, tag=None):
 			del trainvalidset
 			gc.collect()
 	return tag#															||
+
 def decompress(self, nfile, npath, date=None):
 	''' '''
 	date = dt.datetime.now()
@@ -291,3 +294,9 @@ def decompress(self, nfile, npath, date=None):
 		z.extractall(zfile)
 	z.close()
 	return self
+
+
+#===============================================================================||
+'''
+'''
+#===============================================================================||
