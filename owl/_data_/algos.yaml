@@ -2317,6 +2317,24 @@ algo11Z25:
         status: >
         opargs:
         dargs:
+  a001:
+    'Name': 'alog11Z25_a001'
+    platform:
+      'fasttext':
+        valid: 1
+        docs:
+        model: 'fasttext.train_supervised'
+        metrics:
+        status:
+        dargs:
+        args:
+        opargs:
+          lr:
+          epoch:
+          wordNgrams:
+          bucket:
+          dim:
+          loss:
 algo11Z26:
   <(META)>:
     Name:
@@ -2718,5 +2736,27 @@ algo11Z33:
           success: 32
           datasettype: 32
         status: >
+        opargs:
+        dargs:
+algo11Z34:
+  <(META)>:
+    Name:
+    Description: >
+      Supervised Text Classifier
+  a000:
+    name:
+    code:
+    platform:
+      fasttext:
+        valid:
+        docs:
+          - ''
+        model: 'fasttext.train_supervised'
+        metrics:
+          size:
+          speed:
+          success:
+          datasettype:
+        status:
         opargs:
         dargs:

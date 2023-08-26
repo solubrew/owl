@@ -22,7 +22,7 @@ from os.path import abspath, dirname, join
 from numpy import random
 #===============================================================================||
 from condor import condor#										||
-from actv import sigmoid#							||
+from owl.actv import sigmoid#							||
 #===============================================================================||
 here = join(dirname(__file__),'')#												||
 there = abspath(join('../../..'))#												||set path at pheonix level
