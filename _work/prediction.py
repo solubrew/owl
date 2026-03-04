@@ -1,5 +1,5 @@
 #@@@@@@@@@@@@@Pheonix.Molecules.Predictor.Predictor@@@@@@@@@@@@@@@@@@@@@||
-'''
+"""
 ---
 <(META)>:
 	docid: 7b8f907f-3e26-4db9-8f2b-616d95d7e03d
@@ -22,7 +22,7 @@
 	authority: document|this
 	security: sec|lvl2
 	<(WT)>: -32
-'''
+"""
 # -*- coding: utf-8 -*-
 #===============================================================================||
 from os.path import abspath, dirname, join
@@ -50,8 +50,8 @@ pxcfg = join(abspath(here), '_data_', 'predictor.yaml')#						||use default conf
 #uuid = thing.what().uuid().ruuid[-5:]
 #fp = open('logicizier_engine{0}.memlog'.format(uuid), 'w+')
 #@profile(stream=fp)
-class engine(analyzer.engine):#worker.engine):#													||=>Define class
-	'''Analyze input data using available and/or identified methods'''#			||=>Describe class
+class Engine(analyzer.engine):#worker.engine):#													||=>Define class
+	"""Analyze input data using available and/or identified methods"""#			||=>Describe class
 
 	def __init__(self, cfg=None):#			||=>Initialize class instance
 		self.config = condor.instruct(pxcfg)#						||load configuration file
@@ -60,7 +60,7 @@ class engine(analyzer.engine):#worker.engine):#													||=>Define class
 		analyzer.engine.__init__(self, self.config)
 
 	def initPredictor(self, tag, writer):
-		''' '''
+		""" """
 		self.cycle = thing.what().uuid().ruuid#									||Collection Id
 		self.FTRs, self.model, self.tag = None, None, tag#						||
 		self.writer = writer
@@ -70,7 +70,7 @@ class engine(analyzer.engine):#worker.engine):#													||=>Define class
 		return self
 
 	def _rtr(self, kind, dmap=None):#											||=>Define method
-		'''Route given inputs into the appropriate algorythm'''#					||=>Describe method
+		"""Route given inputs into the appropriate algorythm"""#					||=>Describe method
 		self.kind = kind
 		if dmap == None:#														||check decision map
 			dmap = self.config.dikt['dmap']
@@ -86,7 +86,7 @@ class engine(analyzer.engine):#worker.engine):#													||=>Define class
 		return self#															||
 
 	def activation(self, actvtr, optzrng,  acttype='binary', cfg={}):#			||
-		''' '''
+		""" """
 		activations = {}#														||
 		if acttype == 'binary':#												||
 			activator.switch(fx)#												||
@@ -102,14 +102,14 @@ class engine(analyzer.engine):#worker.engine):#													||=>Define class
 		return self#															||
 
 	def ensemble(self):
-		'''Combine various models to achieve increased accuracy in trained
-			models '''
+		"""Combine various models to achieve increased accuracy in trained
+			models """
 		return self
 
 	def predict(self, cycl, ftrs, targs, ids, targn, what=None, model=None, limit=0.8):
-		'''Create predictions from model and score those predictions if possible
+		"""Create predictions from model and score those predictions if possible
 			expand to allow this method to leverage multiple threads on local
-			machine to engage multiple processors'''
+			machine to engage multiple processors"""
 		print('Predict Model', model)
 		if model == None:
 			model = self.model
@@ -134,11 +134,11 @@ class engine(analyzer.engine):#worker.engine):#													||=>Define class
 		return True
 
 	def run(self, train_targs, valid_targs, runs=None, vplats=None):
-		'''Run full suite of training and predictions against provided data
+		"""Run full suite of training and predictions against provided data
 
 			need to generalize
 
-		'''
+		"""
 		dbo = sonql.doc(db, 0)
 		if runs == None:
 			runs = algos
@@ -177,49 +177,15 @@ class engine(analyzer.engine):#worker.engine):#													||=>Define class
 		return self
 
 	def score(self, targs, predicts):
-		''' '''
+		""" """
 		self.initAnalyzer(targs)
 		scores = self.test(result['Predicts'],'full')#	||
 		return scores
 
-	def train(self, algoN, seqN, platN, ftrs,targs,ids,what=None, how='full'):#	||
-		'Train Model using the give algorythm'
-		print('CONFIG', self.config.dikt)
-		cfg = self.config.dikt[algoN][seqN]['platform'][platN]#					||
-		TAG = thing.what().uuid().ruuid#										||
-		targTAG, trainTAG = TAG[-5:], TAG[:5]#									||
-#		print('CFG', cfg)
-		if cfg['valid'] == 0:
-			return None#														||
-		model = cfg['model']#													||
-		self.name = cfg['model']
-		if self.model is not None:#												||
-			model = self.model
-		self.code = self._code(self.tag, algoN, seqN, platN, targTAG)#			||
-#		print('Train Code', self.code)
-		print('Train', targs.head())
-		print('FTRs', ftrs.head())
-		if not isinstance(targs, DataFrame):#									||
-			targs = DataFrame(targs)
-		done = False
-		if done == False:#														||
-#			try:#																||
-			model = utils._runAlgo(ftrs, targs, model, cfg['dargs'], how)#		||
-#				if model == False:
-#					return False
-#				done = True#													||
-#			except Exception as e:#												||
-#				print('Non pooled run failed',e)#								||
-		if done == True:
-			del ftrs
-			del targs
-			gc.collect()
-		print('Trained Model', model)
-		self.model = model
-		return self#															||
+															||
 
 	def weighting(self, adjusters):#need to allow various manipulations of weight values...
-		''' '''
+		""" """
 		#between limits of 0 and 1
 		#between limits of -1 and 1
 		#between limits of -1, i and 1
@@ -239,92 +205,39 @@ class engine(analyzer.engine):#worker.engine):#													||=>Define class
 		for l in layers:
 			wt[l] = {}
 			for n in nodes:
-				wt[l][n] = w
+				wt[l][n] = ws
 		return self
 
-	def _code(self, tag, algo, seq, plat, targ):
-		self.algon = f'{algo}_{seq}'
-		self.plat = plat
-		return f'{tag}_{algo}_{seq}_{plat}_{targ}'#			||
-
-def predictOutcomes(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN,
-															targs, columns):#	||
-	'''Predict outcomes using trained model against tournament data '''
-	dbo = sonql.doc(db, 0)
-#---------------Generate Predictions--------------------------------------------
-	cfg = {'tables': ['numerai_tournament_data'], 'page': page,
-									'split': [1,3,4,314], 'targBIN': targBIN}#	||
-	params = {'cycl': thing.what().uuid().ruuid[:5], 'what': 'predict',
-									'targn': list(columns.keys())[targBIN]}#	||
-	done = otils._procData(cfg, params, dbo, model.predict, targs)
-	return done
-
-def predictValidation(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN,
-															targs, columns):#	||
-	'''Predict target for tournament dataset with validation targets
-		available'''
-	dbo = sonql.doc(db, 0)
-	cfg = {'tables': ['numerai_tournament_data'], 'page': page,
-									'split': [1,3,4,314], 'targBIN': targBIN}#	||
-	params = {'cycl': thing.what().uuid().ruuid[:5], 'what': 'validate',
-									'targn': list(columns.keys())[targBIN]}#	||
-	done = otils._procData(cfg, params, dbo, model.predict, targs,
-																'validation')#	||
-	return done
-
-def trainModel(db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN, targets):#		||
-	'''Train algorithm against known targets'''
-	setPath = 'REDACTED/DataWorkRepo/NumeraiSETs/'#						||
-	dbo = sonql.doc(db, 0)
-	dbi = sonql.doc(db)
-	model = engine().initPredictor(ftag, dbi)
-	cfg = {'tables': [f'{ftag}train'], 'page': page, 'split': [2,3,5,315],
-														'targBIN': targBIN}#	||
-	params = {'algoN': algoNAME, 'seqN': algoSEQ, 'platN': algoPLAT,
-											'what': 'train', 'how': 'partial'}#	||
-	done = utils._procData(cfg, params, dbo, model.train, targets)
-	return done, model
-
-
-def testModel(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN, targets,
-															limit, columns):#	||
-	'''Test model against holdout set'''
-	dbo = sonql.doc(db, 0)#														||
-	cfg = {'tables': [f'{ftag}trainvalid'], 'page': page, 'split': [2,3,5,315],
-														'targBIN': targBIN}#	||
-	params = {'cycl': thing.what().uuid().ruuid[:5], 'what': 'test',#			||
-									'targn': list(columns.keys())[targBIN]}#	||
-	print('Test Model', model.predict)
-	done = utils._procData(cfg, params, dbo, model.predict, targets, None, None, limit)#	||
-	return done#																||
-
-#uuid = thing.what().uuid().ruuid[-5:]#											||
-#fp = open('logicizier__procData{0}.memlog'.format(uuid), 'w+')#					||
-#@profile(stream=fp)#															||
-def _predict(model, x):#														||
-	done = False
-	try:
-		if log: print('Predict From this Model',model)
-		r = model.predict_proba(x)
-		r = DataFrame(data={'probability': r[:, 0]})
-		done = True
-	except Exception as e0:
-		if log: print('Model',model,'Prediction Failed',e0)
-		try:
-			r = model.predict(x)
-			r = DataFrame(data={'probability': [float(i) for i in r]})
-			done = True
-		except Exception as e1:
-			if log: print('Model',model,'Prediction Failed',e1)
-	if done == False:
-		return done
-	return r
-
-
+def csvFromDB():
+	"""replace with a usage of the generator engine.procDBFile"""
+	t = cfg['tables'][0].lower()
+	cfg['page'] = 10000000
+	viewRDR = sonql.doc(db).read(cfg)
+	cnt = 0
+	pxcfg = condor.instruct('{0}fx.yaml'.format(here)).load().dikt  # ||
+	while True:
+		data = next(viewRDR, None)
+		predicts = DataFrame()
+		if data == None:
+			print('Break on count', cnt)
+			break
+		# need to add the columns to the records
+		print(data.dikt.keys())
+		df = DataFrame(data.dikt[t]['records'], columns=data.dikt[t]['columns'])
+		for model in smodels.keys():
+			f = f'{setPath}{When}/Submission_{smodels[model]}.csv'
+			twrite = tblonql.doc(f)
+			predicts['id'] = df['targetid']
+			predicts['prediction_kazutsugi'] = df[smodels[model]]
+			ndata = calcd.df2lists(predicts)
+			if cnt == 0:
+				ndata = [['id', 'prediction_kazutsugi']] + ndata
+			twrite.write(ndata)
+		cnt += 1
 #===============================Code Source Examples============================||
-'''
+"""
 https://stats.stackexchange.com/questions/132777/what-does-auc-stand-for-and-what-is-it
 http://scikit-learn.org/stable/auto_examples/model_selection/plot_roc.html
 http://fastml.com/what-you-wanted-to-know-about-auc/
-'''
+"""
 #@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

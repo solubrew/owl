@@ -1,5 +1,5 @@
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
-'''
+"""
 ---
 <(META)>:
 	docid:
@@ -12,7 +12,7 @@
 	authority: document|this
 	security: sec|lvl2
 	<(WT)>: -32
-'''
+"""
 # -*- coding: utf-8 -*-
 # ===============================================================================||
 from os.path import abspath, dirname, join
@@ -37,8 +37,8 @@ log = True
 # ===============================================================================||
 
 def _procData(cfg, params, dbo, fx, targs, filtr=None, ftrs=None, limit=0.8):
-	'''Process logicizer using provided data and configurations
-		generalize to the processor module	'''
+	"""Process logicizer using provided data and configurations
+		generalize to the processor module	"""
 	print('ProcData Params', params)
 	if 'tables' in cfg.keys():
 		tables = cfg['tables']
@@ -80,7 +80,7 @@ def _procData(cfg, params, dbo, fx, targs, filtr=None, ftrs=None, limit=0.8):
 
 
 def _runAlgo(FTRs, TARGs, model, args, how='full'):
-	'''Modulize model and fit piecewise if possible and if not fit fully'''
+	"""Modulize model and fit piecewise if possible and if not fit fully"""
 	done = False
 	print('FTRs', FTRs.shape, 'TARGs', TARGs.shape)
 	if FTRs.shape[0] != TARGs.shape[0]:
@@ -181,7 +181,7 @@ def _runAlgo(FTRs, TARGs, model, args, how='full'):
 
 
 def _save(writer, res, name, code, model, scores={}, start=None):  # ||
-	'''Save Predictions and Model Object along with a id of the DataSet'''  # ||
+	"""Save Predictions and Model Object along with a id of the DataSet"""  # ||
 	predictCOLs = ['targetid', 'target', 'predicts', 'foldcycl', 'algoname',  # ||
 	               'platform', 'runtype', 'targetname']  # ||
 
@@ -221,19 +221,19 @@ def _save(writer, res, name, code, model, scores={}, start=None):  # ||
 
 
 # def loadAlgos():
-# 	'''Load configured algorythms from module configuration files'''
+# 	"""Load configured algorythms from module configuration files"""
 # 	algos = f'{here}z-data_/algos.yaml'#								||
 # 	algos = condor.instruct(algos).load()
 # 	nsmbls = f'{here}z-data_/nsmbls.yaml'#								||
 # 	algos.override(nsmbls)
 # 	return algos.dikt
 # def loadPlats():
-# 	''' '''
+# 	""" """
 # 	plats = ['sklearn', 'pheonix','prophet','tensorflow']
 # 	return plats
 
 def split(data, columns, splits):  # ||
-	''' '''
+	""" """
 	df = DataFrame(data, columns=columns)  # ||
 	if len(splits) == 3:  # ||
 		UUIDs = df.iloc[:, splits[0]]  # ||
@@ -247,7 +247,7 @@ def split(data, columns, splits):  # ||
 
 
 def _split(data, columns, splits=[]):  # ||
-	''' '''  # ||
+	""" """  # ||
 	df = DataFrame(data, columns=columns)  # ||
 	osplit, sliver = None, ()  # ||
 	for nsplit in splits:
@@ -266,7 +266,7 @@ def _split(data, columns, splits=[]):  # ||
 
 
 def decompress(self, nfile, npath, date=None):
-	''' '''
+	""" """
 	date = dt.datetime.now()
 	with zipf.ZipFile(f'{npath}/numerai_dataset_{date}.zip', "r") as z:
 		z.extractall(zfile)
@@ -275,6 +275,6 @@ def decompress(self, nfile, npath, date=None):
 
 
 # ===============================================================================||
-'''
-'''
+"""
+"""
 # ===============================================================================||

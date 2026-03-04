@@ -24,8 +24,68 @@ algo12Z0:
         valid: 0
         docs:
           -
-        model:
+        model: ZeroRegressionAlgo
         genericEQ:
+        training:
+          incremental:
+        metrics:
+          size: 32
+          speed: 32
+          success: 32
+          datasettype: 32
+        status: >
+        dargs:
+        args:
+        opargs:
+  a001:
+    code: 'algo12Z1_a001'
+    platform:
+      owl:
+        valid: 0
+        docs:
+          -
+        model: RandomAlgo
+        genericEQ:
+        training:
+          incremental:
+        metrics:
+          size: 32
+          speed: 32
+          success: 32
+          datasettype: 32
+        status: >
+        dargs:
+        args:
+        opargs:
+  a002:
+    platform:
+      owl:
+        valid: 0
+        docs:
+          -
+        model: ZeroClassAlgo
+        genericEQ:
+        training:
+          incremental:
+        metrics:
+          size: 32
+          speed: 32
+          success: 32
+          datasettype: 32
+        status: >
+        dargs:
+        args:
+        opargs:
+  a003:
+    platform:
+      owl:
+        valid: 0
+        docs:
+          -
+        model: ZeroTimeSeriesAlgo
+        genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -49,6 +109,8 @@ algo12Z1:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -63,7 +125,9 @@ algo12Z1:
         docs:
           - 'https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.LinearRegression.html'
         model: 'sklearn.linear_model.LinearRegression'
-        genericEQ: 'Y = mX + b'
+        genericEQ:
+        training:
+          incremental: 'Y = mX + b'
         size: 32
         speed: 5
         success: 16
@@ -153,6 +217,10 @@ algo12Z1:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -168,7 +236,9 @@ algo12Z1:
           - 'https://scikit-learn.org/stable/modules/generated/sklearn.linear_model.Ridge.html#sklearn.linear_model.Ridge'
           - 'https://scikit-learn.org/stable/modules/linear_model.html#ridge-regression'
         model: 'sklearn.linear_model.Ridge'
-        genericEQ: '||y - Xw||^2_2 + alpha * ||w||^2_2'
+        genericEQ:
+        training:
+          incremental: '||y - Xw||^2_2 + alpha * ||w||^2_2'
         metrics:
           size: 32
           speed: 32
@@ -218,6 +288,8 @@ algo12Z1:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -233,6 +305,8 @@ algo12Z1:
           - 'https://scikit-learn.org/stable/modules/linear_model.html#lasso'
         model: 'sklearn.linear_model.Lasso'
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -278,6 +352,8 @@ algo12Z1:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -344,6 +420,8 @@ algo12Z1:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -418,6 +496,8 @@ algo12Z1:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -468,6 +548,8 @@ algo12Z1:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -512,6 +594,8 @@ algo12Z1:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -553,6 +637,8 @@ algo12Z1:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -607,6 +693,8 @@ algo12Z1:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -658,6 +746,8 @@ algo12Z2:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -680,6 +770,8 @@ algo12Z3:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -702,6 +794,8 @@ algo12Z4:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -723,6 +817,8 @@ algo12Z5:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -737,6 +833,8 @@ algo12Z5:
         docs:
         model: 'owl.molecules.logicizer.prophet.engine'
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -759,6 +857,8 @@ algo12Z6:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -773,6 +873,8 @@ algo12Z6:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -791,6 +893,8 @@ algo12Z6:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -805,6 +909,8 @@ algo12Z6:
         docs:
         model: pymc3.MOdel
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -829,6 +935,8 @@ algo12Z7:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -872,6 +980,8 @@ algo12Z8:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -932,6 +1042,8 @@ algo12Z8:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -967,6 +1079,8 @@ algo12Z8:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -1028,6 +1142,8 @@ algo12Z9:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -1073,6 +1189,8 @@ algo12Z9:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -1117,6 +1235,8 @@ algo12Z9:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -1160,6 +1280,8 @@ algo12Z9:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -1200,6 +1322,8 @@ algo11Z10:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -1237,6 +1361,8 @@ algo11Z11:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -1258,6 +1384,8 @@ algo11Z12:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -1292,6 +1420,8 @@ algo11Z12:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -1355,6 +1485,8 @@ algo11Z13:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -1400,6 +1532,8 @@ algo11Z13:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -1449,6 +1583,8 @@ algo11Z14:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -1492,6 +1628,8 @@ algo11Z15:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2002,6 +2140,8 @@ algo11Z20:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2042,6 +2182,8 @@ algo11Z20:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2089,6 +2231,8 @@ algo11Z23:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2123,6 +2267,8 @@ algo11Z24:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2155,6 +2301,8 @@ algo11Z24:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2188,6 +2336,8 @@ algo11Z24:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2222,6 +2372,8 @@ algo11Z24:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2256,6 +2408,8 @@ algo11Z24:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2295,6 +2449,8 @@ algo11Z25:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2348,6 +2504,8 @@ algo11Z26:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2390,6 +2548,8 @@ algo11Z27:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2425,6 +2585,8 @@ algo11Z30:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2459,6 +2621,8 @@ algo11Z31:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2495,6 +2659,8 @@ algo11Z32:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2529,6 +2695,8 @@ algo11Z32:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2561,6 +2729,8 @@ algo11Z32:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2596,6 +2766,8 @@ algo11Z32:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2644,6 +2816,8 @@ algo11Z33:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2684,6 +2858,8 @@ algo11Z33:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2716,6 +2892,8 @@ algo11Z33:
         docs:
         model:
         genericEQ:
+        training:
+          incremental:
         metrics:
           size: 32
           speed: 32
@@ -2752,6 +2930,50 @@ algo11Z34:
         docs:
           - ''
         model: 'fasttext.train_supervised'
+        metrics:
+          size:
+          speed:
+          success:
+          datasettype:
+        status:
+        opargs:
+        dargs:
+algo11Z35:
+  <(META)>:
+    Name:
+    Description: >
+      Local LLMs
+  a000:
+    name:
+    code:
+    platform:
+      gpt4all:
+        valid:
+        docs:
+          - ''
+        model: 'gpt4all-falcon-q4_0.gguf'
+        metrics:
+          size:
+          speed:
+          success:
+          datasettype:
+        status:
+        opargs:
+        dargs:
+algo11Z36:
+  <(META)>:
+    Name:
+    Description: >
+      Local LLMs
+  a000:
+    name:
+    code:
+    platform:
+      gpt4all:
+        valid:
+        docs:
+          - ''
+        model: 'orca-mini-3b-gguf2-q4_0.gguf'
         metrics:
           size:
           speed:
