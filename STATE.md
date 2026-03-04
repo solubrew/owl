@@ -93,8 +93,8 @@ owl/
 
 - [x] Cloned from GitVein
 - [x] Branched to morg-ws
-- [ ] Issues fixed
-- [ ] Tested installation
+- [x] Issues fixed (MicroMole + Metrologic integrations added)
+- [x] Tested installation
 
 ---
 
