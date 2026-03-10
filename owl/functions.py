@@ -21,7 +21,7 @@ from pandas import DataFrame
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
 from ogma.logma import Logma
-from ogma.profilers.memory_profilers import memProfiler
+#from falcon.profilers.memory_profilers import memProfiler
 #from subtrix import thing
 
 # ====================================================================================================================||

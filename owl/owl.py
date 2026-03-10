@@ -21,10 +21,8 @@ from pandas import DataFrame
 
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
-#from eaglytics.eaglytics import DataLibrary
 from ogma.logma import Logma
 from owl.functions import train, predict, save
-#from subtrix import thing
 from sentinel.sentinel import Sentinel
 from squirl.orgnql import sonql
 
