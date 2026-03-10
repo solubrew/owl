@@ -71,46 +71,47 @@ def ensemble(self, nsmbl=None):  # ||=>define method
 	for model in nsmblModels:  # ||
 		for targn in range(4):  # ||
 			table = f'{model}_predict_targ{targn}'.lower()  # ||
-			rdr = sonql.doc(db).read({'tables': [table], 'page': page})  # ||Define reader
-			while True:  # ||
-				data = next(rdr, None)  # ||Page through data
-				if data == None:  # ||
-					first = False  # ||
-					page = 10
-					break  # ||
-				nsmbl = DataFrame(data.dikt[table]['records'],  # ||
-				                  columns=data.dikt[table]['columns'])  # ||
-				for i in drops:
-					nsmbl.drop(i.format(table), 1, inplace=True)  # ||
-				if first == True or hold == None:
-					pad = [0.5 for x in range(nsmbl.shape[0])]
-					for col in cols:
-						nsmbl[col] = pad
-					nsmbl[f'targ{targn}'] = nsmbl['target']
-					nsmbl[table] = nsmbl['predicts']
-					nsmbl.drop('predicts', 1, inplace=True)
-					nsmbl.drop('target', 1, inplace=True)
-					with sonql.doc(db) as dbi:
-						data = calcd.df2lists(nsmbl)
-						wrdata = {t: {'records': data, 'columns': nsmbl.columns}}
-						dbi.write(wrdata)  # ||
-				else:
-					#					print('Run not first', model, targn)
-					nsmbl[table] = nsmbl['predicts']
-					id = nsmbl['targetid']
-					nsmbl[f'targ{targn}'] = nsmbl['target']
-					nsmbl.drop('predicts', 1, inplace=True)
-					nsmbl.drop('target', 1, inplace=True)
-					wrdata = []
-					for rown in range(len(nsmbl)):  # iterate through rows of dataframe
-						for col in nsmbl.columns:  # iterate through list of columns only one column is going to be per table
-							if col == 'targetid':
-								continue
-							wrdata.append({col: nsmbl[col].iloc[rown],
-							               'where': {'targetid': id.iloc[rown]}})  # ||
-					with sonql.doc(db) as dbi:
-						#						print('Update', t, wrdata)
-						dbi.update({t: wrdata})  # ||
+			with sonql.doc(db) as rdr_doc:
+				rdr = rdr_doc.read({'tables': [table], 'page': page})  # ||Define reader
+				while True:  # ||
+					data = next(rdr, None)  # ||Page through data
+					if data == None:  # ||
+						first = False  # ||
+						page = 10
+						break  # ||
+					nsmbl = DataFrame(data.dikt[table]['records'],  # ||
+					                  columns=data.dikt[table]['columns'])  # ||
+					for i in drops:
+						nsmbl.drop(i.format(table), 1, inplace=True)  # ||
+					if first == True or hold == None:
+						pad = [0.5 for x in range(nsmbl.shape[0])]
+						for col in cols:
+							nsmbl[col] = pad
+						nsmbl[f'targ{targn}'] = nsmbl['target']
+						nsmbl[table] = nsmbl['predicts']
+						nsmbl.drop('predicts', 1, inplace=True)
+						nsmbl.drop('target', 1, inplace=True)
+						with sonql.doc(db) as dbi:
+							data = calcd.df2lists(nsmbl)
+							wrdata = {t: {'records': data, 'columns': nsmbl.columns}}
+							dbi.write(wrdata)  # ||
+					else:
+						#					print('Run not first', model, targn)
+						nsmbl[table] = nsmbl['predicts']
+						id = nsmbl['targetid']
+						nsmbl[f'targ{targn}'] = nsmbl['target']
+						nsmbl.drop('predicts', 1, inplace=True)
+						nsmbl.drop('target', 1, inplace=True)
+						wrdata = []
+						for rown in range(len(nsmbl)):  # iterate through rows of dataframe
+							for col in nsmbl.columns:  # iterate through list of columns only one column is going to be per table
+								if col == 'targetid':
+									continue
+								wrdata.append({col: nsmbl[col].iloc[rown],
+								               'where': {'targetid': id.iloc[rown]}})  # ||
+						with sonql.doc(db) as dbi:
+							#						print('Update', t, wrdata)
+							dbi.update({t: wrdata})  # ||
 
 
 def _nsmbl(predicts):

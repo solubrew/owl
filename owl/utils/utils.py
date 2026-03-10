@@ -16,7 +16,7 @@
 # -*- coding: utf-8 -*-
 # ===============================================================================||
 from os.path import abspath, dirname, join
-import datetime as dt, gc  # , multiprocessing as mp#					||
+import datetime as dt, gc, zipfile as zipf  # , multiprocessing as mp#					||
 # ===============================================================================||
 from memory_profiler import profile
 from pandas import DataFrame
@@ -269,8 +269,7 @@ def decompress(self, nfile, npath, date=None):
 	""" """
 	date = dt.datetime.now()
 	with zipf.ZipFile(f'{npath}/numerai_dataset_{date}.zip', "r") as z:
-		z.extractall(zfile)
-	z.close()
+		z.extractall(npath)
 	return self
 
 

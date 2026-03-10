@@ -36,56 +36,56 @@ logma = Logma(__name__)
 pxcfg = join(here, '_data_', 'owl.yaml')
 
 def predictOutcomes(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN,
-															targs, columns):#	||
+                   targs, columns):  # ||
 	"""Predict outcomes using trained model against tournament data """
-	dbo = sonql.doc(db, 0)
-#---------------Generate Predictions--------------------------------------------
-	cfg = {'tables': ['numerai_tournament_data'], 'page': page,
-									'split': [1,3,4,314], 'targBIN': targBIN}#	||
-	params = {'cycl': thing.what().uuid().ruuid[:5], 'what': 'predict',
-									'targn': list(columns.keys())[targBIN]}#	||
-	done = otils._procData(cfg, params, dbo, model.predict, targs)
-	return done
+	with sonql.doc(db, 0) as dbo:
+		# ---------------Generate Predictions--------------------------------------------
+		cfg = {'tables': ['numerai_tournament_data'], 'page': page,
+		       'split': [1, 3, 4, 314], 'targBIN': targBIN}  # ||
+		params = {'cycl': thing.what().uuid().ruuid[:5], 'what': 'predict',
+		          'targn': list(columns.keys())[targBIN]}  # ||
+		done = otils._procData(cfg, params, dbo, model.predict, targs)
+		return done
 
 def predictValidation(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN,
-															targs, columns):#	||
+                      targs, columns):  # ||
 	"""Predict target for tournament dataset with validation targets
 		available"""
-	dbo = sonql.doc(db, 0)
-	cfg = {'tables': ['numerai_tournament_data'], 'page': page,
-									'split': [1,3,4,314], 'targBIN': targBIN}#	||
-	params = {'cycl': thing.what().uuid().ruuid[:5], 'what': 'validate',
-									'targn': list(columns.keys())[targBIN]}#	||
-	done = otils._procData(cfg, params, dbo, model.predict, targs,
-																'validation')#	||
-	return done
+	with sonql.doc(db, 0) as dbo:
+		cfg = {'tables': ['numerai_tournament_data'], 'page': page,
+		       'split': [1, 3, 4, 314], 'targBIN': targBIN}  # ||
+		params = {'cycl': thing.what().uuid().ruuid[:5], 'what': 'validate',
+		          'targn': list(columns.keys())[targBIN]}  # ||
+		done = otils._procData(cfg, params, dbo, model.predict, targs,
+		                       'validation')  # ||
+		return done
 
 
-def trainModel(db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN, targets):#		||
+def trainModel(db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN, targets):  # ||
 	"""Train algorithm against known targets"""
-	setPath = 'REDACTED/DataWorkRepo/NumeraiSETs/'#						||
-	dbo = sonql.doc(db, 0)
-	dbi = sonql.doc(db)
-	model = engine().initPredictor(ftag, dbi)
-	cfg = {'tables': [f'{ftag}train'], 'page': page, 'split': [2,3,5,315],
-														'targBIN': targBIN}#	||
-	params = {'algoN': algoNAME, 'seqN': algoSEQ, 'platN': algoPLAT,
-											'what': 'train', 'how': 'partial'}#	||
-	done = utils._procData(cfg, params, dbo, model.train, targets)
-	return done, model
+	setPath = 'REDACTED/DataWorkRepo/NumeraiSETs/'  # ||
+	with sonql.doc(db, 0) as dbo:
+		with sonql.doc(db) as dbi:
+			model = engine().initPredictor(ftag, dbi)
+			cfg = {'tables': [f'{ftag}train'], 'page': page, 'split': [2, 3, 5, 315],
+			       'targBIN': targBIN}  # ||
+			params = {'algoN': algoNAME, 'seqN': algoSEQ, 'platN': algoPLAT,
+			          'what': 'train', 'how': 'partial'}  # ||
+			done = utils._procData(cfg, params, dbo, model.train, targets)
+			return done, model
 
 
 def testModel(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN, targets,
-															limit, columns):#	||
+              limit, columns):  # ||
 	"""Test model against holdout set"""
-	dbo = sonql.doc(db, 0)#														||
-	cfg = {'tables': [f'{ftag}trainvalid'], 'page': page, 'split': [2,3,5,315],
-														'targBIN': targBIN}#	||
-	params = {'cycl': thing.what().uuid().ruuid[:5], 'what': 'test',#			||
-									'targn': list(columns.keys())[targBIN]}#	||
-	print('Test Model', model.predict)
-	done = utils._procData(cfg, params, dbo, model.predict, targets, None, None, limit)#	||
-	return done#
+	with sonql.doc(db, 0) as dbo:  # ||
+		cfg = {'tables': [f'{ftag}trainvalid'], 'page': page, 'split': [2, 3, 5, 315],
+		       'targBIN': targBIN}  # ||
+		params = {'cycl': thing.what().uuid().ruuid[:5], 'what': 'test',  # ||
+		          'targn': list(columns.keys())[targBIN]}  # ||
+		print('Test Model', model.predict)
+		done = utils._procData(cfg, params, dbo, model.predict, targets, None, None, limit)  # ||
+		return done  #
 
 
 

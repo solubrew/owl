@@ -125,7 +125,7 @@ class Engine(analyzer.engine):#worker.engine):#													||=>Define class
 		result['platform'] = [self.plat for x in range(len(ids))]
 		result['runtype'] = [what for x in range(len(ids))]
 		result['targetname'] = [targn for x in range(len(ids))]
-		scores = self.score(targs, result['Predicts']))#						||
+		scores = self.score(targs, result['Predicts'])#						||
 		code = f'{self.code}_{what}_{targn}'
 		utils._save(self.writer, result, self.name, code, model, scores, self.start)#	||save predictions to db
 		if limit != None and scores != None and scores['LogLoss'] > limit:
@@ -139,41 +139,41 @@ class Engine(analyzer.engine):#worker.engine):#													||=>Define class
 			need to generalize
 
 		'''
-		dbo = sonql.doc(db, 0)
-		if runs == None:
-			runs = algos
-		aplats = Predictor.loadPlats()
-		if vplats == None:
-			vplats = aplats
+		with sonql.doc(db, 0) as dbo:
+			if runs == None:
+				runs = algos
+			aplats = Predictor.loadPlats()
+			if vplats == None:
+				vplats = aplats
 
-		cfg = {'tables': [f'{ftag}train'], 'page': page, 'split': [2,3,5,315],
-														'targBIN': targBIN}#	||
-		params = {'algoN': algoNAME, 'seqN': algoSEQ, 'platN': algoPLAT,
-											'what': 'train', 'how': 'partial'}#	||
-		columns = {'ids': 1, 'some_targs': 3, 'pmax_targs': 4, 'count_targs': 5}
-		cfg = {'tables': [train_targs, ], 'page': page}
-		train_targets = selector.procDataExtract(dbn, cfg, columns)
-		cfg = {'tables': [valid_targs, ], 'page': page}
-		tourn_targets = selector.procDataExtract(dbn, cfg, columns)
-		#try going with 200k and 3 processors
-		#use threading to train model on two subsets? is this possible?
-		#multiprocessing is provided in the next level up and would
-		#processes each algorythm against the whole data seperately on a
-		#in a different and/or machine
-		#with worker integrated processing opening up the path to use multiple cores
-		if plat in self.algos[algo][seq]['platform'].keys():#					||
-			valid = self.algos[algo][seq]['platform'][plat]['valid']#			||
-			if valid == 0:#														||
-				return None#														||
-			#this should be encapsolated for multiprocessing
-			status = None
-			status = self.process(dbo, self.train, cfg)#						||train models
-			if status != None and status != False:#								||
-				status = self.process(dbo, self.predict, cfg)#					||predict test targets
-			if status == True:#													||
-				status = self.process(dbo, self.predict, cfg)#					||predict validation targets
-			if status == True:#													||
-				status = self.process(dbo, self.predict, cfg)#					||predict unknown targets
+			cfg = {'tables': [f'{ftag}train'], 'page': page, 'split': [2, 3, 5, 315],
+			       'targBIN': targBIN}  # ||
+			params = {'algoN': algoNAME, 'seqN': algoSEQ, 'platN': algoPLAT,
+			          'what': 'train', 'how': 'partial'}  # ||
+			columns = {'ids': 1, 'some_targs': 3, 'pmax_targs': 4, 'count_targs': 5}
+			cfg = {'tables': [train_targs, ], 'page': page}
+			train_targets = selector.procDataExtract(dbn, cfg, columns)
+			cfg = {'tables': [valid_targs, ], 'page': page}
+			tourn_targets = selector.procDataExtract(dbn, cfg, columns)
+			# try going with 200k and 3 processors
+			# use threading to train model on two subsets? is this possible?
+			# multiprocessing is provided in the next level up and would
+			# processes each algorythm against the whole data seperately on a
+			# in a different and/or machine
+			# with worker integrated processing opening up the path to use multiple cores
+			if plat in self.algos[algo][seq]['platform'].keys():  # ||
+				valid = self.algos[algo][seq]['platform'][plat]['valid']  # ||
+				if valid == 0:  # ||
+					return None  # ||
+				# this should be encapsolated for multiprocessing
+				status = None
+				status = self.process(dbo, self.train, cfg)  # ||train models
+				if status != None and status != False:  # ||
+					status = self.process(dbo, self.predict, cfg)  # ||predict test targets
+				if status == True:  # ||
+					status = self.process(dbo, self.predict, cfg)  # ||predict validation targets
+				if status == True:  # ||
+					status = self.process(dbo, self.predict, cfg)  # ||predict unknown targets
 		return self
 
 	def score(self, targs, predicts):
@@ -248,55 +248,55 @@ class Engine(analyzer.engine):#worker.engine):#													||=>Define class
 		return f'{tag}_{algo}_{seq}_{plat}_{targ}'#			||
 
 def predictOutcomes(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN,
-															targs, columns):#	||
+                   targs, columns):  # ||
 	'''Predict outcomes using trained model against tournament data '''
-	dbo = sonql.doc(db, 0)
-#---------------Generate Predictions--------------------------------------------
-	cfg = {'tables': ['numerai_tournament_data'], 'page': page,
-									'split': [1,3,4,314], 'targBIN': targBIN}#	||
-	params = {'cycl': thing.what().uuid().ruuid[:5], 'what': 'predict',
-									'targn': list(columns.keys())[targBIN]}#	||
-	done = otils._procData(cfg, params, dbo, model.predict, targs)
-	return done
+	with sonql.doc(db, 0) as dbo:
+		# ---------------Generate Predictions--------------------------------------------
+		cfg = {'tables': ['numerai_tournament_data'], 'page': page,
+		       'split': [1, 3, 4, 314], 'targBIN': targBIN}  # ||
+		params = {'cycl': thing.what().uuid().ruuid[:5], 'what': 'predict',
+		          'targn': list(columns.keys())[targBIN]}  # ||
+		done = otils._procData(cfg, params, dbo, model.predict, targs)
+		return done
 
 def predictValidation(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN,
-															targs, columns):#	||
+                      targs, columns):  # ||
 	'''Predict target for tournament dataset with validation targets
 		available'''
-	dbo = sonql.doc(db, 0)
-	cfg = {'tables': ['numerai_tournament_data'], 'page': page,
-									'split': [1,3,4,314], 'targBIN': targBIN}#	||
-	params = {'cycl': thing.what().uuid().ruuid[:5], 'what': 'validate',
-									'targn': list(columns.keys())[targBIN]}#	||
-	done = otils._procData(cfg, params, dbo, model.predict, targs,
-																'validation')#	||
-	return done
+	with sonql.doc(db, 0) as dbo:
+		cfg = {'tables': ['numerai_tournament_data'], 'page': page,
+		       'split': [1, 3, 4, 314], 'targBIN': targBIN}  # ||
+		params = {'cycl': thing.what().uuid().ruuid[:5], 'what': 'validate',
+		          'targn': list(columns.keys())[targBIN]}  # ||
+		done = otils._procData(cfg, params, dbo, model.predict, targs,
+		                       'validation')  # ||
+		return done
 
-def trainModel(db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN, targets):#		||
+def trainModel(db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN, targets):  # ||
 	'''Train algorithm against known targets'''
-	setPath = 'REDACTED/DataWorkRepo/NumeraiSETs/'#						||
-	dbo = sonql.doc(db, 0)
-	dbi = sonql.doc(db)
-	model = engine().initPredictor(ftag, dbi)
-	cfg = {'tables': [f'{ftag}train'], 'page': page, 'split': [2,3,5,315],
-														'targBIN': targBIN}#	||
-	params = {'algoN': algoNAME, 'seqN': algoSEQ, 'platN': algoPLAT,
-											'what': 'train', 'how': 'partial'}#	||
-	done = utils._procData(cfg, params, dbo, model.train, targets)
-	return done, model
+	setPath = 'REDACTED/DataWorkRepo/NumeraiSETs/'  # ||
+	with sonql.doc(db, 0) as dbo:
+		with sonql.doc(db) as dbi:
+			model = engine().initPredictor(ftag, dbi)
+			cfg = {'tables': [f'{ftag}train'], 'page': page, 'split': [2, 3, 5, 315],
+			       'targBIN': targBIN}  # ||
+			params = {'algoN': algoNAME, 'seqN': algoSEQ, 'platN': algoPLAT,
+			          'what': 'train', 'how': 'partial'}  # ||
+			done = utils._procData(cfg, params, dbo, model.train, targets)
+			return done, model
 
 
 def testModel(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN, targets,
-															limit, columns):#	||
+              limit, columns):  # ||
 	'''Test model against holdout set'''
-	dbo = sonql.doc(db, 0)#														||
-	cfg = {'tables': [f'{ftag}trainvalid'], 'page': page, 'split': [2,3,5,315],
-														'targBIN': targBIN}#	||
-	params = {'cycl': thing.what().uuid().ruuid[:5], 'what': 'test',#			||
-									'targn': list(columns.keys())[targBIN]}#	||
-	print('Test Model', model.predict)
-	done = utils._procData(cfg, params, dbo, model.predict, targets, None, None, limit)#	||
-	return done#																||
+	with sonql.doc(db, 0) as dbo:  # ||
+		cfg = {'tables': [f'{ftag}trainvalid'], 'page': page, 'split': [2, 3, 5, 315],
+		       'targBIN': targBIN}  # ||
+		params = {'cycl': thing.what().uuid().ruuid[:5], 'what': 'test',  # ||
+		          'targn': list(columns.keys())[targBIN]}  # ||
+		print('Test Model', model.predict)
+		done = utils._procData(cfg, params, dbo, model.predict, targets, None, None, limit)  # ||
+		return done  # ||
 
 #uuid = thing.what().uuid().ruuid[-5:]#											||
 #fp = open('logicizier__procData{0}.memlog'.format(uuid), 'w+')#					||
@@ -324,28 +324,29 @@ def csvFromDB():
 	'''replace with a usage of the generator engine.procDBFile'''
 	t = cfg['tables'][0].lower()
 	cfg['page'] = 10000000
-	viewRDR = sonql.doc(db).read(cfg)
-	cnt = 0
-	pxcfg = condor.instruct('{0}fx.yaml'.format(here)).load().dikt  # ||
-	while True:
-		data = next(viewRDR, None)
-		predicts = DataFrame()
-		if data == None:
-			print('Break on count', cnt)
-			break
-		# need to add the columns to the records
-		print(data.dikt.keys())
-		df = DataFrame(data.dikt[t]['records'], columns=data.dikt[t]['columns'])
-		for model in smodels.keys():
-			f = f'{setPath}{When}/Submission_{smodels[model]}.csv'
-			twrite = tblonql.doc(f)
-			predicts['id'] = df['targetid']
-			predicts['prediction_kazutsugi'] = df[smodels[model]]
-			ndata = calcd.df2lists(predicts)
-			if cnt == 0:
-				ndata = [['id', 'prediction_kazutsugi']] + ndata
-			twrite.write(ndata)
-		cnt += 1
+	with sonql.doc(db) as viewDOC:
+		viewRDR = viewDOC.read(cfg)
+		cnt = 0
+		pxcfg = condor.instruct('{0}fx.yaml'.format(here)).load().dikt  # ||
+		while True:
+			data = next(viewRDR, None)
+			predicts = DataFrame()
+			if data == None:
+				print('Break on count', cnt)
+				break
+			# need to add the columns to the records
+			print(data.dikt.keys())
+			df = DataFrame(data.dikt[t]['records'], columns=data.dikt[t]['columns'])
+			for model in smodels.keys():
+				f = f'{setPath}{When}/Submission_{smodels[model]}.csv'
+				twrite = tblonql.doc(f)
+				predicts['id'] = df['targetid']
+				predicts['prediction_kazutsugi'] = df[smodels[model]]
+				ndata = calcd.df2lists(predicts)
+				if cnt == 0:
+					ndata = [['id', 'prediction_kazutsugi']] + ndata
+				twrite.write(ndata)
+			cnt += 1
 #===============================Code Source Examples============================||
 '''
 https://stats.stackexchange.com/questions/132777/what-does-auc-stand-for-and-what-is-it

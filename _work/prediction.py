@@ -139,41 +139,41 @@ class Engine(analyzer.engine):#worker.engine):#													||=>Define class
 			need to generalize
 
 		"""
-		dbo = sonql.doc(db, 0)
-		if runs == None:
-			runs = algos
-		aplats = Predictor.loadPlats()
-		if vplats == None:
-			vplats = aplats
+		with sonql.doc(db, 0) as dbo:
+			if runs == None:
+				runs = algos
+			aplats = Predictor.loadPlats()
+			if vplats == None:
+				vplats = aplats
 
-		cfg = {'tables': [f'{ftag}train'], 'page': page, 'split': [2,3,5,315],
-														'targBIN': targBIN}#	||
-		params = {'algoN': algoNAME, 'seqN': algoSEQ, 'platN': algoPLAT,
-											'what': 'train', 'how': 'partial'}#	||
-		columns = {'ids': 1, 'some_targs': 3, 'pmax_targs': 4, 'count_targs': 5}
-		cfg = {'tables': [train_targs, ], 'page': page}
-		train_targets = selector.procDataExtract(dbn, cfg, columns)
-		cfg = {'tables': [valid_targs, ], 'page': page}
-		tourn_targets = selector.procDataExtract(dbn, cfg, columns)
-		#try going with 200k and 3 processors
-		#use threading to train model on two subsets? is this possible?
-		#multiprocessing is provided in the next level up and would
-		#processes each algorythm against the whole data seperately on a
-		#in a different and/or machine
-		#with worker integrated processing opening up the path to use multiple cores
-		if plat in self.algos[algo][seq]['platform'].keys():#					||
-			valid = self.algos[algo][seq]['platform'][plat]['valid']#			||
-			if valid == 0:#														||
-				return None#														||
-			#this should be encapsolated for multiprocessing
-			status = None
-			status = self.process(dbo, self.train, cfg)#						||train models
-			if status != None and status != False:#								||
-				status = self.process(dbo, self.predict, cfg)#					||predict test targets
-			if status == True:#													||
-				status = self.process(dbo, self.predict, cfg)#					||predict validation targets
-			if status == True:#													||
-				status = self.process(dbo, self.predict, cfg)#					||predict unknown targets
+			cfg = {'tables': [f'{ftag}train'], 'page': page, 'split': [2, 3, 5, 315],
+			       'targBIN': targBIN}  # ||
+			params = {'algoN': algoNAME, 'seqN': algoSEQ, 'platN': algoPLAT,
+			          'what': 'train', 'how': 'partial'}  # ||
+			columns = {'ids': 1, 'some_targs': 3, 'pmax_targs': 4, 'count_targs': 5}
+			cfg = {'tables': [train_targs, ], 'page': page}
+			train_targets = selector.procDataExtract(dbn, cfg, columns)
+			cfg = {'tables': [valid_targs, ], 'page': page}
+			tourn_targets = selector.procDataExtract(dbn, cfg, columns)
+			# try going with 200k and 3 processors
+			# use threading to train model on two subsets? is this possible?
+			# multiprocessing is provided in the next level up and would
+			# processes each algorythm against the whole data seperately on a
+			# in a different and/or machine
+			# with worker integrated processing opening up the path to use multiple cores
+			if plat in self.algos[algo][seq]['platform'].keys():  # ||
+				valid = self.algos[algo][seq]['platform'][plat]['valid']  # ||
+				if valid == 0:  # ||
+					return None  # ||
+				# this should be encapsolated for multiprocessing
+				status = None
+				status = self.process(dbo, self.train, cfg)  # ||train models
+				if status != None and status != False:  # ||
+					status = self.process(dbo, self.predict, cfg)  # ||predict test targets
+				if status == True:  # ||
+					status = self.process(dbo, self.predict, cfg)  # ||predict validation targets
+				if status == True:  # ||
+					status = self.process(dbo, self.predict, cfg)  # ||predict unknown targets
 		return self
 
 	def score(self, targs, predicts):
