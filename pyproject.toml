@@ -39,7 +39,7 @@ dependencies = [
     'cryptography',
     'requests',
     'pytz',
-    'cv2',
+    'opencv-python',
 ]
 
 [project.urls]
