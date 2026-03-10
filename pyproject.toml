@@ -3,7 +3,7 @@ requires = ["setuptools>=68", "wheel"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pycurity"
+name = "owl"
 version = "0.0.1.0.1.2"
 description = "Your project description"
 readme = { file = "README.rst", content-type = "text/x-rst" }
@@ -48,11 +48,11 @@ Changelog = "CHANGELOG.rst"
 [tool.setuptools]
 include-package-data = true
 
-# Flat layout: project root contains "pycurity" and a sibling "test_pycurity".
+# Flat layout: project root contains "owl" and a sibling "test_owl".
 # Limit discovery to only the actual package.
 [tool.setuptools.packages.find]
 where = ["."]
-include = ["pycurity", "pycurity.*"]
+include = ["owl", "owl.*"]
 exclude = [
     "test*",
     "tests*",
@@ -63,7 +63,7 @@ exclude = [
 ]
 [tool.setuptools.package-data]
 # keys are package names; globs are relative to the package dirs
-pycurity = [
+owl = [
   "**/*.yaml",
 ]
 [tool.black]
