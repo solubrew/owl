@@ -39,6 +39,7 @@ dependencies = [
     'cryptography',
     'requests',
     'pytz',
+    'cv2',
 ]
 
 [project.urls]
