@@ -8,12 +8,7 @@ Provides statistical calculations and measurements using Metrologic.
 import sys
 import os
 
-# Add metrologic to path if not installed
-_metrologic_path = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(os.path.dirname(__file__)))), 'projects', 'metrologic')
-if os.path.exists(_metrologic_path):
-    sys.path.insert(0, _metrologic_path)
-
-from metrologic import Metrologic
+from metrologic.metrologic import Metrologic
 
 __all__ = [
     'Metrologic',
