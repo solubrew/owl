@@ -41,11 +41,6 @@ dependencies = [
     'pytz',
 ]
 
-[project.scripts]
-
-#[project.gui-scripts]
-#myguiapp = "mypackage.gui:main"
-
 [project.urls]
 Homepage = "https://www.solutionsbrewer.com/"
 Changelog = "CHANGELOG.rst"
