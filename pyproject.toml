@@ -42,8 +42,6 @@ dependencies = [
 ]
 
 [project.scripts]
-pycurity = "pycurity.pycli:app"
-
 
 #[project.gui-scripts]
 #myguiapp = "mypackage.gui:main"
