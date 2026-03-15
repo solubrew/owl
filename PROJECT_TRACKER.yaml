@@ -8,7 +8,7 @@ analysis:
       _work/decision.py: 1297
       _work/ensemble.py: 5787
       _work/llm.py: 1191
-      _work/neuralnet.py: 12297
+      _work/neuralnet.py: 12284
       _work/owl.py: 3878
       _work/prediction.py: 9508
       _work/sklearn.py: 1535
@@ -23,17 +23,17 @@ analysis:
       owl/algo.py: 2309
       owl/algorythms/__init__.py: 0
       owl/algorythms/actv.py: 2589
-      owl/algorythms/neuralnet.py: 12300
+      owl/algorythms/neuralnet.py: 12287
       owl/algorythms/zero_algorythms.py: 2717
-      owl/cli.py: 2819
+      owl/cli.py: 6364
       owl/decision.py: 1297
       owl/ensemble.py: 5787
-      owl/evaluations.py: 14950
+      owl/evaluations.py: 14960
       owl/features.py: 3196
-      owl/functions.py: 7395
+      owl/functions.py: 7415
       owl/llm.py: 1563
       owl/metrologic_integration.py: 7915
-      owl/neuralnet.py: 12360
+      owl/neuralnet.py: 12347
       owl/owl.py: 8793
       owl/platforms.py: 1289
       owl/platforms/__init__.py: 0
@@ -42,12 +42,12 @@ analysis:
       owl/prediction.py: 14037
       owl/sources.py: 5932
       owl/utils/utilDataSets.py: 3240
-      owl/utils/utils.py: 8744
+      owl/utils/utils.py: 8764
       tests/test_owl.py: 239
     files_by_type:
       (no extension): 1
       .iml: 1
-      .md: 6
+      .md: 7
       .py: 41
       .toml: 1
       .xml: 5
@@ -86,10 +86,10 @@ analysis:
         word_count: 106
       _work/neuralnet.py:
         class_count: 27
-        file_size: 12297
+        file_size: 12284
         function_count: 0
         import_count: 4
-        word_count: 1292
+        word_count: 1290
       _work/owl.py:
         class_count: 2
         file_size: 3878
@@ -176,10 +176,10 @@ analysis:
         word_count: 260
       owl/algorythms/neuralnet.py:
         class_count: 27
-        file_size: 12300
+        file_size: 12287
         function_count: 0
         import_count: 4
-        word_count: 1292
+        word_count: 1290
       owl/algorythms/zero_algorythms.py:
         class_count: 4
         file_size: 2717
@@ -188,10 +188,10 @@ analysis:
         word_count: 203
       owl/cli.py:
         class_count: 0
-        file_size: 2819
-        function_count: 9
+        file_size: 6364
+        function_count: 23
         import_count: 3
-        word_count: 227
+        word_count: 480
       owl/decision.py:
         class_count: 1
         file_size: 1297
@@ -206,10 +206,10 @@ analysis:
         word_count: 667
       owl/evaluations.py:
         class_count: 2
-        file_size: 14950
+        file_size: 14960
         function_count: 0
         import_count: 5
-        word_count: 1673
+        word_count: 1674
       owl/features.py:
         class_count: 1
         file_size: 3196
@@ -218,10 +218,10 @@ analysis:
         word_count: 301
       owl/functions.py:
         class_count: 0
-        file_size: 7395
+        file_size: 7415
         function_count: 4
         import_count: 5
-        word_count: 849
+        word_count: 851
       owl/llm.py:
         class_count: 1
         file_size: 1563
@@ -236,10 +236,10 @@ analysis:
         word_count: 666
       owl/neuralnet.py:
         class_count: 27
-        file_size: 12360
+        file_size: 12347
         function_count: 0
         import_count: 5
-        word_count: 1303
+        word_count: 1301
       owl/owl.py:
         class_count: 1
         file_size: 8793
@@ -290,10 +290,10 @@ analysis:
         word_count: 308
       owl/utils/utils.py:
         class_count: 0
-        file_size: 8744
+        file_size: 8764
         function_count: 6
         import_count: 7
-        word_count: 1099
+        word_count: 1101
       tests/test_owl.py:
         class_count: 0
         file_size: 239
@@ -312,17 +312,17 @@ dimensions:
     details:
       issues:
       - fix: Add entries to CHANGES.md for recent changes
-        rule: 'Low changelog coverage: 25%'
+        rule: 'Low changelog coverage: 50%'
         severity: high
         unmatched_commits:
-        - '8d4ae18 fix: add mkdocs.yml for documentation'
+        - '5db99b2 fix: add 15 module CLI commands, improve README, add'
+        - '8f7c069 fix: add CLI.md, pyproject.toml with license_metadat'
         - '6b91b0f fix: add owl CLI, config, tests, mkdocs, CHANGES, is'
         - "4245eda Summary \u2022 Identified and fixed several file descript"
-        - 89f8949 cleanup issues with imports
-        - 9534a12 fix script issues
-      score: 20
+        - '734f9c6 docs: Update STATE.md - issues resolved'
+      score: 60
       status: partial
-    score: 20
+    score: 60
     status: partial
   ci_cd_config:
     details:
@@ -344,8 +344,13 @@ dimensions:
     status: pass
   cli_documentation:
     details:
-      exists: false
+      exists: true
       score: 0
+      sections_found: []
+      sections_missing:
+      - Usage
+      - Arguments
+      - Examples
       status: fail
     score: 0
     status: fail
@@ -401,11 +406,11 @@ dimensions:
         project: condor
       internal_imports: 37
       internal_projects_used:
-      - owl
       - condor
+      - ogma
+      - owl
       - micromole
       - subtrix
-      - ogma
       leverage_score: 16.52
       score: 100
       status: pass
@@ -433,17 +438,17 @@ dimensions:
     status: pass
   error_handling:
     details:
-      bare_excepts: 5
-      generic_excepts: 0
+      bare_excepts: 0
+      generic_excepts: 5
       issues:
-      - fix: Replace bare except with specific exception types
-        rule: 'Bare excepts found: 5'
-        severity: high
+      - fix: Use specific exception types instead of Exception
+        rule: 'Generic Exception excepts found: 5'
+        severity: medium
       proper_try_except: 41
-      score: 50
-      status: partial
-    score: 50
-    status: partial
+      score: 97
+      status: pass
+    score: 97
+    status: pass
   file_sizes:
     details:
       large_file_count: 0
@@ -480,40 +485,46 @@ dimensions:
     status: pass
   lambda_antipattern:
     details:
-      antipattern_count: 3
-      issues:
-      - antipatterns:
-        - file: _work/neuralnet.py
-          line: 71
-        - file: owl/neuralnet.py
-          line: 72
-        - file: owl/algorythms/neuralnet.py
-          line: 71
-        fix: Replace lambda anti-patterns with proper functions or direct calls
-        rule: 'Lambda anti-patterns detected: 3/6 (50.0%)'
-        severity: high
-      score: 0
-      status: fail
-      total_lambdas: 6
-    score: 0
-    status: fail
+      antipattern_count: 0
+      issues: []
+      score: 100
+      status: pass
+      total_lambdas: 3
+    score: 100
+    status: pass
   license_dependencies:
     details:
       issues:
-      - fix: Add [tool.sasquatch.license_metadata] to pyproject.toml OR install pip-licenses
-        rule: No license analysis tools or license_metadata in pyproject.toml
-        severity: critical
-      mit_percentage: 0
-      score: 25
-      status: fail
-      tools_available: []
+      - fix: Replace with MIT-licensed alternatives
+        packages:
+        - Babel (BSD License)
+        - Flask (BSD-3-Clause)
+        - GitPython (BSD-3-Clause)
+        - ImageIO (BSD-2-Clause)
+        - Jinja2 (BSD License)
+        rule: 'Non-MIT licenses: 318/603'
+        severity: high
+      - fix: Verify license manually or remove dependency
+        packages:
+        - PyAudio
+        - apturl
+        - command-not-found
+        - cupshelpers
+        - distro-info
+        rule: 'Unknown licenses: 16/603'
+        severity: high
+      mit_percentage: 44.6
+      score: 80
+      status: pass
+      tools_available:
+      - pip-licenses
       tools_checked:
       - fossa
       - safety
       - pip-licenses
       - dependency-check
-    score: 25
-    status: fail
+    score: 80
+    status: pass
   licenses:
     details:
       issues:
@@ -527,7 +538,7 @@ dimensions:
       print_files:
       - cmds/runTrain.py
       - _work/neuralnet.py
-      print_statements: 83
+      print_statements: 97
       score: 75
       status: partial
       uses_logging: true
@@ -548,68 +559,94 @@ dimensions:
   module_cli_coverage:
     details:
       cli_commands:
+      - actv
+      - algo
+      - algorythms
       - config
+      - decision
+      - ensemble
       - evaluate
+      - evaluations
       - export
+      - features
+      - functions
       - import
       - import_model
       - list
+      - llm
+      - metrologic_integration
+      - neuralnet
+      - owl
+      - owl_main
+      - platforms
       - predict
+      - sources
       - status
       - train
       context:
-        actual: 1/17 modules have CLI commands (5%)
+        actual: 15/17 modules have CLI commands (88%)
         description: Ensures every module has a corresponding CLI command for accessibility
         dimension: module_cli_coverage
         expected: All modules should have CLI commands (100% coverage at 80% threshold)
-        fix_guidance: 'Add CLI commands for: actv, algo, algorythms, cli, decision,
-          ensemble, evaluations, features, functions, llm, metrologic_integration,
-          neuralnet, owl, platforms, sources. Map each module to a CLI command in
-          cli.py using subparsers.add_parser(''sources'').'
+        fix_guidance: 'Add CLI commands for: cli. Map each module to a CLI command
+          in cli.py using subparsers.add_parser(''cli'').'
         what_it_tests: Whether each Python module in the package has a matching CLI
           command entry point
-        why_partial_or_fail: 'Modules missing CLI commands: actv, algo, algorythms,
-          cli, decision, ensemble, evaluations, features, functions, llm, metrologic_integration,
-          neuralnet, owl, platforms, sources. Available CLI commands found: config,
-          evaluate, export, import, import_model, list, predict, status, train. Each
+        why_partial_or_fail: 'Modules missing CLI commands: cli. Available CLI commands
+          found: actv, algo, algorythms, config, decision, ensemble, evaluate, evaluations,
+          export, features, functions, import, import_model, list, llm, metrologic_integration,
+          neuralnet, owl, owl_main, platforms, predict, sources, status, train. Each
           module should have either: (1) a matching @cli.command()/@app.command()
           decorator, (2) a subparsers.add_parser() call matching the module name,
           or (3) a cmd_XXX function in cli.py that maps to the module.'
-      covered_modules: 1
+      covered_modules: 15
       issues:
       - available_cli_commands:
-        - import
-        - export
-        - config
-        - predict
         - evaluate
-        - list
-        - import_model
-        - train
+        - functions
+        - sources
         - status
+        - owl_main
+        - config
+        - decision
+        - actv
+        - algo
+        - neuralnet
+        - owl
+        - train
+        - list
+        - llm
+        - export
+        - evaluations
+        - metrologic_integration
+        - predict
+        - import
+        - ensemble
+        - platforms
+        - features
+        - algorythms
+        - import_model
         covered_modules:
         - prediction
-        fix: 'Add CLI commands for: sources, actv, algo, evaluations, owl, functions,
-          algorythms, cli, ensemble, features, platforms, llm, neuralnet, metrologic_integration,
-          decision'
-        rule: 'CLI coverage: 1/17 modules'
-        severity: medium
-        uncovered_modules:
+        - functions
         - sources
         - actv
         - algo
         - evaluations
-        - owl
-        - functions
-        - algorythms
-        - cli
-        - ensemble
-        - features
-        - platforms
-        - llm
         - neuralnet
+        - owl
         - metrologic_integration
+        - llm
+        - ensemble
+        - platforms
+        - algorythms
         - decision
+        - features
+        fix: 'Add CLI commands for: cli'
+        rule: 'CLI coverage: 15/17 modules'
+        severity: medium
+        uncovered_modules:
+        - cli
       module_list:
       - actv
       - algo
@@ -628,12 +665,12 @@ dimensions:
       - platforms
       - prediction
       - sources
-      score: 5
-      status: partial
+      score: 88
+      status: pass
       total_modules: 17
-      uncovered_modules: 15
-    score: 5
-    status: partial
+      uncovered_modules: 1
+    score: 88
+    status: pass
   pii_secrets:
     details:
       files_with_secrets: 0
@@ -645,22 +682,19 @@ dimensions:
     status: pass
   readme_quality:
     details:
-      issues:
-      - fix: 'Add sections: installation, features, usage'
-        rule: 'Missing sections: installation, features, usage'
-        severity: medium
-      - fix: Add more content to README.md
-        rule: 'README too short: 55 words'
-        severity: medium
-      score: 40
-      sections_found: []
+      issues: []
+      score: 60
+      sections_found:
+      - installation
+      - usage
+      - features
       sections_required:
       - installation
       - usage
       - features
       status: partial
-      word_count: 55
-    score: 40
+      word_count: 129
+    score: 60
     status: partial
   security_bandit:
     details:
@@ -685,8 +719,7 @@ dimensions:
   structure:
     details:
       missing_dirs: []
-      missing_files:
-      - CLI.md
+      missing_files: []
       present_dirs:
       - cmds
       - _work
@@ -694,6 +727,7 @@ dimensions:
       - owl
       - tests
       present_files:
+      - CLI.md
       - requirements
       - pyproject.toml
       - STATE.md
@@ -704,9 +738,9 @@ dimensions:
       - mkdocs.yml
       - CHANGES.md
       - PROJECT_TRACKER.yaml
-      score: 85
+      score: 100
       status: pass
-    score: 85
+    score: 100
     status: pass
   testing:
     details:
@@ -741,16 +775,16 @@ dimensions:
     status: pass
   type_annotations:
     details:
-      annotated_functions: 9
-      annotation_percentage: 2.3
+      annotated_functions: 23
+      annotation_percentage: 5.7
       issues:
       - fix: Add type hints to function signatures and return types
-        rule: 'Type annotation coverage: 2.3%'
+        rule: 'Type annotation coverage: 5.7%'
         severity: medium
-      score: 4
+      score: 11
       status: partial
-      total_functions: 389
-    score: 4
+      total_functions: 403
+    score: 11
     status: partial
   type_check_pyright:
     details:
@@ -767,19 +801,19 @@ dimensions:
       issues: []
       score: 100
       status: pass
-      total_functions: 374
+      total_functions: 388
       wrapper_count: 0
     score: 100
     status: pass
-overall_score: 71.23
+overall_score: 78.25
 project: owl
 summary:
-  failing: 6
+  failing: 4
   gitvein_projects_available: 65
-  passing: 18
+  passing: 22
   total_dimensions: 32
 versions:
-  project: 8d4ae18
-  project_status: dirty
-  project_uncommitted_changes: 1
+  project: e6e5c75
+  project_status: clean
+  project_uncommitted_changes: 0
   sasquatch: unknown

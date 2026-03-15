@@ -1,0 +1,21 @@
+# Owl Configuration
+
+project:
+  name: owl
+  version: 0.1.0
+
+# Model settings
+model:
+  default_backend: sklearn
+  cache_dir: ~/.owl/models
+
+# Training settings
+training:
+  default_epochs: 100
+  default_batch_size: 32
+  learning_rate: 0.001
+
+# Logging
+logging:
+  level: INFO
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"

@@ -125,6 +125,12 @@ def cmd_owl_main(args: argparse.Namespace) -> int:
     return 0
 
 
+def cmd_cli(args: argparse.Namespace) -> int:
+    """CLI module"""
+    print("CLI module")
+    return 0
+
+
 def cmd_platforms(args: argparse.Namespace) -> int:
     """Platforms module"""
     print("Platforms module")
@@ -208,6 +214,9 @@ def main(argv: Optional[list] = None) -> int:
 
     p_owl_main = subparsers.add_parser("owl", help="Owl main module")
     p_owl_main.set_defaults(func=cmd_owl_main)
+
+    p_cli = subparsers.add_parser("cli", help="CLI module")
+    p_cli.set_defaults(func=cmd_cli)
 
     p_platforms = subparsers.add_parser("platforms", help="Platforms module")
     p_platforms.set_defaults(func=cmd_platforms)

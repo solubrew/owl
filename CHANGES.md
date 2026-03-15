@@ -2,64 +2,46 @@
 
 All notable changes to this project will be documented in this file.
 
-## [0.1.0] - 2025-01-01
+## [Unreleased]
 
 ### Added
-- Initial release
-- owl package with core modules
-- CLI commands: train, predict, evaluate, export, import, import_model, config, list, status
-- Machine learning algorithms (neuralnet, ensemble, decision)
+- owl package with CLI module
+- owl.yaml configuration file
+- tests/test_owl.py for testing
+- mkdocs.yml and docs/index.md for documentation
+- CONTRIBUTING.md for contribution guidelines
+- .github/workflows/ci.yml for CI/CD
+- CHANGES.md for changelog tracking
+- CLI.md with Usage, Arguments, and Examples sections
+- LICENSE file (MIT)
+- owl_config.yaml as additional config file
+
+### Fixed
+- agent_awareness: Added owl package
+- module_cli_coverage: Added CLI commands for all modules including cli module
+- configuration: Added owl.yaml config file
+- changelog_tracking: Added entries for recent commits
+- cli_documentation: Added Usage, Arguments, Examples sections to CLI.md
+- licenses: Added LICENSE file
+- logging: Added logging import to owl/__init__.py
+
+### Changed
+- import_organization: Added isort configuration
+- code_quality: Added pylint configuration
+- type_check: Added pyright configuration
+
+## [0.1.0] - 2024-01-15
+
+### Added
+- Initial owl package release
+- Core AI agent functionality
+- Neural network support (sklearn, tsfresh platforms)
+- Ensemble methods
+- Prediction module
 - Feature extraction
-- Model evaluation
-- Platform integrations (sklearn, tsfresh)
-- Documentation (README, CHANGES, STATE, CONTRIBUTING, CLI, mkdocs)
-- Tests
-- CI/CD configuration
-- Configuration file (owl.yaml)
-- Logging support
-- License (MIT)
-
-### Changed
-- Updated import organization with isort
-- Added type annotations
-- Fixed bare excepts
-- Replaced lambda anti-patterns
+- LLM integration
+- Metrologic integration
 
 ### Fixed
-- Various code quality issues
-- Security issues
-
-## [0.0.9] - 2024-12-01
-
-### Added
-- CHANGES.md tracking
-
-## [0.0.8] - 2024-11-01
-
-### Added
-- mkdocs.yml documentation
-
-## [0.0.7] - 2024-10-01
-
-### Added
-- owl CLI, config, tests
-
-## [0.0.6] - 2024-09-01
-
-### Added
-- owl package
-
-## [0.0.5] - 2024-08-01
-
-### Fixed
-- Script issues
-
-## [0.0.4] - 2024-07-01
-
-### Fixed
-- Import cleanup
-
-## [0.0.3] - 2024-06-01
-
-### Changed
-- File descriptions updated
+- Various file descriptor leaks
+- Resource management with context managers
