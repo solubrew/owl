@@ -1,47 +1,49 @@
-# README
+# Owl - AI Agent Platform
 
-## Owl - Machine Learning & Prediction Framework
+Owl is an AI agent platform for building and deploying machine learning models.
 
-Owl is a comprehensive machine learning and prediction framework for building, training, and deploying ML models.
+## Features
+
+- **Neural Networks**: Support for sklearn and tsfresh platforms
+- **Ensemble Methods**: Combine multiple models for better predictions
+- **Feature Extraction**: Advanced feature engineering capabilities
+- **LLM Integration**: Connect with large language models
+- **Metrologic Integration**: Metrics and monitoring
+- **CLI**: Full command-line interface
 
 ## Installation
 
 ```bash
-pip install owl-ml
+pip install owl
 ```
-
-## Features
-
-- Neural networks
-- Ensemble methods
-- Decision trees
-- Feature extraction
-- Model evaluation
-- Multiple platform integrations (sklearn, tsfresh)
 
 ## Usage
 
-```python
-import owl
-
+```bash
 # Train a model
-owl train --model mymodel
+owl train --data data.csv
 
 # Make predictions
-owl predict --model mymodel --input data.csv
+owl predict --model model.pkl
+
+# Evaluate a model
+owl evaluate --predictions predictions.csv
+
+# List available models
+owl list
+
+# Show status
+owl status
 ```
 
-## CLI Commands
+## Configuration
 
-- `train` - Train a model
-- `predict` - Make predictions
-- `evaluate` - Evaluate a model
-- `export` - Export a model
-- `import` - Import data
-- `list` - List models/datasets
-- `status` - Show system status
-- `config` - Manage configuration
+Owl uses `owl.yaml` for configuration. See the configuration file for options.
+
+## Development
+
+See CONTRIBUTING.md for development guidelines.
 
 ## License
 
-MIT
+MIT License - see LICENSE file.
