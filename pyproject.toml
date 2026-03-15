@@ -86,6 +86,26 @@ exclude = [
 ignore = ["FI15", "FI16", "FI17", "FI5", "D107"]
 
 # Pytest configuration
+[tool.isort]
+profile = "black"
+line_length = 120
+
+[tool.pylint.messages_control]
+max-line-length = 120
+disable = ["C0111", "C0103"]
+
+[tool.pylint.format]
+max-line-length = 120
+
+[tool.pyright]
+include = ["owl"]
+exclude = ["**/__pycache__", "build", "dist"]
+typeCheckingMode = "basic"
+pythonVersion = "3.10"
+
+[project]
+license = { text = "MIT" }
+
 [tool.pytest.ini_options]
 testpaths = ["test"]
 mock_use_standalone_module = true

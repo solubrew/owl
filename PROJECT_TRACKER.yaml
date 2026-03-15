@@ -1,0 +1,762 @@
+agent: morg
+analysis:
+  counts:
+    directories: 10
+    file_sizes:
+      _work/__init__.py: 0
+      _work/actv.py: 2366
+      _work/decision.py: 1297
+      _work/ensemble.py: 5787
+      _work/llm.py: 1191
+      _work/neuralnet.py: 12297
+      _work/owl.py: 3878
+      _work/prediction.py: 9508
+      _work/sklearn.py: 1535
+      _work/tsfresh.py: 1859
+      _work/utils/__init__.py: 0
+      _work/utils/utilDataSets.py: 3240
+      _work/utils/utils.py: 4376
+      cmds/runTrain.py: 4807
+      cmds/runTrainModel.py: 1357
+      owl/__init__.py: 878
+      owl/actv.py: 2407
+      owl/algo.py: 2309
+      owl/algorythms/__init__.py: 0
+      owl/algorythms/actv.py: 2589
+      owl/algorythms/neuralnet.py: 12300
+      owl/algorythms/zero_algorythms.py: 2717
+      owl/decision.py: 1297
+      owl/ensemble.py: 5787
+      owl/evaluations.py: 14950
+      owl/features.py: 3196
+      owl/functions.py: 7395
+      owl/llm.py: 1563
+      owl/metrologic_integration.py: 7915
+      owl/neuralnet.py: 12360
+      owl/owl.py: 8793
+      owl/platforms.py: 1289
+      owl/platforms/__init__.py: 0
+      owl/platforms/sklearn.py: 1541
+      owl/platforms/tsfresh.py: 1859
+      owl/prediction.py: 14037
+      owl/sources.py: 5932
+      owl/utils/utilDataSets.py: 3240
+      owl/utils/utils.py: 8744
+    files_by_type:
+      (no extension): 1
+      .iml: 1
+      .md: 3
+      .py: 39
+      .toml: 1
+      .xml: 5
+      .yaml: 5
+    per_file:
+      _work/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      _work/actv.py:
+        class_count: 6
+        file_size: 2366
+        function_count: 0
+        import_count: 3
+        word_count: 290
+      _work/decision.py:
+        class_count: 1
+        file_size: 1297
+        function_count: 0
+        import_count: 3
+        word_count: 104
+      _work/ensemble.py:
+        class_count: 0
+        file_size: 5787
+        function_count: 4
+        import_count: 8
+        word_count: 667
+      _work/llm.py:
+        class_count: 1
+        file_size: 1191
+        function_count: 0
+        import_count: 1
+        word_count: 106
+      _work/neuralnet.py:
+        class_count: 27
+        file_size: 12297
+        function_count: 0
+        import_count: 4
+        word_count: 1292
+      _work/owl.py:
+        class_count: 2
+        file_size: 3878
+        function_count: 0
+        import_count: 4
+        word_count: 376
+      _work/prediction.py:
+        class_count: 1
+        file_size: 9508
+        function_count: 1
+        import_count: 9
+        word_count: 1022
+      _work/sklearn.py:
+        class_count: 1
+        file_size: 1535
+        function_count: 0
+        import_count: 1
+        word_count: 132
+      _work/tsfresh.py:
+        class_count: 1
+        file_size: 1859
+        function_count: 0
+        import_count: 6
+        word_count: 128
+      _work/utils/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      _work/utils/utilDataSets.py:
+        class_count: 0
+        file_size: 3240
+        function_count: 2
+        import_count: 6
+        word_count: 308
+      _work/utils/utils.py:
+        class_count: 0
+        file_size: 4376
+        function_count: 4
+        import_count: 7
+        word_count: 494
+      cmds/runTrain.py:
+        class_count: 0
+        file_size: 4807
+        function_count: 5
+        import_count: 8
+        word_count: 512
+      cmds/runTrainModel.py:
+        class_count: 0
+        file_size: 1357
+        function_count: 1
+        import_count: 5
+        word_count: 121
+      owl/__init__.py:
+        class_count: 0
+        file_size: 878
+        function_count: 0
+        import_count: 2
+        word_count: 85
+      owl/actv.py:
+        class_count: 6
+        file_size: 2407
+        function_count: 0
+        import_count: 1
+        word_count: 287
+      owl/algo.py:
+        class_count: 4
+        file_size: 2309
+        function_count: 0
+        import_count: 3
+        word_count: 160
+      owl/algorythms/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      owl/algorythms/actv.py:
+        class_count: 6
+        file_size: 2589
+        function_count: 0
+        import_count: 4
+        word_count: 260
+      owl/algorythms/neuralnet.py:
+        class_count: 27
+        file_size: 12300
+        function_count: 0
+        import_count: 4
+        word_count: 1292
+      owl/algorythms/zero_algorythms.py:
+        class_count: 4
+        file_size: 2717
+        function_count: 0
+        import_count: 4
+        word_count: 203
+      owl/decision.py:
+        class_count: 1
+        file_size: 1297
+        function_count: 0
+        import_count: 3
+        word_count: 104
+      owl/ensemble.py:
+        class_count: 0
+        file_size: 5787
+        function_count: 4
+        import_count: 8
+        word_count: 667
+      owl/evaluations.py:
+        class_count: 2
+        file_size: 14950
+        function_count: 0
+        import_count: 5
+        word_count: 1673
+      owl/features.py:
+        class_count: 1
+        file_size: 3196
+        function_count: 0
+        import_count: 5
+        word_count: 301
+      owl/functions.py:
+        class_count: 0
+        file_size: 7395
+        function_count: 4
+        import_count: 5
+        word_count: 849
+      owl/llm.py:
+        class_count: 1
+        file_size: 1563
+        function_count: 0
+        import_count: 10
+        word_count: 150
+      owl/metrologic_integration.py:
+        class_count: 3
+        file_size: 7915
+        function_count: 0
+        import_count: 3
+        word_count: 666
+      owl/neuralnet.py:
+        class_count: 27
+        file_size: 12360
+        function_count: 0
+        import_count: 5
+        word_count: 1303
+      owl/owl.py:
+        class_count: 1
+        file_size: 8793
+        function_count: 0
+        import_count: 9
+        word_count: 1022
+      owl/platforms.py:
+        class_count: 2
+        file_size: 1289
+        function_count: 0
+        import_count: 5
+        word_count: 121
+      owl/platforms/__init__.py:
+        class_count: 0
+        file_size: 0
+        function_count: 0
+        import_count: 0
+        word_count: 0
+      owl/platforms/sklearn.py:
+        class_count: 1
+        file_size: 1541
+        function_count: 0
+        import_count: 1
+        word_count: 132
+      owl/platforms/tsfresh.py:
+        class_count: 1
+        file_size: 1859
+        function_count: 0
+        import_count: 6
+        word_count: 128
+      owl/prediction.py:
+        class_count: 1
+        file_size: 14037
+        function_count: 6
+        import_count: 9
+        word_count: 1527
+      owl/sources.py:
+        class_count: 2
+        file_size: 5932
+        function_count: 0
+        import_count: 5
+        word_count: 518
+      owl/utils/utilDataSets.py:
+        class_count: 0
+        file_size: 3240
+        function_count: 2
+        import_count: 6
+        word_count: 308
+      owl/utils/utils.py:
+        class_count: 0
+        file_size: 8744
+        function_count: 6
+        import_count: 7
+        word_count: 1099
+audit_date: '1773541342.849188'
+dimensions:
+  agent_awareness:
+    details:
+      issues:
+      - No CLI file found
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  changelog_tracking:
+    details:
+      issues:
+      - fix: Create CHANGES.md
+        rule: CHANGES.md not found
+        severity: high
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  ci_cd_config:
+    details:
+      ci_cd_found: []
+      issues:
+      - fix: Add CI/CD configuration (GitHub Actions, GitLab CI, etc.)
+        rule: No CI/CD configuration found
+        severity: high
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  ci_cd_documentation:
+    details:
+      ci_cd_docs_found: []
+      issues:
+      - fix: Create CONTRIBUTING.md or docs/ci-cd.md with CI/CD pipeline documentation
+        rule: No CI/CD documentation found
+        severity: high
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  cli_documentation:
+    details:
+      exists: false
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  code_quality_pylint:
+    details:
+      issues: []
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  configuration:
+    details:
+      config_exists: false
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  dependency_strategy:
+    details:
+      external_imports: 184
+      info: 'Hint: 60 GitVein projects available but not used: PyQt5Pandas, apig,
+        asolutionfor, axn, basicbot...'
+      internal_import_details:
+      - file: cmds/runTrainModel.py
+        module: ogma.logma
+        project: ogma
+      - file: cmds/runTrain.py
+        module: ogma.logma
+        project: ogma
+      - file: cmds/runTrain.py
+        module: ogma.logma
+        project: ogma
+      - file: _work/neuralnet.py
+        module: condor
+        project: condor
+      - file: _work/prediction.py
+        module: condor
+        project: condor
+      - file: _work/prediction.py
+        module: condor
+        project: condor
+      - file: _work/ensemble.py
+        module: condor
+        project: condor
+      - file: _work/ensemble.py
+        module: condor
+        project: condor
+      - file: _work/actv.py
+        module: ogma.logma
+        project: ogma
+      - file: _work/owl.py
+        module: condor
+        project: condor
+      internal_imports: 37
+      internal_projects_used:
+      - condor
+      - subtrix
+      - ogma
+      - micromole
+      - owl
+      leverage_score: 16.74
+      score: 100
+      status: pass
+      total_imports: 221
+    score: 100
+    status: pass
+  documentation:
+    details:
+      missing:
+      - CHANGES.md
+      - CONTRIBUTING.md
+      present:
+      - README.md
+      - STATE.md
+      score: 50
+      status: partial
+    score: 50
+    status: partial
+  duplicate_files:
+    details:
+      duplicate_count: 0
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  error_handling:
+    details:
+      bare_excepts: 5
+      generic_excepts: 0
+      issues:
+      - fix: Replace bare except with specific exception types
+        rule: 'Bare excepts found: 5'
+        severity: high
+      proper_try_except: 41
+      score: 50
+      status: partial
+    score: 50
+    status: partial
+  file_sizes:
+    details:
+      large_file_count: 0
+      score: 100
+      small_file_count: 0
+      status: pass
+    score: 100
+    status: pass
+  git_workflow:
+    details:
+      branch: gamma
+      has_commits: true
+      is_git_repo: true
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  import_organization:
+    details:
+      has_isort_config: false
+      issues:
+      - fix: Add isort configuration to pyproject.toml or .isort.cfg
+        rule: No isort configuration found
+        severity: low
+      potential_misordered: 1
+      score: 75
+      status: partial
+    score: 75
+    status: partial
+  kiss_dry:
+    details:
+      duplicate_warnings: 0
+      magic_numbers_found: 0
+      score: 100
+      status: pass
+    score: 100
+    status: pass
+  lambda_antipattern:
+    details:
+      antipattern_count: 3
+      issues:
+      - antipatterns:
+        - file: _work/neuralnet.py
+          line: 71
+        - file: owl/neuralnet.py
+          line: 72
+        - file: owl/algorythms/neuralnet.py
+          line: 71
+        fix: Replace lambda anti-patterns with proper functions or direct calls
+        rule: 'Lambda anti-patterns detected: 3/6 (50.0%)'
+        severity: high
+      score: 0
+      status: fail
+      total_lambdas: 6
+    score: 0
+    status: fail
+  license_dependencies:
+    details:
+      issues:
+      - fix: Replace with MIT-licensed alternatives
+        packages:
+        - Babel (BSD License)
+        - Flask (BSD-3-Clause)
+        - GitPython (BSD-3-Clause)
+        - ImageIO (BSD-2-Clause)
+        - Jinja2 (BSD License)
+        rule: 'Non-MIT licenses: 318/603'
+        severity: high
+      - fix: Verify license manually or remove dependency
+        packages:
+        - PyAudio
+        - apturl
+        - command-not-found
+        - cupshelpers
+        - distro-info
+        rule: 'Unknown licenses: 16/603'
+        severity: high
+      mit_percentage: 44.6
+      score: 80
+      status: pass
+      tools_available:
+      - pip-licenses
+      tools_checked:
+      - fossa
+      - safety
+      - pip-licenses
+      - dependency-check
+    score: 80
+    status: pass
+  licenses:
+    details:
+      issues:
+      - Missing LICENSE file
+      score: 75
+      status: partial
+    score: 75
+    status: partial
+  logging:
+    details:
+      print_files:
+      - _work/neuralnet.py
+      - cmds/runTrain.py
+      print_statements: 75
+      score: 0
+      status: fail
+      uses_logging: false
+      uses_logma: false
+    score: 0
+    status: fail
+  mkdocs_mkdocstrings:
+    details:
+      docs_directory: false
+      has_index_md: false
+      has_mkdocstrings: false
+      issues:
+      - fix: 'Set up MkDocs with mkdocstrings: create mkdocs.yml and docs/index.md'
+        rule: No MkDocs documentation setup found
+        severity: high
+      mkdocs_config: null
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  module_cli_coverage:
+    details:
+      cli_commands: []
+      context:
+        actual: 0/16 modules have CLI commands (0%)
+        description: Ensures every module has a corresponding CLI command for accessibility
+        dimension: module_cli_coverage
+        expected: All modules should have CLI commands (100% coverage at 80% threshold)
+        fix_guidance: 'Add CLI commands for: actv, algo, algorythms, decision, ensemble,
+          evaluations, features, functions, llm, metrologic_integration, neuralnet,
+          owl, platforms, prediction, sources. Map each module to a CLI command in
+          cli.py using subparsers.add_parser(''ensemble'').'
+        what_it_tests: Whether each Python module in the package has a matching CLI
+          command entry point
+        why_partial_or_fail: 'Modules missing CLI commands: actv, algo, algorythms,
+          decision, ensemble, evaluations, features, functions, llm, metrologic_integration,
+          neuralnet, owl, platforms, prediction, sources. Available CLI commands found:
+          none. Each module should have either: (1) a matching @cli.command()/@app.command()
+          decorator, (2) a subparsers.add_parser() call matching the module name,
+          or (3) a cmd_XXX function in cli.py that maps to the module.'
+      covered_modules: 0
+      issues:
+      - fix: Add CLI commands for each module
+        rule: No CLI commands found for modules
+        severity: critical
+        uncovered_modules:
+        - ensemble
+        - algo
+        - prediction
+        - decision
+        - actv
+        - evaluations
+        - features
+        - llm
+        - neuralnet
+        - functions
+        - sources
+        - algorythms
+        - metrologic_integration
+        - platforms
+        - owl
+      module_list:
+      - actv
+      - algo
+      - algorythms
+      - decision
+      - ensemble
+      - evaluations
+      - features
+      - functions
+      - llm
+      - metrologic_integration
+      - neuralnet
+      - owl
+      - platforms
+      - platforms
+      - prediction
+      - sources
+      score: 0
+      status: fail
+      total_modules: 16
+      uncovered_modules: 15
+    score: 0
+    status: fail
+  pii_secrets:
+    details:
+      files_with_secrets: 0
+      findings: []
+      score: 100
+      secrets_found: 0
+      status: pass
+    score: 100
+    status: pass
+  readme_quality:
+    details:
+      issues:
+      - fix: 'Add sections: installation, usage, features'
+        rule: 'Missing sections: installation, usage, features'
+        severity: medium
+      - fix: Add more content to README.md
+        rule: 'README too short: 55 words'
+        severity: medium
+      score: 40
+      sections_found: []
+      sections_required:
+      - installation
+      - usage
+      - features
+      status: partial
+      word_count: 55
+    score: 40
+    status: partial
+  security_bandit:
+    details:
+      details:
+        files_scanned: 25
+        high: 0
+        low: 12
+        medium: 0
+        total: 12
+      issues: []
+      score: 80
+      status: pass
+    score: 80
+    status: pass
+  security_ruff:
+    details:
+      issues: []
+      score: 80
+      status: pass
+    score: 80
+    status: pass
+  structure:
+    details:
+      missing_dirs:
+      - tests
+      - docs
+      missing_files:
+      - CLI.md
+      present_dirs:
+      - cmds
+      - _work
+      - owl
+      present_files:
+      - requirements
+      - pyproject.toml
+      - STATE.md
+      - AXN_TASKS.md
+      - README.md
+      - PROJECT_TRACKER.yaml
+      score: 55
+      status: partial
+    score: 55
+    status: partial
+  testing:
+    details:
+      score: 0
+      status: fail
+      test_dir_exists: false
+    score: 0
+    status: fail
+  todo_tracking:
+    details:
+      issues:
+      - fix: Resolve all TODO comments or create tracking issue
+        rule: 'TODO/FIXME comments found: 1'
+        severity: critical
+        todos:
+        - content: '# TODO: get datatypes from TARG dataframe'
+          file: owl/functions.py
+          line: 130
+      score: 80
+      status: pass
+      todo_count: 1
+    score: 80
+    status: pass
+  try_except_imports:
+    details:
+      issues: []
+      score: 100
+      status: pass
+      violation_count: 0
+    score: 100
+    status: pass
+  type_annotations:
+    details:
+      annotated_functions: 0
+      annotation_percentage: 0.0
+      issues:
+      - fix: Add type hints to function signatures and return types
+        rule: 'Type annotation coverage: 0.0%'
+        severity: medium
+      score: 0
+      status: fail
+      total_functions: 378
+    score: 0
+    status: fail
+  type_check_pyright:
+    details:
+      issues:
+      - fix: Fix type errors
+        rule: 'Pyright errors: 589'
+        severity: critical
+      score: 0
+      status: fail
+    score: 0
+    status: fail
+  wrapper_antipattern:
+    details:
+      issues: []
+      score: 100
+      status: pass
+      total_functions: 363
+      wrapper_count: 0
+    score: 100
+    status: pass
+overall_score: 62.9
+project: owl
+summary:
+  failing: 13
+  gitvein_projects_available: 65
+  passing: 13
+  total_dimensions: 32
+versions:
+  project: 4245eda
+  project_status: clean
+  project_uncommitted_changes: 0
+  sasquatch: unknown

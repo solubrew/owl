@@ -1,0 +1,23 @@
+# Owl Configuration
+
+# Default configuration for Owl AI agent
+agent:
+  name: "Owl"
+  version: "0.1.0"
+
+# Model settings
+model:
+  default_provider: "openai"
+  temperature: 0.7
+  max_tokens: 2048
+
+# Logging
+logging:
+  level: "INFO"
+  format: "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+
+# Data paths
+paths:
+  work_dir: "_work"
+  data_dir: "owl/_data_"
+  models_dir: "owl/_models_"
