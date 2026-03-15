@@ -1,7 +1,7 @@
 agent: morg
 analysis:
   counts:
-    directories: 10
+    directories: 12
     file_sizes:
       _work/__init__.py: 0
       _work/actv.py: 2366
@@ -18,13 +18,14 @@ analysis:
       _work/utils/utils.py: 4376
       cmds/runTrain.py: 4807
       cmds/runTrainModel.py: 1357
-      owl/__init__.py: 878
+      owl/__init__.py: 239
       owl/actv.py: 2407
       owl/algo.py: 2309
       owl/algorythms/__init__.py: 0
       owl/algorythms/actv.py: 2589
       owl/algorythms/neuralnet.py: 12300
       owl/algorythms/zero_algorythms.py: 2717
+      owl/cli.py: 2819
       owl/decision.py: 1297
       owl/ensemble.py: 5787
       owl/evaluations.py: 14950
@@ -42,14 +43,16 @@ analysis:
       owl/sources.py: 5932
       owl/utils/utilDataSets.py: 3240
       owl/utils/utils.py: 8744
+      tests/test_owl.py: 239
     files_by_type:
       (no extension): 1
       .iml: 1
-      .md: 3
-      .py: 39
+      .md: 6
+      .py: 41
       .toml: 1
       .xml: 5
-      .yaml: 5
+      .yaml: 6
+      .yml: 1
     per_file:
       _work/__init__.py:
         class_count: 0
@@ -143,10 +146,10 @@ analysis:
         word_count: 121
       owl/__init__.py:
         class_count: 0
-        file_size: 878
+        file_size: 239
         function_count: 0
-        import_count: 2
-        word_count: 85
+        import_count: 1
+        word_count: 26
       owl/actv.py:
         class_count: 6
         file_size: 2407
@@ -183,6 +186,12 @@ analysis:
         function_count: 0
         import_count: 4
         word_count: 203
+      owl/cli.py:
+        class_count: 0
+        file_size: 2819
+        function_count: 9
+        import_count: 3
+        word_count: 227
       owl/decision.py:
         class_count: 1
         file_size: 1297
@@ -285,12 +294,16 @@ analysis:
         function_count: 6
         import_count: 7
         word_count: 1099
+      tests/test_owl.py:
+        class_count: 0
+        file_size: 239
+        function_count: 2
+        import_count: 1
+        word_count: 29
 audit_date: '1773541342.849188'
 dimensions:
   agent_awareness:
     details:
-      issues:
-      - No CLI file found
       score: 0
       status: fail
     score: 0
@@ -298,35 +311,37 @@ dimensions:
   changelog_tracking:
     details:
       issues:
-      - fix: Create CHANGES.md
-        rule: CHANGES.md not found
+      - fix: Add entries to CHANGES.md for recent changes
+        rule: 'Low changelog coverage: 25%'
         severity: high
-      score: 0
-      status: fail
-    score: 0
-    status: fail
+        unmatched_commits:
+        - '8d4ae18 fix: add mkdocs.yml for documentation'
+        - '6b91b0f fix: add owl CLI, config, tests, mkdocs, CHANGES, is'
+        - "4245eda Summary \u2022 Identified and fixed several file descript"
+        - 89f8949 cleanup issues with imports
+        - 9534a12 fix script issues
+      score: 20
+      status: partial
+    score: 20
+    status: partial
   ci_cd_config:
     details:
-      ci_cd_found: []
-      issues:
-      - fix: Add CI/CD configuration (GitHub Actions, GitLab CI, etc.)
-        rule: No CI/CD configuration found
-        severity: high
-      score: 0
-      status: fail
-    score: 0
-    status: fail
+      ci_cd_found:
+      - GitHub Actions
+      issues: []
+      score: 100
+      status: pass
+    score: 100
+    status: pass
   ci_cd_documentation:
     details:
-      ci_cd_docs_found: []
-      issues:
-      - fix: Create CONTRIBUTING.md or docs/ci-cd.md with CI/CD pipeline documentation
-        rule: No CI/CD documentation found
-        severity: high
-      score: 0
-      status: fail
-    score: 0
-    status: fail
+      ci_cd_docs_found:
+      - CONTRIBUTING.md
+      issues: []
+      score: 100
+      status: pass
+    score: 100
+    status: pass
   cli_documentation:
     details:
       exists: false
@@ -350,7 +365,7 @@ dimensions:
     status: fail
   dependency_strategy:
     details:
-      external_imports: 184
+      external_imports: 187
       info: 'Hint: 60 GitVein projects available but not used: PyQt5Pandas, apig,
         asolutionfor, axn, basicbot...'
       internal_import_details:
@@ -386,29 +401,29 @@ dimensions:
         project: condor
       internal_imports: 37
       internal_projects_used:
+      - owl
       - condor
+      - micromole
       - subtrix
       - ogma
-      - micromole
-      - owl
-      leverage_score: 16.74
+      leverage_score: 16.52
       score: 100
       status: pass
-      total_imports: 221
+      total_imports: 224
     score: 100
     status: pass
   documentation:
     details:
-      missing:
-      - CHANGES.md
-      - CONTRIBUTING.md
+      missing: []
       present:
       - README.md
+      - CHANGES.md
       - STATE.md
-      score: 50
-      status: partial
-    score: 50
-    status: partial
+      - CONTRIBUTING.md
+      score: 100
+      status: pass
+    score: 100
+    status: pass
   duplicate_files:
     details:
       duplicate_count: 0
@@ -432,11 +447,11 @@ dimensions:
   file_sizes:
     details:
       large_file_count: 0
-      score: 100
-      small_file_count: 0
-      status: pass
-    score: 100
-    status: pass
+      score: 75
+      small_file_count: 1
+      status: partial
+    score: 75
+    status: partial
   git_workflow:
     details:
       branch: gamma
@@ -448,16 +463,13 @@ dimensions:
     status: pass
   import_organization:
     details:
-      has_isort_config: false
-      issues:
-      - fix: Add isort configuration to pyproject.toml or .isort.cfg
-        rule: No isort configuration found
-        severity: low
+      has_isort_config: true
+      issues: []
       potential_misordered: 1
-      score: 75
-      status: partial
-    score: 75
-    status: partial
+      score: 100
+      status: pass
+    score: 100
+    status: pass
   kiss_dry:
     details:
       duplicate_warnings: 0
@@ -488,36 +500,20 @@ dimensions:
   license_dependencies:
     details:
       issues:
-      - fix: Replace with MIT-licensed alternatives
-        packages:
-        - Babel (BSD License)
-        - Flask (BSD-3-Clause)
-        - GitPython (BSD-3-Clause)
-        - ImageIO (BSD-2-Clause)
-        - Jinja2 (BSD License)
-        rule: 'Non-MIT licenses: 318/603'
-        severity: high
-      - fix: Verify license manually or remove dependency
-        packages:
-        - PyAudio
-        - apturl
-        - command-not-found
-        - cupshelpers
-        - distro-info
-        rule: 'Unknown licenses: 16/603'
-        severity: high
-      mit_percentage: 44.6
-      score: 80
-      status: pass
-      tools_available:
-      - pip-licenses
+      - fix: Add [tool.sasquatch.license_metadata] to pyproject.toml OR install pip-licenses
+        rule: No license analysis tools or license_metadata in pyproject.toml
+        severity: critical
+      mit_percentage: 0
+      score: 25
+      status: fail
+      tools_available: []
       tools_checked:
       - fossa
       - safety
       - pip-licenses
       - dependency-check
-    score: 80
-    status: pass
+    score: 25
+    status: fail
   licenses:
     details:
       issues:
@@ -529,74 +525,96 @@ dimensions:
   logging:
     details:
       print_files:
-      - _work/neuralnet.py
       - cmds/runTrain.py
-      print_statements: 75
-      score: 0
-      status: fail
-      uses_logging: false
+      - _work/neuralnet.py
+      print_statements: 83
+      score: 75
+      status: partial
+      uses_logging: true
       uses_logma: false
-    score: 0
-    status: fail
+    score: 75
+    status: partial
   mkdocs_mkdocstrings:
     details:
-      docs_directory: false
-      has_index_md: false
-      has_mkdocstrings: false
-      issues:
-      - fix: 'Set up MkDocs with mkdocstrings: create mkdocs.yml and docs/index.md'
-        rule: No MkDocs documentation setup found
-        severity: high
-      mkdocs_config: null
-      score: 0
-      status: fail
-    score: 0
-    status: fail
+      docs_directory: true
+      has_index_md: true
+      has_mkdocstrings: true
+      issues: []
+      mkdocs_config: mkdocs.yml
+      score: 100
+      status: pass
+    score: 100
+    status: pass
   module_cli_coverage:
     details:
-      cli_commands: []
+      cli_commands:
+      - config
+      - evaluate
+      - export
+      - import
+      - import_model
+      - list
+      - predict
+      - status
+      - train
       context:
-        actual: 0/16 modules have CLI commands (0%)
+        actual: 1/17 modules have CLI commands (5%)
         description: Ensures every module has a corresponding CLI command for accessibility
         dimension: module_cli_coverage
         expected: All modules should have CLI commands (100% coverage at 80% threshold)
-        fix_guidance: 'Add CLI commands for: actv, algo, algorythms, decision, ensemble,
-          evaluations, features, functions, llm, metrologic_integration, neuralnet,
-          owl, platforms, prediction, sources. Map each module to a CLI command in
-          cli.py using subparsers.add_parser(''ensemble'').'
+        fix_guidance: 'Add CLI commands for: actv, algo, algorythms, cli, decision,
+          ensemble, evaluations, features, functions, llm, metrologic_integration,
+          neuralnet, owl, platforms, sources. Map each module to a CLI command in
+          cli.py using subparsers.add_parser(''sources'').'
         what_it_tests: Whether each Python module in the package has a matching CLI
           command entry point
         why_partial_or_fail: 'Modules missing CLI commands: actv, algo, algorythms,
-          decision, ensemble, evaluations, features, functions, llm, metrologic_integration,
-          neuralnet, owl, platforms, prediction, sources. Available CLI commands found:
-          none. Each module should have either: (1) a matching @cli.command()/@app.command()
+          cli, decision, ensemble, evaluations, features, functions, llm, metrologic_integration,
+          neuralnet, owl, platforms, sources. Available CLI commands found: config,
+          evaluate, export, import, import_model, list, predict, status, train. Each
+          module should have either: (1) a matching @cli.command()/@app.command()
           decorator, (2) a subparsers.add_parser() call matching the module name,
           or (3) a cmd_XXX function in cli.py that maps to the module.'
-      covered_modules: 0
+      covered_modules: 1
       issues:
-      - fix: Add CLI commands for each module
-        rule: No CLI commands found for modules
-        severity: critical
-        uncovered_modules:
-        - ensemble
-        - algo
+      - available_cli_commands:
+        - import
+        - export
+        - config
+        - predict
+        - evaluate
+        - list
+        - import_model
+        - train
+        - status
+        covered_modules:
         - prediction
-        - decision
+        fix: 'Add CLI commands for: sources, actv, algo, evaluations, owl, functions,
+          algorythms, cli, ensemble, features, platforms, llm, neuralnet, metrologic_integration,
+          decision'
+        rule: 'CLI coverage: 1/17 modules'
+        severity: medium
+        uncovered_modules:
+        - sources
         - actv
+        - algo
         - evaluations
+        - owl
+        - functions
+        - algorythms
+        - cli
+        - ensemble
         - features
+        - platforms
         - llm
         - neuralnet
-        - functions
-        - sources
-        - algorythms
         - metrologic_integration
-        - platforms
-        - owl
+        - decision
       module_list:
       - actv
       - algo
       - algorythms
+      - cli
       - decision
       - ensemble
       - evaluations
@@ -610,12 +628,12 @@ dimensions:
       - platforms
       - prediction
       - sources
-      score: 0
-      status: fail
-      total_modules: 16
+      score: 5
+      status: partial
+      total_modules: 17
       uncovered_modules: 15
-    score: 0
-    status: fail
+    score: 5
+    status: partial
   pii_secrets:
     details:
       files_with_secrets: 0
@@ -628,8 +646,8 @@ dimensions:
   readme_quality:
     details:
       issues:
-      - fix: 'Add sections: installation, usage, features'
-        rule: 'Missing sections: installation, usage, features'
+      - fix: 'Add sections: installation, features, usage'
+        rule: 'Missing sections: installation, features, usage'
         severity: medium
       - fix: Add more content to README.md
         rule: 'README too short: 55 words'
@@ -647,7 +665,7 @@ dimensions:
   security_bandit:
     details:
       details:
-        files_scanned: 25
+        files_scanned: 26
         high: 0
         low: 12
         medium: 0
@@ -666,33 +684,38 @@ dimensions:
     status: pass
   structure:
     details:
-      missing_dirs:
-      - tests
-      - docs
+      missing_dirs: []
       missing_files:
       - CLI.md
       present_dirs:
       - cmds
       - _work
+      - docs
       - owl
+      - tests
       present_files:
       - requirements
       - pyproject.toml
       - STATE.md
+      - owl.yaml
+      - CONTRIBUTING.md
       - AXN_TASKS.md
       - README.md
+      - mkdocs.yml
+      - CHANGES.md
       - PROJECT_TRACKER.yaml
-      score: 55
-      status: partial
-    score: 55
-    status: partial
+      score: 85
+      status: pass
+    score: 85
+    status: pass
   testing:
     details:
-      score: 0
-      status: fail
-      test_dir_exists: false
-    score: 0
-    status: fail
+      score: 50
+      status: pass
+      test_dir: tests
+      test_file_count: 1
+    score: 50
+    status: pass
   todo_tracking:
     details:
       issues:
@@ -718,22 +741,22 @@ dimensions:
     status: pass
   type_annotations:
     details:
-      annotated_functions: 0
-      annotation_percentage: 0.0
+      annotated_functions: 9
+      annotation_percentage: 2.3
       issues:
       - fix: Add type hints to function signatures and return types
-        rule: 'Type annotation coverage: 0.0%'
+        rule: 'Type annotation coverage: 2.3%'
         severity: medium
-      score: 0
-      status: fail
-      total_functions: 378
-    score: 0
-    status: fail
+      score: 4
+      status: partial
+      total_functions: 389
+    score: 4
+    status: partial
   type_check_pyright:
     details:
       issues:
       - fix: Fix type errors
-        rule: 'Pyright errors: 589'
+        rule: 'Pyright errors: 590'
         severity: critical
       score: 0
       status: fail
@@ -744,19 +767,19 @@ dimensions:
       issues: []
       score: 100
       status: pass
-      total_functions: 363
+      total_functions: 374
       wrapper_count: 0
     score: 100
     status: pass
-overall_score: 62.9
+overall_score: 71.23
 project: owl
 summary:
-  failing: 13
+  failing: 6
   gitvein_projects_available: 65
-  passing: 13
+  passing: 18
   total_dimensions: 32
 versions:
-  project: 4245eda
-  project_status: clean
-  project_uncommitted_changes: 0
+  project: 8d4ae18
+  project_status: dirty
+  project_uncommitted_changes: 1
   sasquatch: unknown
