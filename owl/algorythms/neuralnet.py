@@ -68,7 +68,7 @@ class perceptronNN(object):
 	def _setActivation(self, actv):
 		''
 		if actv == None:
-			self.actvFx = lambda x: scipy.special.expit(x)
+			self.actvFx = scipy.special.expit
 		else:
 			self.actvFx = actv
 		return self
