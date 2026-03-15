@@ -1,15 +1,18 @@
-# Owl - AI Agent Platform
+# Owl
 
-Owl is an AI agent platform for building and deploying machine learning models.
+Owl is an AI Agent Platform for machine learning and prediction tasks.
 
 ## Features
 
-- **Neural Networks**: Support for sklearn and tsfresh platforms
-- **Ensemble Methods**: Combine multiple models for better predictions
-- **Feature Extraction**: Advanced feature engineering capabilities
-- **LLM Integration**: Connect with large language models
-- **Metrologic Integration**: Metrics and monitoring
-- **CLI**: Full command-line interface
+- **Actv Module**: Activation functions and neural network components
+- **Algo Module**: Algorithm implementations
+- **Decision Module**: Decision-making capabilities
+- **Ensemble Module**: Ensemble learning methods
+- **Features Module**: Feature engineering
+- **LLM Module**: Large language model integration
+- **NeuralNet Module**: Neural network implementations
+- **Prediction Module**: Prediction and forecasting
+- **Platforms**: Support for sklearn, tsfresh
 
 ## Installation
 
@@ -20,25 +23,37 @@ pip install owl
 ## Usage
 
 ```bash
-# Train a model
+owl --help
+owl actv --help
 owl train --data data.csv
-
-# Make predictions
-owl predict --model model.pkl
-
-# Evaluate a model
-owl evaluate --predictions predictions.csv
-
-# List available models
-owl list
-
-# Show status
-owl status
+owl predict --model model.pkl --input data.csv
 ```
+
+## CLI Commands
+
+- `owl actv` - Activation functions
+- `owl algo` - Algorithm management
+- `owl algorythms` - Algorithm library
+- `owl config` - Configuration management
+- `owl decision` - Decision making
+- `owl ensemble` - Ensemble methods
+- `owl evaluate` - Model evaluation
+- `owl features` - Feature engineering
+- `owl functions` - Utility functions
+- `owl import` - Import data
+- `owl import_model` - Import models
+- `owl list` - List available models
+- `owl llm` - LLM integration
+- `owl neuralnet` - Neural network operations
+- `owl platforms` - Platform management
+- `owl predict` - Make predictions
+- `owl sources` - Data sources
+- `owl status` - System status
+- `owl train` - Train models
 
 ## Configuration
 
-Owl uses `owl.yaml` for configuration. See the configuration file for options.
+Owl uses `owl.yaml` or `owl_config.yaml` for configuration.
 
 ## Development
 
@@ -46,4 +61,4 @@ See CONTRIBUTING.md for development guidelines.
 
 ## License
 
-MIT License - see LICENSE file.
+MIT License - see LICENSE file

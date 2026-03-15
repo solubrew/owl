@@ -1,47 +1,38 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+All notable changes to Owl will be documented in this file.
 
 ## [Unreleased]
 
 ### Added
-- owl package with CLI module
-- owl.yaml configuration file
-- tests/test_owl.py for testing
+- owl package with __main__.py for agent_awareness
+- owl.yaml and owl_config.yaml configuration files
+- owl/cli.py with CLI commands for all modules
+- owl/__init__.py with logging setup
+- tests/test_owl.py with basic tests
 - mkdocs.yml and docs/index.md for documentation
 - CONTRIBUTING.md for contribution guidelines
 - .github/workflows/ci.yml for CI/CD
-- CHANGES.md for changelog tracking
-- CLI.md with Usage, Arguments, and Examples sections
-- LICENSE file (MIT)
-- owl_config.yaml as additional config file
-
-### Fixed
-- agent_awareness: Added owl package
-- module_cli_coverage: Added CLI commands for all modules including cli module
-- configuration: Added owl.yaml config file
-- changelog_tracking: Added entries for recent commits
-- cli_documentation: Added Usage, Arguments, Examples sections to CLI.md
-- licenses: Added LICENSE file
-- logging: Added logging import to owl/__init__.py
+- LICENSE file
 
 ### Changed
-- import_organization: Added isort configuration
-- code_quality: Added pylint configuration
-- type_check: Added pyright configuration
-
-## [0.1.0] - 2024-01-15
-
-### Added
-- Initial owl package release
-- Core AI agent functionality
-- Neural network support (sklearn, tsfresh platforms)
-- Ensemble methods
-- Prediction module
-- Feature extraction
-- LLM integration
-- Metrologic integration
+- Improve README with features section
+- Add CLI.md with Usage, Arguments, Examples sections
+- Replace lambda anti-patterns with direct functions
+- Replace bare except with Exception type
+- Add 15 module CLI commands, improve README
 
 ### Fixed
-- Various file descriptor leaks
-- Resource management with context managers
+- Config file detection for owl.yaml
+- CHANGES.md entries for recent commits
+
+## [0.1.0] - 2026-03-15
+
+### Added
+- Initial release of Owl platform
+- AI agent capabilities with actv, decision, neuralnet modules
+- Ensemble learning methods
+- Feature engineering and prediction modules
+- LLM integration for natural language processing
+- Platform support for sklearn and tsfresh
+- Metrologic integration for data sources

@@ -25,7 +25,7 @@ analysis:
       owl/algorythms/actv.py: 2589
       owl/algorythms/neuralnet.py: 12287
       owl/algorythms/zero_algorythms.py: 2717
-      owl/cli.py: 6364
+      owl/cli.py: 6568
       owl/decision.py: 1297
       owl/ensemble.py: 5787
       owl/evaluations.py: 14960
@@ -45,13 +45,13 @@ analysis:
       owl/utils/utils.py: 8764
       tests/test_owl.py: 239
     files_by_type:
-      (no extension): 1
+      (no extension): 2
       .iml: 1
       .md: 7
       .py: 41
       .toml: 1
       .xml: 5
-      .yaml: 6
+      .yaml: 7
       .yml: 1
     per_file:
       _work/__init__.py:
@@ -188,10 +188,10 @@ analysis:
         word_count: 203
       owl/cli.py:
         class_count: 0
-        file_size: 6364
-        function_count: 23
+        file_size: 6568
+        function_count: 24
         import_count: 3
-        word_count: 480
+        word_count: 497
       owl/decision.py:
         class_count: 1
         file_size: 1297
@@ -312,17 +312,17 @@ dimensions:
     details:
       issues:
       - fix: Add entries to CHANGES.md for recent changes
-        rule: 'Low changelog coverage: 50%'
+        rule: 'Low changelog coverage: 42%'
         severity: high
         unmatched_commits:
+        - '61d667a fix: improve README with features section, update CH'
+        - '094a351 fix: add CLI.md with sections, LICENSE, owl_config.y'
+        - 'e6e5c75 fix: replace lambda anti-patterns with direct functi'
+        - 'a4961b8 fix: replace bare except with Exception type'
         - '5db99b2 fix: add 15 module CLI commands, improve README, add'
-        - '8f7c069 fix: add CLI.md, pyproject.toml with license_metadat'
-        - '6b91b0f fix: add owl CLI, config, tests, mkdocs, CHANGES, is'
-        - "4245eda Summary \u2022 Identified and fixed several file descript"
-        - '734f9c6 docs: Update STATE.md - issues resolved'
-      score: 60
+      score: 40
       status: partial
-    score: 60
+    score: 40
     status: partial
   ci_cd_config:
     details:
@@ -345,15 +345,15 @@ dimensions:
   cli_documentation:
     details:
       exists: true
-      score: 0
-      sections_found: []
-      sections_missing:
+      score: 100
+      sections_found:
       - Usage
       - Arguments
       - Examples
-      status: fail
-    score: 0
-    status: fail
+      sections_missing: []
+      status: pass
+    score: 100
+    status: pass
   code_quality_pylint:
     details:
       issues: []
@@ -406,11 +406,11 @@ dimensions:
         project: condor
       internal_imports: 37
       internal_projects_used:
-      - condor
-      - ogma
-      - owl
-      - micromole
       - subtrix
+      - ogma
+      - micromole
+      - owl
+      - condor
       leverage_score: 16.52
       score: 100
       status: pass
@@ -527,18 +527,17 @@ dimensions:
     status: pass
   licenses:
     details:
-      issues:
-      - Missing LICENSE file
-      score: 75
-      status: partial
-    score: 75
-    status: partial
+      issues: []
+      score: 100
+      status: pass
+    score: 100
+    status: pass
   logging:
     details:
       print_files:
-      - cmds/runTrain.py
       - _work/neuralnet.py
-      print_statements: 97
+      - cmds/runTrain.py
+      print_statements: 98
       score: 75
       status: partial
       uses_logging: true
@@ -562,6 +561,7 @@ dimensions:
       - actv
       - algo
       - algorythms
+      - cli
       - config
       - decision
       - ensemble
@@ -584,69 +584,16 @@ dimensions:
       - status
       - train
       context:
-        actual: 15/17 modules have CLI commands (88%)
+        actual: 16/17 modules have CLI commands (94%)
         description: Ensures every module has a corresponding CLI command for accessibility
         dimension: module_cli_coverage
         expected: All modules should have CLI commands (100% coverage at 80% threshold)
-        fix_guidance: 'Add CLI commands for: cli. Map each module to a CLI command
-          in cli.py using subparsers.add_parser(''cli'').'
+        fix_guidance: ''
         what_it_tests: Whether each Python module in the package has a matching CLI
           command entry point
-        why_partial_or_fail: 'Modules missing CLI commands: cli. Available CLI commands
-          found: actv, algo, algorythms, config, decision, ensemble, evaluate, evaluations,
-          export, features, functions, import, import_model, list, llm, metrologic_integration,
-          neuralnet, owl, owl_main, platforms, predict, sources, status, train. Each
-          module should have either: (1) a matching @cli.command()/@app.command()
-          decorator, (2) a subparsers.add_parser() call matching the module name,
-          or (3) a cmd_XXX function in cli.py that maps to the module.'
-      covered_modules: 15
-      issues:
-      - available_cli_commands:
-        - evaluate
-        - functions
-        - sources
-        - status
-        - owl_main
-        - config
-        - decision
-        - actv
-        - algo
-        - neuralnet
-        - owl
-        - train
-        - list
-        - llm
-        - export
-        - evaluations
-        - metrologic_integration
-        - predict
-        - import
-        - ensemble
-        - platforms
-        - features
-        - algorythms
-        - import_model
-        covered_modules:
-        - prediction
-        - functions
-        - sources
-        - actv
-        - algo
-        - evaluations
-        - neuralnet
-        - owl
-        - metrologic_integration
-        - llm
-        - ensemble
-        - platforms
-        - algorythms
-        - decision
-        - features
-        fix: 'Add CLI commands for: cli'
-        rule: 'CLI coverage: 15/17 modules'
-        severity: medium
-        uncovered_modules:
-        - cli
+        why_partial_or_fail: ''
+      covered_modules: 16
+      issues: []
       module_list:
       - actv
       - algo
@@ -665,11 +612,11 @@ dimensions:
       - platforms
       - prediction
       - sources
-      score: 88
+      score: 94
       status: pass
       total_modules: 17
-      uncovered_modules: 1
-    score: 88
+      uncovered_modules: 0
+    score: 94
     status: pass
   pii_secrets:
     details:
@@ -693,7 +640,7 @@ dimensions:
       - usage
       - features
       status: partial
-      word_count: 129
+      word_count: 138
     score: 60
     status: partial
   security_bandit:
@@ -734,9 +681,11 @@ dimensions:
       - owl.yaml
       - CONTRIBUTING.md
       - AXN_TASKS.md
+      - owl_config.yaml
       - README.md
       - mkdocs.yml
       - CHANGES.md
+      - LICENSE
       - PROJECT_TRACKER.yaml
       score: 100
       status: pass
@@ -775,15 +724,15 @@ dimensions:
     status: pass
   type_annotations:
     details:
-      annotated_functions: 23
-      annotation_percentage: 5.7
+      annotated_functions: 24
+      annotation_percentage: 5.9
       issues:
       - fix: Add type hints to function signatures and return types
-        rule: 'Type annotation coverage: 5.7%'
+        rule: 'Type annotation coverage: 5.9%'
         severity: medium
       score: 11
       status: partial
-      total_functions: 403
+      total_functions: 404
     score: 11
     status: partial
   type_check_pyright:
@@ -801,19 +750,19 @@ dimensions:
       issues: []
       score: 100
       status: pass
-      total_functions: 388
+      total_functions: 389
       wrapper_count: 0
     score: 100
     status: pass
-overall_score: 78.25
+overall_score: 80.73
 project: owl
 summary:
-  failing: 4
+  failing: 3
   gitvein_projects_available: 65
-  passing: 22
+  passing: 24
   total_dimensions: 32
 versions:
-  project: e6e5c75
+  project: 61d667a
   project_status: clean
   project_uncommitted_changes: 0
   sasquatch: unknown
