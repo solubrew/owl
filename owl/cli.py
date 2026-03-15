@@ -52,6 +52,91 @@ def cmd_config(args: argparse.Namespace) -> int:
     return 0
 
 
+# Module-specific commands
+def cmd_actv(args: argparse.Namespace) -> int:
+    """Activation functions module"""
+    print("Actv module")
+    return 0
+
+
+def cmd_algo(args: argparse.Namespace) -> int:
+    """Algorithm module"""
+    print("Algo module")
+    return 0
+
+
+def cmd_algorythms(args: argparse.Namespace) -> int:
+    """Algorithms module"""
+    print("Algorythms module")
+    return 0
+
+
+def cmd_decision(args: argparse.Namespace) -> int:
+    """Decision module"""
+    print("Decision module")
+    return 0
+
+
+def cmd_ensemble(args: argparse.Namespace) -> int:
+    """Ensemble module"""
+    print("Ensemble module")
+    return 0
+
+
+def cmd_evaluations(args: argparse.Namespace) -> int:
+    """Evaluations module"""
+    print("Evaluations module")
+    return 0
+
+
+def cmd_features(args: argparse.Namespace) -> int:
+    """Features module"""
+    print("Features module")
+    return 0
+
+
+def cmd_functions(args: argparse.Namespace) -> int:
+    """Functions module"""
+    print("Functions module")
+    return 0
+
+
+def cmd_llm(args: argparse.Namespace) -> int:
+    """LLM module"""
+    print("LLM module")
+    return 0
+
+
+def cmd_metrologic_integration(args: argparse.Namespace) -> int:
+    """Metrologic integration module"""
+    print("Metrologic integration module")
+    return 0
+
+
+def cmd_neuralnet(args: argparse.Namespace) -> int:
+    """Neural network module"""
+    print("Neuralnet module")
+    return 0
+
+
+def cmd_owl_main(args: argparse.Namespace) -> int:
+    """Owl main module"""
+    print("Owl main module")
+    return 0
+
+
+def cmd_platforms(args: argparse.Namespace) -> int:
+    """Platforms module"""
+    print("Platforms module")
+    return 0
+
+
+def cmd_sources(args: argparse.Namespace) -> int:
+    """Sources module"""
+    print("Sources module")
+    return 0
+
+
 def main(argv: Optional[list] = None) -> int:
     """Main CLI entry point"""
     parser = argparse.ArgumentParser(prog="owl", description="Owl AI Agent Platform")
@@ -86,6 +171,49 @@ def main(argv: Optional[list] = None) -> int:
 
     p_config = subparsers.add_parser("config", help="Show config")
     p_config.set_defaults(func=cmd_config)
+
+    # Module commands
+    p_actv = subparsers.add_parser("actv", help="Activation functions module")
+    p_actv.set_defaults(func=cmd_actv)
+
+    p_algo = subparsers.add_parser("algo", help="Algorithm module")
+    p_algo.set_defaults(func=cmd_algo)
+
+    p_algorythms = subparsers.add_parser("algorythms", help="Algorithms module")
+    p_algorythms.set_defaults(func=cmd_algorythms)
+
+    p_decision = subparsers.add_parser("decision", help="Decision module")
+    p_decision.set_defaults(func=cmd_decision)
+
+    p_ensemble = subparsers.add_parser("ensemble", help="Ensemble module")
+    p_ensemble.set_defaults(func=cmd_ensemble)
+
+    p_evaluations = subparsers.add_parser("evaluations", help="Evaluations module")
+    p_evaluations.set_defaults(func=cmd_evaluations)
+
+    p_features = subparsers.add_parser("features", help="Features module")
+    p_features.set_defaults(func=cmd_features)
+
+    p_functions = subparsers.add_parser("functions", help="Functions module")
+    p_functions.set_defaults(func=cmd_functions)
+
+    p_llm = subparsers.add_parser("llm", help="LLM module")
+    p_llm.set_defaults(func=cmd_llm)
+
+    p_metrologic = subparsers.add_parser("metrologic_integration", help="Metrologic integration")
+    p_metrologic.set_defaults(func=cmd_metrologic_integration)
+
+    p_neuralnet = subparsers.add_parser("neuralnet", help="Neural network module")
+    p_neuralnet.set_defaults(func=cmd_neuralnet)
+
+    p_owl_main = subparsers.add_parser("owl", help="Owl main module")
+    p_owl_main.set_defaults(func=cmd_owl_main)
+
+    p_platforms = subparsers.add_parser("platforms", help="Platforms module")
+    p_platforms.set_defaults(func=cmd_platforms)
+
+    p_sources = subparsers.add_parser("sources", help="Sources module")
+    p_sources.set_defaults(func=cmd_sources)
 
     args = parser.parse_args(argv)
     if hasattr(args, "func"):
