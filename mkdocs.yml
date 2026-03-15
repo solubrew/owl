@@ -1,0 +1,10 @@
+site_name: Owl Documentation
+site_description: AI Agent Platform
+site_url: https://www.solutionsbrewer.com/
+
+nav:
+  - Home: index.md
+
+plugins:
+  - mkdocstrings:
+      default_handler: python
