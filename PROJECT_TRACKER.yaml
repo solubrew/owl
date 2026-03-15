@@ -18,7 +18,8 @@ analysis:
       _work/utils/utils.py: 4376
       cmds/runTrain.py: 4807
       cmds/runTrainModel.py: 1357
-      owl/__init__.py: 239
+      owl/__init__.py: 1104
+      owl/__main__.py: 416
       owl/actv.py: 2407
       owl/algo.py: 2309
       owl/algorythms/__init__.py: 0
@@ -43,12 +44,12 @@ analysis:
       owl/sources.py: 5932
       owl/utils/utilDataSets.py: 3240
       owl/utils/utils.py: 8764
-      tests/test_owl.py: 239
+      tests/test_owl.py: 1210
     files_by_type:
       (no extension): 2
       .iml: 1
       .md: 7
-      .py: 41
+      .py: 42
       .toml: 1
       .xml: 5
       .yaml: 7
@@ -146,10 +147,16 @@ analysis:
         word_count: 121
       owl/__init__.py:
         class_count: 0
-        file_size: 239
-        function_count: 0
-        import_count: 1
-        word_count: 26
+        file_size: 1104
+        function_count: 4
+        import_count: 3
+        word_count: 116
+      owl/__main__.py:
+        class_count: 0
+        file_size: 416
+        function_count: 1
+        import_count: 2
+        word_count: 47
       owl/actv.py:
         class_count: 6
         file_size: 2407
@@ -296,10 +303,10 @@ analysis:
         word_count: 1101
       tests/test_owl.py:
         class_count: 0
-        file_size: 239
-        function_count: 2
-        import_count: 1
-        word_count: 29
+        file_size: 1210
+        function_count: 8
+        import_count: 2
+        word_count: 136
 audit_date: '1773541342.849188'
 dimensions:
   agent_awareness:
@@ -312,14 +319,14 @@ dimensions:
     details:
       issues:
       - fix: Add entries to CHANGES.md for recent changes
-        rule: 'Low changelog coverage: 42%'
+        rule: 'Low changelog coverage: 41%'
         severity: high
         unmatched_commits:
-        - '61d667a fix: improve README with features section, update CH'
         - '094a351 fix: add CLI.md with sections, LICENSE, owl_config.y'
-        - 'e6e5c75 fix: replace lambda anti-patterns with direct functi'
-        - 'a4961b8 fix: replace bare except with Exception type'
         - '5db99b2 fix: add 15 module CLI commands, improve README, add'
+        - '8f7c069 fix: add CLI.md, pyproject.toml with license_metadat'
+        - '6b91b0f fix: add owl CLI, config, tests, mkdocs, CHANGES, is'
+        - "4245eda Summary \u2022 Identified and fixed several file descript"
       score: 40
       status: partial
     score: 40
@@ -370,7 +377,7 @@ dimensions:
     status: fail
   dependency_strategy:
     details:
-      external_imports: 187
+      external_imports: 194
       info: 'Hint: 60 GitVein projects available but not used: PyQt5Pandas, apig,
         asolutionfor, axn, basicbot...'
       internal_import_details:
@@ -406,15 +413,15 @@ dimensions:
         project: condor
       internal_imports: 37
       internal_projects_used:
-      - subtrix
       - ogma
-      - micromole
-      - owl
       - condor
-      leverage_score: 16.52
+      - owl
+      - micromole
+      - subtrix
+      leverage_score: 16.02
       score: 100
       status: pass
-      total_imports: 224
+      total_imports: 231
     score: 100
     status: pass
   documentation:
@@ -452,11 +459,11 @@ dimensions:
   file_sizes:
     details:
       large_file_count: 0
-      score: 75
-      small_file_count: 1
-      status: partial
-    score: 75
-    status: partial
+      score: 100
+      small_file_count: 0
+      status: pass
+    score: 100
+    status: pass
   git_workflow:
     details:
       branch: gamma
@@ -640,13 +647,13 @@ dimensions:
       - usage
       - features
       status: partial
-      word_count: 138
+      word_count: 240
     score: 60
     status: partial
   security_bandit:
     details:
       details:
-        files_scanned: 26
+        files_scanned: 27
         high: 0
         low: 12
         medium: 0
@@ -724,22 +731,22 @@ dimensions:
     status: pass
   type_annotations:
     details:
-      annotated_functions: 24
-      annotation_percentage: 5.9
+      annotated_functions: 37
+      annotation_percentage: 8.9
       issues:
       - fix: Add type hints to function signatures and return types
-        rule: 'Type annotation coverage: 5.9%'
+        rule: 'Type annotation coverage: 8.9%'
         severity: medium
-      score: 11
+      score: 17
       status: partial
-      total_functions: 404
-    score: 11
+      total_functions: 415
+    score: 17
     status: partial
   type_check_pyright:
     details:
       issues:
       - fix: Fix type errors
-        rule: 'Pyright errors: 590'
+        rule: 'Pyright errors: 594'
         severity: critical
       score: 0
       status: fail
@@ -750,19 +757,19 @@ dimensions:
       issues: []
       score: 100
       status: pass
-      total_functions: 389
+      total_functions: 400
       wrapper_count: 0
     score: 100
     status: pass
-overall_score: 80.73
+overall_score: 81.1
 project: owl
 summary:
   failing: 3
   gitvein_projects_available: 65
-  passing: 24
+  passing: 25
   total_dimensions: 32
 versions:
-  project: 61d667a
-  project_status: clean
-  project_uncommitted_changes: 0
+  project: 798626d
+  project_status: dirty
+  project_uncommitted_changes: 1
   sasquatch: unknown
