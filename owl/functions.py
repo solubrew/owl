@@ -76,12 +76,12 @@ def save(writer, res, name, code, model, scores={}, start=None):  # ||
 	del wrdata
 	try:  # ||
 		cfs = model.coef_  # ||
-	except:
+	except Exception:
 		cfs = None
 	print('Save Model', model)
 	try:  # ||
 		params = model.get_params()  # ||
-	except:
+	except Exception:
 		print('Save Model Params Failed for ', model)  # ||
 		params = None
 	if scores == None:

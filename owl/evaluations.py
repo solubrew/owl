@@ -33,7 +33,7 @@ except Exception as e:
 	print('tsfresh failed due to ', e)
 try:
 	from memory_profiler import profile
-except:
+except Exception:
 	print('No Memory Profiler')
 # ======================================Solutions Brewer Library Modules==============================================||
 from condor import condor
