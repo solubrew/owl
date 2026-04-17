@@ -17,8 +17,8 @@ from os.path import abspath, dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), '')  # ||
@@ -30,7 +30,7 @@ class RandomAlgo():
 	""""""
 	def __init__(self):
 		""""""
-		self.config = condor.instruct(pxcfg).select('RandomAlgo')
+		self.config = kahndor.instruct(pxcfg).select('RandomAlgo')
 
 	def predict(self, targets):
 		""""""
@@ -42,7 +42,7 @@ class ZeroClassAlgo():
 	""""""
 	def __init__(self):
 		""""""
-		self.config = condor.instruct(pxcfg).select('ZeroAlgo')
+		self.config = kahndor.instruct(pxcfg).select('ZeroAlgo')
 
 	def predict(self, targets):
 		""""""
@@ -55,7 +55,7 @@ class ZeroRegressionAlgo():
 	""""""
 	def __init__(self):
 		""""""
-		self.config = condor.instruct(pxcfg).select('ZeroRegressionAlgo')
+		self.config = kahndor.instruct(pxcfg).select('ZeroRegressionAlgo')
 
 	def predict(self, targets):
 		""""""
@@ -67,7 +67,7 @@ class ZeroTimeSeriesAlgo():
 	""""""
 	def __init__(self):
 		""""""
-		self.config = condor.instruct(pxcfg).select('ZeroTimeSeriesAlgo')
+		self.config = kahndor.instruct(pxcfg).select('ZeroTimeSeriesAlgo')
 
 # ====================================================================================================================||
 

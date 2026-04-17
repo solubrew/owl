@@ -19,8 +19,8 @@ from sklearn.decomposition import PCA
 from pandas import DataFrame
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), '')  # ||

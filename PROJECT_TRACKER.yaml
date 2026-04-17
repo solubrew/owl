@@ -382,39 +382,39 @@ dimensions:
         asolutionfor, axn, basicbot...'
       internal_import_details:
       - file: cmds/runTrainModel.py
-        module: ogma.logma
+        module: kahndor.logma
         project: ogma
       - file: cmds/runTrain.py
-        module: ogma.logma
+        module: kahndor.logma
         project: ogma
       - file: cmds/runTrain.py
-        module: ogma.logma
+        module: kahndor.logma
         project: ogma
       - file: _work/neuralnet.py
-        module: condor
-        project: condor
+        module: kahndor
+        project: kahndor
       - file: _work/prediction.py
-        module: condor
-        project: condor
+        module: kahndor
+        project: kahndor
       - file: _work/prediction.py
-        module: condor
-        project: condor
+        module: kahndor
+        project: kahndor
       - file: _work/ensemble.py
-        module: condor
-        project: condor
+        module: kahndor
+        project: kahndor
       - file: _work/ensemble.py
-        module: condor
-        project: condor
+        module: kahndor
+        project: kahndor
       - file: _work/actv.py
-        module: ogma.logma
+        module: kahndor.logma
         project: ogma
       - file: _work/owl.py
-        module: condor
-        project: condor
+        module: kahndor
+        project: kahndor
       internal_imports: 37
       internal_projects_used:
       - ogma
-      - condor
+      - kahndor
       - owl
       - micromole
       - subtrix

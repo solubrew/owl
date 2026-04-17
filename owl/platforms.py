@@ -21,7 +21,7 @@ from os.path import abspath, dirname, join
 # ===============================================================================||
 from numpy import random
 # ===============================================================================||
-from condor import condor  # ||
+from kahndor import kahndor  # ||
 from owl.actv import sigmoid  # ||
 
 # ===============================================================================||

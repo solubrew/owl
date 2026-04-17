@@ -27,7 +27,7 @@ except Exception as e:
 	pass
 # ===============================================================================||
 from excalc import data as calcd, tree as calctr, exam, ts as calcts  # ||
-from condor import condor, thing  # ||
+from kahndor import kahndor, thing  # ||
 from fxsquirl.orgnql import fonql, sonql, yonql  # ||
 from fxsquirl import analyzer, collector, encoder, worker
 

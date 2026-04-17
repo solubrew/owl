@@ -27,7 +27,7 @@ except Exception as e:
 	pass
 # ===============================================================================||
 from excalc import ts as calcts  # ||
-from condor import condor, thing  # ||
+from kahndor import kahndor, thing  # ||
 from fxsquirl import encoder
 
 # ===============================================================================||
@@ -86,7 +86,7 @@ def _runAlgo(FTRs, TARGs, model, args, how='full'):
 	if FTRs.shape[0] != TARGs.shape[0]:
 		return done
 	if isinstance(model, str):
-		model = condor.instruct(model).modulize().obj(**args)
+		model = kahndor.instruct(model).modulize().obj(**args)
 	if done == False and how == 'partial':
 		try:
 			model.partialfit(FTRs, TARGs.values.ravel())
@@ -223,7 +223,7 @@ def _save(writer, res, name, code, model, scores={}, start=None):  # ||
 # def loadAlgos():
 # 	"""Load configured algorythms from module configuration files"""
 # 	algos = f'{here}z-data_/algos.yaml'#								||
-# 	algos = condor.instruct(algos).load()
+# 	algos = kahndor.instruct(algos).load()
 # 	nsmbls = f'{here}z-data_/nsmbls.yaml'#								||
 # 	algos.override(nsmbls)
 # 	return algos.dikt

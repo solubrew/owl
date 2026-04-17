@@ -18,8 +18,8 @@ from random import randrange
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 here = join(dirname(__file__), '')  # ||
@@ -31,7 +31,7 @@ class RandomAlgo(object):
 	""""""
 	def __init__(self):
 		""""""
-		self.config = condor.instruct(pxcfg).select('RandomAlgo')
+		self.config = kahndor.instruct(pxcfg).select('RandomAlgo')
 
 	def fit(self, FTRs, TARGs):
 		""""""
@@ -49,7 +49,7 @@ class ZeroClassAlgo(object):
 	""""""
 	def __init__(self):
 		""""""
-		self.config = condor.instruct(pxcfg).select('ZeroAlgo')
+		self.config = kahndor.instruct(pxcfg).select('ZeroAlgo')
 
 	def fit(self, FTRs, TARGs):
 		""""""
@@ -64,7 +64,7 @@ class ZeroRegressionAlgo(object):
 	""""""
 	def __init__(self):
 		""""""
-		self.config = condor.instruct(pxcfg).select('ZeroRegressionAlgo')
+		self.config = kahndor.instruct(pxcfg).select('ZeroRegressionAlgo')
 
 	def fit(self, FTRs, TARGs):
 		""""""
@@ -78,7 +78,7 @@ class ZeroTimeSeriesAlgo(object):
 	""""""
 	def __init__(self):
 		""""""
-		self.config = condor.instruct(pxcfg).select('ZeroTimeSeriesAlgo')
+		self.config = kahndor.instruct(pxcfg).select('ZeroTimeSeriesAlgo')
 
 	def fit(self, FTRs, TARGs):
 		""""""

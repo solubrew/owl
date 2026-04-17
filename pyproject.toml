@@ -12,7 +12,7 @@ license = "MIT"
 
 [tool.sasquatch.license_metadata]
 "owl" = "MIT"
-"condor" = "MIT"
+"kahndor" = "MIT"
 "ogma" = "MIT"
 "subtrix" = "MIT"
 "micromole" = "MIT"

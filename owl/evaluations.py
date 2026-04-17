@@ -36,8 +36,8 @@ try:
 except Exception:
 	print('No Memory Profiler')
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from subtrix import thing
 
 # ====================================================================================================================||
@@ -55,7 +55,7 @@ class Evaluation(object):
 	"""  # ||=>Describe class
 
 	def __init__(self, cfg={}):  # ||=>Initialize class instance
-		self.config = condor.instruct(pxcfg).override(cfg)  # ||load configuration file
+		self.config = kahndor.instruct(pxcfg).override(cfg)  # ||load configuration file
 		self.cycle = thing.what().uuid().ruuid[-5:]  # ||Collection Id
 
 	def initAnalyzer(self, data):

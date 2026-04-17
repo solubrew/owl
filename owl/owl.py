@@ -20,8 +20,8 @@ import datetime as dt
 from pandas import DataFrame
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from owl.functions import train, predict, save
 from sentinel.sentinel import Sentinel
 from squirl.orgnql import sonql
@@ -41,7 +41,7 @@ class Owl(Sentinel):
 	""""""
 	def __init__(self, tag: str, cfg=None):
 		""""""
-		self.config = condor.instruct(pxcfg).override(algos).override(nsmbls).override(cfg)
+		self.config = kahndor.instruct(pxcfg).override(algos).override(nsmbls).override(cfg)
 		name = 'Owl'
 		Sentinel.__init__(self, name, self.config)
 		self.code = None

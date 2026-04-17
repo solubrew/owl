@@ -23,7 +23,7 @@ import threading
 import multiprocessing as mp
 # ===============================================================================||
 from excalc import data as calcd, tree as calctr
-from condor import condor, thing
+from kahndor import kahndor, thing
 from fxsquirl.orgnql import sonql
 from owl import prediction, utils
 

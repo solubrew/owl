@@ -22,8 +22,8 @@ from os.path import abspath, dirname, join
 # ======================================3rd Party Library Modules=====================================================||
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 from subtrix import thing
 
 # ====================================================================================================================||
@@ -38,7 +38,7 @@ class Predictor():
 	"""Analyze input data using available and/or identified methods"""
 	
 	def __init__(self, cfg=None):
-		self.config = condor.instruct(pxcfg).override(join(here, '_data_', 'algos.yaml'))
+		self.config = kahndor.instruct(pxcfg).override(join(here, '_data_', 'algos.yaml'))
 		self.config.override(join(here, '_data_', 'nsmbls.yaml')).override(cfg)
 
 	def initPredictor(self, tag, writer):

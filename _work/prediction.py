@@ -36,7 +36,7 @@ except Exception as e:
 	pass
 #===============================================================================||
 from excalc import data as calcd, tree as calctr, exam#							||
-from condor import condor, thing#										||
+from kahndor import kahndor, thing#										||
 from fxsquirl.orgnql import fonql, sonql, yonql#								||
 from fxsquirl import analyzer, collector, encoder
 from owl import utils
@@ -54,7 +54,7 @@ class Engine(analyzer.engine):#worker.engine):#													||=>Define class
 	"""Analyze input data using available and/or identified methods"""#			||=>Describe class
 
 	def __init__(self, cfg=None):#			||=>Initialize class instance
-		self.config = condor.instruct(pxcfg)#						||load configuration file
+		self.config = kahndor.instruct(pxcfg)#						||load configuration file
 		self.config.override(f'{here}_data_/algos.yaml')#											||load configuration file
 		self.config.override(f'{here}_data_/nsmbls.yaml').override(cfg)
 		analyzer.engine.__init__(self, self.config)
@@ -214,7 +214,7 @@ def csvFromDB():
 	cfg['page'] = 10000000
 	viewRDR = sonql.doc(db).read(cfg)
 	cnt = 0
-	pxcfg = condor.instruct('{0}fx.yaml'.format(here)).load().dikt  # ||
+	pxcfg = kahndor.instruct('{0}fx.yaml'.format(here)).load().dikt  # ||
 	while True:
 		data = next(viewRDR, None)
 		predicts = DataFrame()

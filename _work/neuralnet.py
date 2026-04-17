@@ -21,7 +21,7 @@ from os.path import abspath, dirname, join
 # ===============================================================================||
 from numpy import random
 # ===============================================================================||
-from condor import condor  # ||
+from kahndor import kahndor  # ||
 
 # ===============================================================================||
 here = join(dirname(__file__), '')  # ||
@@ -36,7 +36,7 @@ class perceptronNN(object):
 	def __init__(self, n_FTRs, n_TARGs, lr=0.001, n_hlayers=1, actv=None,
 	             cfg=None):  # ||
 		pxcfg = '{0}z-data_/neuralnet.yaml'.format(here)  # ||use default configuration
-		self.config = condor.instruct(pxcfg).override(cfg)  # ||load configuration file
+		self.config = kahndor.instruct(pxcfg).override(cfg)  # ||load configuration file
 		self.n_FTRs = n_FTRs
 		self.n_TARGs = n_TARGs
 		self._setLearningRate(lr)  # ||Set Learning Rate

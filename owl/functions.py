@@ -19,8 +19,8 @@ import datetime as dt, gc
 from pandas import DataFrame
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from condor import condor
-from ogma.logma import Logma
+from kahndor import kahndor
+from kahndor.logma import Logma
 #from falcon.profilers.memory_profilers import memProfiler
 #from subtrix import thing
 
@@ -103,7 +103,7 @@ def train(algo, version, platform, FTRs, TARGs, how='full', cfg=None):
 		Modulize model and fit piecewise if possible and if not fit fully
 
 	"""
-	config = condor.instruct(algos).override(cfg)
+	config = kahndor.instruct(algos).override(cfg)
 	cfg = config.dikt[algo][version]['platform'][platform]
 	if cfg['valid'] == 0:
 		return None
@@ -116,7 +116,7 @@ def train(algo, version, platform, FTRs, TARGs, how='full', cfg=None):
 	if FTRs.shape[0] != TARGs.shape[0]:
 		return done
 	if isinstance(model, str):
-		model = condor.instruct(model).modulize().obj(**args)
+		model = kahndor.instruct(model).modulize().obj(**args)
 	if done == False and how == 'partial':
 		try:
 			model.partialfit(FTRs, TARGs.values.ravel())

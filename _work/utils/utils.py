@@ -27,7 +27,7 @@ except Exception as e:
 	pass
 # ===============================================================================||
 from excalc import ts as calcts  # ||
-from condor import condor, thing  # ||
+from kahndor import kahndor, thing  # ||
 from fxsquirl import encoder
 
 # ===============================================================================||
@@ -87,7 +87,7 @@ def _procData(cfg, params, dbo, fx, targs, filtr=None, ftrs=None, limit=0.8):
 # def loadAlgos():
 # 	"""Load configured algorythms from module configuration files"""
 # 	algos = f'{here}z-data_/algos.yaml'#								||
-# 	algos = condor.instruct(algos).load()
+# 	algos = kahndor.instruct(algos).load()
 # 	nsmbls = f'{here}z-data_/nsmbls.yaml'#								||
 # 	algos.override(nsmbls)
 # 	return algos.dikt
