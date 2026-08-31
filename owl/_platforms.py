@@ -18,7 +18,6 @@ from __future__ import annotations
 
 import logging
 from os.path import dirname, join
-from typing import Dict, TYPE_CHECKING
 
 logger = logging.getLogger(__name__)
 
@@ -38,13 +37,13 @@ class Platform:
         return self.name
 
 
-def load_platforms() -> Dict[str, Platform]:
+def load_platforms() -> dict[str, Platform]:
     """Load available ML platforms.
     
     Returns:
         Dictionary of platform name -> Platform instance
     """
-    platforms: Dict[str, Platform] = {}
+    platforms: dict[str, Platform] = {}
     
     # sklearn platform
     try:

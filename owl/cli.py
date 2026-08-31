@@ -8,13 +8,13 @@ import shutil
 import sys
 from importlib import import_module
 from pathlib import Path
-from typing import Any, Dict, List, Optional, Union
 
 import yaml
-from pandas import DataFrame, read_csv
+from pandas import DataFrame
 
 try:
-    from joblib import dump as _joblib_dump, load as _joblib_load
+    from joblib import dump as _joblib_dump
+    from joblib import load as _joblib_load
 except Exception:
     _joblib_dump = None
     _joblib_load = None
@@ -32,7 +32,7 @@ DEFAULT_MODEL_DIR.mkdir(parents=True, exist_ok=True)
 # Data helpers
 # --------------------------------------------------------------------------------------------------- #
 
-def _load_csv(path: str, target_col: Optional[str] = None) -> tuple[DataFrame, Optional[DataFrame], List[str]]:
+def _load_csv(path: str, target_col: str | None = None) -> tuple[DataFrame, DataFrame | None, list[str]]:
     """Load CSV and optionally split into features and targets."""
     import pandas as pd
 
@@ -52,7 +52,7 @@ def _load_csv(path: str, target_col: Optional[str] = None) -> tuple[DataFrame, O
     return df, None, list(df.columns)
 
 
-def _find_target(df: DataFrame) -> Optional[str]:
+def _find_target(df: DataFrame) -> str | None:
     """Heuristically find a target column."""
     for col in ["target", "label", "y", "class", "output"]:
         if col in df.columns:
@@ -68,7 +68,7 @@ def _find_target(df: DataFrame) -> Optional[str]:
 # Algorithm registry
 # --------------------------------------------------------------------------------------------------- #
 
-def _list_algorithms() -> List[Dict[str, str]]:
+def _list_algorithms() -> list[dict[str, str]]:
     """List all available algorithms from algos.yaml."""
     algos_path = Path(__file__).parent / "_data_" / "algos.yaml"
     if not algos_path.exists():
@@ -103,7 +103,7 @@ def _list_algorithms() -> List[Dict[str, str]]:
 
 def cmd_train(args: argparse.Namespace) -> int:
     """Train a model."""
-    data_path = args.data  # noqa: SIM401
+    data_path = args.data
     target_col = args.target
     algo = args.algo
     seq = args.sequence
@@ -157,7 +157,7 @@ def cmd_train(args: argparse.Namespace) -> int:
 
 def cmd_predict(args: argparse.Namespace) -> int:
     """Make predictions."""
-    model_path = args.model  # noqa: SIM401
+    model_path = args.model
     data_path = args.input
     output_path = args.output
 
@@ -180,7 +180,7 @@ def cmd_predict(args: argparse.Namespace) -> int:
         ftrs, _, _ = _load_csv(data_path, target_col=None)
     else:
         from sklearn.datasets import make_classification
-        n_feat = getattr(model, "n_features_in_", 10)  # noqa: SIM401
+        n_feat = getattr(model, "n_features_in_", 10)
         X, _ = make_classification(n_samples=20, n_features=n_feat, random_state=42)
         ftrs = DataFrame(X)
         logger.info("No --input provided; generated 20 demo rows")
@@ -209,7 +209,7 @@ def cmd_evaluate(args: argparse.Namespace) -> int:
         logger.error("scikit-learn required for evaluation")
         return 1
 
-    model_path = args.model  # noqa: SIM401
+    model_path = args.model
     data_path = args.data
     target_col = args.target
 
@@ -264,7 +264,7 @@ def cmd_evaluate(args: argparse.Namespace) -> int:
 
 def cmd_export(args: argparse.Namespace) -> int:
     """Export/copy a model file."""
-    src = args.model  # noqa: SIM401
+    src = args.model
     if not src:
         models = sorted(DEFAULT_MODEL_DIR.glob("*.joblib"), key=os.path.getmtime, reverse=True)
         if models:
@@ -527,7 +527,7 @@ def _build_parser() -> argparse.ArgumentParser:
 
 def _format_age(mtime: float) -> str:
     """Format a file mtime as a human-readable age string."""
-    import time, datetime
+    import time
     age_s = time.time() - mtime
     if age_s < 60:
         return f"{age_s:.0f}s ago"
@@ -542,7 +542,7 @@ def _format_age(mtime: float) -> str:
 # Entry point
 # --------------------------------------------------------------------------------------------------- #
 
-def main(argv: Optional[List[str]] = None) -> int:
+def main(argv: list[str] | None = None) -> int:
     """Main CLI entry point."""
     logging.basicConfig(
         level=logging.INFO,

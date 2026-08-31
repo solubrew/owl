@@ -14,27 +14,19 @@
 '''  # ||
 # -*- coding: utf-8 -*-#														||
 # =================================Core Modules==================================||
-from os.path import abspath, dirname, join
-from sys import argv, path
-import psutil, pickle, dill
+from os.path import dirname, join
 
-from memory_profiler import profile
-import threading
-import multiprocessing as mp
 # ===============================================================================||
-from excalc import data as calcd, tree as calctr
-from kahndor import kahndor, thing
-from fxsquirl.orgnql import sonql
-from owl import prediction, utils
+
 
 # ===============================================================================||
 here = join(dirname(__file__), '')  # ||
 log = True
-page = 200000  #
+page = 200000
 # ===============================================================================||
 pxcfg = f'{here}_data_/owl.yaml'  # ||use default configuration
 
-class Chat():
+class Chat:
 	""""""
 	def __init__(self):
 		"""

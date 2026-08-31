@@ -22,12 +22,13 @@ import gc
 import logging
 import uuid
 from os.path import join
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 from pandas import DataFrame
 
-from owl.functions import predict as _predict, save as _save, train as _train
 from owl._platforms import load_platforms
+from owl.functions import predict as _predict
+from owl.functions import train as _train
 
 # ====================================================================================================================||
 logger = logging.getLogger(__name__)
@@ -46,7 +47,7 @@ class Owl:
     sklearn, tsfresh, and other platforms.
     """
     
-    def __init__(self, tag: str, cfg: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, tag: str, cfg: dict[str, Any] | None = None) -> None:
         """Initialize Owl with a unique tag.
         
         Args:
@@ -55,22 +56,22 @@ class Owl:
         """
         self.tag = tag
         self.config = cfg or {}
-        self.code: Optional[str] = None
+        self.code: str | None = None
         self.cycle = str(uuid.uuid4())[:8]
-        self.FTRs: Optional[DataFrame] = None
+        self.FTRs: DataFrame | None = None
         self.model: Any = None
         self.start = dt.datetime.now()
         self.workername = f'WRKR_{self.tag}'
-        self.active_model: Optional[Dict[str, str]] = None
-        self.data_library: Optional[str] = None
-        self.models: List[List[str]] = []
+        self.active_model: dict[str, str] | None = None
+        self.data_library: str | None = None
+        self.models: list[list[str]] = []
         self.algon: str = ''
         self.plat: str = ''
         self.platforms = load_platforms()
         logger.info("Owl initialized with tag: %s", tag)
 
     # --------------------------------------------------------------------------------------------------- #
-    def setActiveModel(self, algoN: str, seqN: str, platN: str) -> 'Owl':
+    def setActiveModel(self, algoN: str, seqN: str, platN: str) -> Owl:
         """Set the active algorithm/sequence/platform combination.
         
         Args:
@@ -81,24 +82,24 @@ class Owl:
         self.active_model = {'algoN': algoN, 'seqN': seqN, 'platN': platN}
         return self
 
-    def setDataLibrary(self, data_library: str) -> 'Owl':
+    def setDataLibrary(self, data_library: str) -> Owl:
         """Set the data library identifier."""
         self.data_library = data_library
         return self
 
-    def setModels(self, models: List[List[str]]) -> 'Owl':
+    def setModels(self, models: list[list[str]]) -> Owl:
         """Set the list of models to train/predict with."""
         self.models = models
         return self
 
-    def addModel(self, algoN: str, seqN: str, platform: str) -> 'Owl':
+    def addModel(self, algoN: str, seqN: str, platform: str) -> Owl:
         """Add a model to the models list."""
         self.models.append([algoN, seqN, platform])
         return self
 
     def cross_validate(self, ftrs: DataFrame, targs: DataFrame,
                        n_splits: int = 5,
-                       models: Optional[List[Dict[str, str]]] = None) -> Dict[str, Any]:
+                       models: list[dict[str, str]] | None = None) -> dict[str, Any]:
         """Run k-fold cross-validation across configured models.
         
         Args:
@@ -127,7 +128,7 @@ class Owl:
                 return {}
         
         kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
-        results: Dict[str, Any] = {}
+        results: dict[str, Any] = {}
         
         for model_cfg in models:
             algoN = model_cfg['algoN']
@@ -138,7 +139,7 @@ class Owl:
             code = f'{algoN}_{seqN}_{platN}'
             logger.info("CV: %s with %s folds", code, n_splits)
             
-            fold_scores: List[Dict[str, float]] = []
+            fold_scores: list[dict[str, float]] = []
             for fold_idx, (train_idx, val_idx) in enumerate(kf.split(ftrs)):
                 f_train = ftrs.iloc[train_idx]
                 t_train = targs.iloc[train_idx]
@@ -180,8 +181,8 @@ class Owl:
 
     # --------------------------------------------------------------------------------------------------- #
     def evaluate(self, train_targs: DataFrame, valid_targs: DataFrame,
-                 runs: Optional[List[str]] = None,
-                 vplats: Optional[List[str]] = None) -> 'Owl':
+                 runs: list[str] | None = None,
+                 vplats: list[str] | None = None) -> Owl:
         """Run full suite of training and predictions.
         
         Args:
@@ -195,7 +196,7 @@ class Owl:
 
     # --------------------------------------------------------------------------------------------------- #
     def predict(self, cycl: str, ftrs: DataFrame, targs: DataFrame,
-                ids: List[Any], targn: str, what: Optional[str] = None,
+                ids: list[Any], targn: str, what: str | None = None,
                 model: Any = None, limit: float = 0.8) -> DataFrame:
         """Create predictions from model and score those predictions.
         
@@ -237,7 +238,7 @@ class Owl:
         return result
 
     # --------------------------------------------------------------------------------------------------- #
-    def score(self, targs, predicts) -> Dict[str, float]:
+    def score(self, targs, predicts) -> dict[str, float]:
         """Score predictions against targets.
         
         Args:
@@ -248,7 +249,7 @@ class Owl:
         Returns:
             Dictionary of scoring metrics
         """
-        scores: Dict[str, float] = {}
+        scores: dict[str, float] = {}
         try:
             from sklearn.metrics import accuracy_score, log_loss
             
@@ -276,7 +277,7 @@ class Owl:
 
     # --------------------------------------------------------------------------------------------------- #
     def train(self, ftrs: DataFrame, targs: DataFrame,
-              how: str = 'full') -> 'Owl':
+              how: str = 'full') -> Owl:
         """Train the model based on the active model configuration.
         
         Args:
@@ -314,7 +315,7 @@ class Owl:
         return self
 
     # --------------------------------------------------------------------------------------------------- #
-    def add_bias(self, adjusters: Any) -> 'Owl':
+    def add_bias(self, adjusters: Any) -> Owl:
         """Apply bias adjustment to model weights.
         
         Args:
@@ -331,7 +332,7 @@ class Owl:
         return f'{tag}_{algo}_{seq}_{plat}_{targ}'
 
     # --------------------------------------------------------------------------------------------------- #
-    def _rtr(self, kind: str, dmap: Optional[Dict] = None) -> 'Owl':
+    def _rtr(self, kind: str, dmap: dict | None = None) -> Owl:
         """Route given inputs into the appropriate algorithm."""
         self.kind = kind
         if dmap is None:

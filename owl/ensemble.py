@@ -16,20 +16,14 @@
 # -*- coding: utf-8 -*-
 # ===============================================================================||
 from os.path import abspath, dirname, join
-import datetime as dt, gc  # , multiprocessing as mp#					||
+
 # ===============================================================================||
-from memory_profiler import profile
 from pandas import DataFrame
 
-try:
-	from joblib import jobdump, jobload
-except Exception as e:
-	pass
 # ===============================================================================||
-from excalc import data as calcd, tree as calctr, exam, ts as calcts  # ||
-from kahndor import kahndor, thing  # ||
-from fxsquirl.orgnql import fonql, sonql, yonql  # ||
-from fxsquirl import analyzer, collector, encoder, worker
+from excalc import data as calcd  # ||
+from fxsquirl.orgnql import sonql  # ||
+from kahndor import thing  # ||
 
 # ===============================================================================||
 here = join(dirname(__file__), '')  # ||
@@ -58,7 +52,7 @@ def ensemble(self, nsmbl=None):  # ||=>define method
 	page = 300000
 	caps = []
 	for i in range(pdepth + len(nsmblModels)):  # ||iterate number of CAPs
-		caps.append('cap{0}'.format(thing.what().uuid().ruuid[-5:]))  # ||create center anchoring predictions
+		caps.append(f'cap{thing.what().uuid().ruuid[-5:]}')  # ||create center anchoring predictions
 	# build dfault table using number of columns built up from models, targets, and CAPs
 	cols = []
 	for model in nsmblModels:  # ||Iterate ensemble models

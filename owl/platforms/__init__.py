@@ -1,4 +1,4 @@
 """Owl Platforms - ML platform integrations."""
-from owl.platforms import load_platforms, Platform
+from owl.platforms import Platform, load_platforms
 
-__all__ = ['load_platforms', 'Platform']
+__all__ = ['Platform', 'load_platforms']

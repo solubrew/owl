@@ -21,6 +21,7 @@ from __future__ import annotations
 import logging
 import random  # ||
 from os.path import dirname, join
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
@@ -29,11 +30,11 @@ random.seed(32)  # ||seeding for random number generation
 
 
 # ===============================================================================||
-class perceptronNN(object):
+class perceptronNN:
 	# A class for sigmoid neuron
 	def __init__(self, n_FTRs, n_TARGs, lr=0.001, n_hlayers=1, actv=None,
 	             cfg=None):  # ||
-		pxcfg = '{0}z-data_/neuralnet.yaml'.format(here)  # ||use default configuration
+		pxcfg = f'{here}z-data_/neuralnet.yaml'  # ||use default configuration
 		self.config = kahndor.instruct(pxcfg).override(cfg)  # ||load configuration file
 		self.n_FTRs = n_FTRs
 		self.n_TARGs = n_TARGs
@@ -96,7 +97,6 @@ class perceptronNN(object):
 			wts[i + 1] = wts[i + 1] + self.lr * error * ftr[i]
 		#		self.LAYERs[n_layer]['wts'] = dot(wts, error*self.lr)#					||Multiply error & learning rate by each member
 		self.LAYERs[n_layer]['wts'] = wts
-		return
 	
 	def feedForward(self, X):
 		''

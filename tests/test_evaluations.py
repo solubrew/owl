@@ -64,6 +64,7 @@ class TestFeatureAnalysis:
 
         df = DataFrame({"a": [1.0, 2.0, 3.0, 4.0], "b": [0.5, 1.5, 2.5, 3.5]})
         fa = FeatureAnalysis(df, n=2)
+        fa.PCA()
         fa.fit()
         assert fa.results is not None
 
@@ -72,6 +73,7 @@ class TestFeatureAnalysis:
 
         df = DataFrame({"a": [1.0, 2.0, 3.0, 4.0], "b": [0.5, 1.5, 2.5, 3.5]})
         fa = FeatureAnalysis(df, n=2)
+        fa.PCA()
         fa.fit()  # must call fit() before analyze()
         result = fa.analyze()
         assert isinstance(result, DataFrame)
@@ -82,3 +84,4 @@ class TestFeatureAnalysis:
         df = DataFrame({"a": [1.0, 2.0]})
         fa = FeatureAnalysis(df, n=2)
         fa.PCA()  # should not raise
+        assert fa.pca is not None

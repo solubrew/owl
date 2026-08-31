@@ -24,7 +24,7 @@ def get_version() -> str:
     return __version__
 
 
-def configure_logging(level: Optional[str] = None) -> None:
+def configure_logging(level: str | None = None) -> None:
     """Configure logging for owl.
     
     Args:
@@ -38,7 +38,7 @@ def configure_logging(level: Optional[str] = None) -> None:
         logger.setLevel(getattr(logging, _level))
 
 
-def initialize(config_path: Optional[str] = None) -> bool:
+def initialize(config_path: str | None = None) -> bool:
     """Initialize owl platform.
     
     Args:
@@ -49,6 +49,16 @@ def initialize(config_path: Optional[str] = None) -> bool:
     """
     logger.info("Initializing Owl platform...")
     return True
+
+
+# ── Metrologic integration ────────────────────────────────────────────────────
+# Optional: pip install owl[metrics]
+try:
+    from owl.metrics import OwlMetrics, ModelMetrics, OwlEvaluation
+except ImportError:
+    OwlMetrics: type = None  # type: ignore
+    ModelMetrics: type = None  # type: ignore
+    OwlEvaluation: type = None  # type: ignore
 
 
 if __name__ == "__main__":

@@ -11,19 +11,16 @@
 	security: sec|lvl2  #														||
 	<(WT)>: -32  #																||
 """
-import datetime as dt
-import sys
 # -*- coding: utf-8 -*-
 # ================================Core Modules===================================||
 from os.path import abspath, dirname, join
 
 # ===============================================================================||
 from pandas import DataFrame
+from squirl.orgnql import sonql
 
 # ===============================================================================||
 from subtrix import thing
-
-from squirl.orgnql import sonql, yonql
 
 # ===============================================================================||
 here = join(dirname(__file__), '')  # ||

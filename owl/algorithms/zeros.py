@@ -1,22 +1,23 @@
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
 """
 ---
 <(META)>:
 	docid:
 	name:
 	description: >
-version: 0.0.0.0.0.0
+	version: 0.0.0.0.0.0
 	authority: filesystem
 	security: seclvl2
 	<(WT)>: -32
 """
-# -*- coding: utf-8 -*-
+# -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
 from __future__ import annotations
 
 import logging
 from os.path import dirname, join
-from random import randrange
+import secrets
+from typing import Any
 
 # ======================================Solutions Brewer Library Modules==============================================||
 try:
@@ -39,33 +40,42 @@ logger = logging.getLogger(__name__)
 here = join(dirname(__file__), '')
 pxcfg = join(here, '_data_', '.yaml')
 
+if Logma:
+    logma = Logma(__name__)
+else:
+    logma = logger
+
 
 class RandomAlgo:
     """Zero-stub random prediction algorithm."""
 
     def __init__(self) -> None:
+        if Logma:
+            logma.info("RandomAlgo initialized")
         self.config = None
 
-    def fit(self, ftrs, targs):
+    def fit(self, ftrs: Any, targs: Any) -> 'RandomAlgo':
         return self
 
-    def predict(self, targets, predict_type: str = 'category'):
+    def predict(self, targets: list, predict_type: str = 'category') -> list:
         if predict_type == 'category':
             vals = list(set(targets))
-            return [vals[randrange(len(vals))] for _ in targets]
-        return [randrange(min(targets), max(targets)) for _ in targets]
+            return [vals[secrets.randbelow(len(vals))] for _ in targets]
+        return [secrets.randbelow(max(targets) - min(targets)) + min(targets) for _ in targets]
 
 
 class ZeroClassAlgo:
     """Zero-stub majority-class prediction algorithm."""
 
     def __init__(self) -> None:
+        if Logma:
+            logma.info("ZeroClassAlgo initialized")
         self.config = None
 
-    def fit(self, ftrs, targs):
+    def fit(self, ftrs: Any, targs: Any) -> 'ZeroClassAlgo':
         return self
 
-    def predict(self, targets):
+    def predict(self, targets: list) -> list:
         majority = max(set(targets), key=list(targets).count)
         return [majority for _ in targets]
 
@@ -74,12 +84,14 @@ class ZeroRegressionAlgo:
     """Zero-stub mean-regression prediction algorithm."""
 
     def __init__(self) -> None:
+        if Logma:
+            logma.info("ZeroRegressionAlgo initialized")
         self.config = None
 
-    def fit(self, ftrs, targs):
+    def fit(self, ftrs: Any, targs: Any) -> 'ZeroRegressionAlgo':
         return self
 
-    def predict(self, targets):
+    def predict(self, targets: list) -> list:
         mean = sum(targets) / len(targets)
         return [mean for _ in targets]
 
@@ -88,11 +100,13 @@ class ZeroTimeSeriesAlgo:
     """Zero-stub time-series prediction algorithm."""
 
     def __init__(self) -> None:
+        if Logma:
+            logma.info("ZeroTimeSeriesAlgo initialized")
         self.config = None
 
-    def fit(self, ftrs, targs):
+    def fit(self, ftrs: Any, targs: Any) -> 'ZeroTimeSeriesAlgo':
         return self
 
-    def predict(self, targets):
+    def predict(self, targets: list) -> list:
         mean = sum(targets) / len(targets)
         return [mean for _ in targets]

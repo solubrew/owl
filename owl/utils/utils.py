@@ -21,18 +21,13 @@ import datetime as dt
 import gc
 import logging
 import zipfile as zipf
-from os.path import abspath, dirname, join
+from os.path import dirname, join
 
 logger = logging.getLogger(__name__)
 
 # ===============================================================================||
-from memory_profiler import profile
 from pandas import DataFrame
 
-try:
-	from joblib import jobdump, jobload
-except Exception:
-	pass
 # ===============================================================================||
 try:
 	from excalc import ts as calcts

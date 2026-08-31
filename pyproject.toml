@@ -20,6 +20,9 @@ dev = [
 tsfresh = [
     "tsfresh>=0.20.0",
 ]
+metrics = [
+    "metrologic>=0.1.0",
+]
 
 [tool.sasquatch]
 license = "MIT"
@@ -30,6 +33,7 @@ license = "MIT"
 "ogma" = "MIT"
 "subtrix" = "MIT"
 "micromole" = "MIT"
+"metrologic" = "MIT"
 
 [tool.isort]
 profile = "black"

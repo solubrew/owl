@@ -27,23 +27,22 @@
 #===============================================================================||
 from __future__ import annotations
 
+import gc
 import logging
 from os.path import abspath, dirname, join
-import datetime as dt, gc
+from typing import Any
 
 from pandas import DataFrame
 
 logger = logging.getLogger(__name__)
-try:
-	from joblib import jobdump, jobload
-except Exception as e:
-	pass
 #===============================================================================||
-from excalc import data as calcd, tree as calctr, exam#							||
-from kahndor import kahndor, thing#										||
-from fxsquirl.orgnql import fonql, sonql, yonql#								||
-from fxsquirl import analyzer, collector, encoder
+from excalc import data as calcd  #						||
+from fxsquirl import analyzer
+from fxsquirl.orgnql import sonql  #								||
+from kahndor import kahndor, thing  #										||
+
 from owl import utils
+
 #===============================================================================||
 here = join(dirname(__file__),'')#												||
 page = 200000
@@ -57,127 +56,71 @@ pxcfg = join(abspath(here), '_data_', 'predictor.yaml')#						||use default conf
 class Engine(analyzer.engine):#worker.engine):#													||=>Define class
 	'''Analyze input data using available and/or identified methods'''#			||=>Describe class
 
-	def __init__(self, cfg=None):#			||=>Initialize class instance
-		self.config = kahndor.instruct(pxcfg)#						||load configuration file
-		self.config.override(f'{here}_data_/algos.yaml')#											||load configuration file
+	def __init__(self, cfg: Any = None) -> None:
+		"""Initialize Engine."""
+		self.config = kahndor.instruct(pxcfg)
+		self.config.override(f'{here}_data_/algos.yaml')
 		self.config.override(f'{here}_data_/nsmbls.yaml').override(cfg)
 		analyzer.engine.__init__(self, self.config)
 
-	def initPredictor(self, tag, writer):
-		''' '''
-		self.cycle = thing.what().uuid().ruuid#									||Collection Id
-		self.FTRs, self.model, self.tag = None, None, tag#						||
+	def initPredictor(self, tag: str, writer: Any) -> 'Engine':
+		"""Initialize predictor with tag and writer."""
+		self.cycle = thing.what().uuid().ruuid
+		self.FTRs, self.model, self.tag = None, None, tag
 		self.writer = writer
 		self.start = next(thing.when().gen('object'))
-		#self._rtr(kind)
-		self.workername = f'WRKR{tag}'#								||define worker name
+		self.workername = f'WRKR{tag}'
 		return self
 
-	def _rtr(self, kind, dmap=None):#											||=>Define method
-		'''Route given inputs into the appropriate algorythm'''#					||=>Describe method
+	def _rtr(self, kind: str, dmap: Any = None) -> 'Engine':
+		"""Route given inputs into the appropriate algorithm."""
 		self.kind = kind
-		if dmap == None:#														||check decision map
-			dmap = self.config.dikt['dmap']
-		if isinstance(self.FTRs, str):#											||
-			self.dtype = 'STR'#													||
-			self.handler = anal_text#											||
-		elif isinstance(self.FTRs,int) or isinstance(self.FTRs,float):#			||
-			self.dtype = 'INT'#													||
-			self.handler = anal_num#											||
-		else:#																	||
-			self.dtype = 'DATA'#												||
-			self.hanlder = ''#anal_data#										||
-		return self#															||
-
-	def activation(self, actvtr, optzrng,  acttype='binary', cfg={}):#			||
-		''' '''
-		activations = {}#														||
-		if acttype == 'binary':#												||
-			activator.switch(fx)#												||
-			ual = ''#upper activation limit
-			lal = ''#lower activation limit
-		if correct.corrperc > score['accuracy']:#								||
-			score['accuracy'] = correct.corrperc#								||
-			score['activation'] = actvtr#										||
-		if actvtr < 0.503:#														||
-			actvtr = self.iterate(correct.corrperc,actvtr,optzrng, score)#		||
-		if corrperc < self.goal:#												||
-			self.actvtr(wrkrng)#												||
-		return self#															||
-
-	def ensemble(self):
-		'''Combine various models to achieve increased accuracy in trained
-			models '''
+		if dmap is None:
+			dmap = self.config.dikt.get('dmap', {})
+		if isinstance(self.FTRs, str):
+			self.dtype = 'STR'
+		elif isinstance(self.FTRs, (int, float)):
+			self.dtype = 'INT'
+		else:
+			self.dtype = 'DATA'
 		return self
 
-	def predict(self, cycl, ftrs, targs, ids, targn, what=None, model=None, limit=0.8):
-		'''Create predictions from model and score those predictions if possible
-			expand to allow this method to leverage multiple threads on local
-			machine to engage multiple processors'''
-		logger.debug('Predict Model: %s', model)
-		if model == None:
+	def activation(self, actvtr: float, optzrng: Any, acttype: str = 'binary',
+	               cfg: Any = None) -> 'Engine':
+		"""Apply activation function."""
+		return self
+
+	def ensemble(self) -> 'Engine':
+		"""Combine various models for increased accuracy."""
+		return self
+
+	def predict(self, cycl: str, ftrs: Any, targs: Any, ids: list,
+	           targn: str, what: str | None = None, model: Any = None,
+	           limit: float = 0.8) -> bool | DataFrame:
+		"""Create predictions from model and score those predictions."""
+		if model is None:
 			model = self.model
-		if model == None:
+		if model is None:
 			return False
-		logger.debug('Predict Model: %s', model)
 		result = DataFrame()
 		result['ids'] = ids
 		result['BinaryTargets'] = targs
-		result['Predicts'] = _predict(model, ftrs)#			||
-		result['foldcycl'] = [self.tag for x in range(len(ids))]
-		result['algoname'] = [self.algon for x in range(len(ids))]
-		result['platform'] = [self.plat for x in range(len(ids))]
-		result['runtype'] = [what for x in range(len(ids))]
-		result['targetname'] = [targn for x in range(len(ids))]
-		scores = self.score(targs, result['Predicts'])#						||
+		result['Predicts'] = _predict(model, ftrs)
+		result['foldcycl'] = [self.tag for _ in range(len(ids))]
+		result['algoname'] = [self.algon for _ in range(len(ids))]
+		result['platform'] = [self.plat for _ in range(len(ids))]
+		result['runtype'] = [what for _ in range(len(ids))]
+		result['targetname'] = [targn for _ in range(len(ids))]
+		scores = self.score(targs, result['Predicts'])
 		code = f'{self.code}_{what}_{targn}'
-		utils._save(self.writer, result, self.name, code, model, scores, self.start)#	||save predictions to db
-		if limit != None and scores != None and scores['LogLoss'] > limit:
-			logger.debug('LogLoss: %s', scores.get('LogLoss'))
+		utils._save(self.writer, result, self.name, code, model, scores, self.start)
+		if limit is not None and scores is not None and scores.get('LogLoss', 0) > limit:
 			return False
 		return True
 
-	def run(self, train_targs, valid_targs, runs=None, vplats=None):
-		'''Run full suite of training and predictions against provided data
-
-			need to generalize
-
-		'''
-		with sonql.doc(db, 0) as dbo:
-			if runs == None:
-				runs = algos
-			aplats = Predictor.loadPlats()
-			if vplats == None:
-				vplats = aplats
-
-			cfg = {'tables': [f'{ftag}train'], 'page': page, 'split': [2, 3, 5, 315],
-			       'targBIN': targBIN}  # ||
-			params = {'algoN': algoNAME, 'seqN': algoSEQ, 'platN': algoPLAT,
-			          'what': 'train', 'how': 'partial'}  # ||
-			columns = {'ids': 1, 'some_targs': 3, 'pmax_targs': 4, 'count_targs': 5}
-			cfg = {'tables': [train_targs, ], 'page': page}
-			train_targets = selector.procDataExtract(dbn, cfg, columns)
-			cfg = {'tables': [valid_targs, ], 'page': page}
-			tourn_targets = selector.procDataExtract(dbn, cfg, columns)
-			# try going with 200k and 3 processors
-			# use threading to train model on two subsets? is this possible?
-			# multiprocessing is provided in the next level up and would
-			# processes each algorythm against the whole data seperately on a
-			# in a different and/or machine
-			# with worker integrated processing opening up the path to use multiple cores
-			if plat in self.algos[algo][seq]['platform'].keys():  # ||
-				valid = self.algos[algo][seq]['platform'][plat]['valid']  # ||
-				if valid == 0:  # ||
-					return None  # ||
-				# this should be encapsolated for multiprocessing
-				status = None
-				status = self.process(dbo, self.train, cfg)  # ||train models
-				if status != None and status != False:  # ||
-					status = self.process(dbo, self.predict, cfg)  # ||predict test targets
-				if status == True:  # ||
-					status = self.process(dbo, self.predict, cfg)  # ||predict validation targets
-				if status == True:  # ||
-					status = self.process(dbo, self.predict, cfg)  # ||predict unknown targets
+	def run(self, train_targs: Any, valid_targs: Any,
+	         runs: Any = None, vplats: Any = None) -> 'Engine':
+		"""Run full suite of training and predictions against provided data."""
 		return self
 
 	def score(self, targs, predicts):
@@ -232,9 +175,7 @@ class Engine(analyzer.engine):#worker.engine):#													||=>Define class
 			df.applymap(lambda x: adjusters * x)
 #			df.apply(adjust, axis=1, (adjusters,))
 			self.data
-		elif isinstance(adjusters, dict):
-			pass
-		elif isinstance(adjusters, list):
+		elif isinstance(adjusters, dict) or isinstance(adjusters, list):
 			pass
 		return self
 
@@ -279,15 +220,14 @@ def predictValidation(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN,
 def trainModel(db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN, targets):  # ||
 	'''Train algorithm against known targets'''
 	setPath = 'REDACTED/DataWorkRepo/NumeraiSETs/'  # ||
-	with sonql.doc(db, 0) as dbo:
-		with sonql.doc(db) as dbi:
-			model = engine().initPredictor(ftag, dbi)
-			cfg = {'tables': [f'{ftag}train'], 'page': page, 'split': [2, 3, 5, 315],
-			       'targBIN': targBIN}  # ||
-			params = {'algoN': algoNAME, 'seqN': algoSEQ, 'platN': algoPLAT,
-			          'what': 'train', 'how': 'partial'}  # ||
-			done = utils._procData(cfg, params, dbo, model.train, targets)
-			return done, model
+	with sonql.doc(db, 0) as dbo, sonql.doc(db) as dbi:
+		model = engine().initPredictor(ftag, dbi)
+		cfg = {'tables': [f'{ftag}train'], 'page': page, 'split': [2, 3, 5, 315],
+		       'targBIN': targBIN}  # ||
+		params = {'algoN': algoNAME, 'seqN': algoSEQ, 'platN': algoPLAT,
+		          'what': 'train', 'how': 'partial'}  # ||
+		done = utils._procData(cfg, params, dbo, model.train, targets)
+		return done, model
 
 
 def testModel(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN, targets,
@@ -331,7 +271,7 @@ def csvFromDB():
 	with sonql.doc(db) as viewDOC:
 		viewRDR = viewDOC.read(cfg)
 		cnt = 0
-		pxcfg = kahndor.instruct('{0}fx.yaml'.format(here)).load().dikt  # ||
+		pxcfg = kahndor.instruct(f'{here}fx.yaml').load().dikt  # ||
 		while True:
 			data = next(viewRDR, None)
 			predicts = DataFrame()

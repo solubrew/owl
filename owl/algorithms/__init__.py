@@ -1,16 +1,16 @@
 """Algorithms - ML algorithm implementations."""
 from owl.algorithms.neuralnet import perceptronNN
 from owl.algorithms.zeros import (
-    ZeroRegressionAlgo,
     RandomAlgo,
     ZeroClassAlgo,
+    ZeroRegressionAlgo,
     ZeroTimeSeriesAlgo,
 )
 
 __all__ = [
-    "perceptronNN",
-    "ZeroRegressionAlgo",
     "RandomAlgo",
     "ZeroClassAlgo",
+    "ZeroRegressionAlgo",
     "ZeroTimeSeriesAlgo",
+    "perceptronNN",
 ]

@@ -1,20 +1,18 @@
-# -*- coding: utf-8 -*-
 # ======================================Standard Library Modules======================================================||
 from __future__ import annotations
 
 import logging
 from os.path import dirname, join
-from typing import Any, Dict, List, Optional
+from typing import Any
 
 logger = logging.getLogger(__name__)
 
 # ======================================3rd Party Library Modules======================================================||
 try:
-    from pandas_profiling import ProfileReport
+    pass
 except Exception as e:
     logger.debug("pandas_profiling not available: %s", e)
 
-from numpy import histogram
 
 try:
     from sklearn import metrics
@@ -22,14 +20,12 @@ except Exception as e:
     logger.debug("sklearn not available: %s", e)
 
 try:
-    from tsfresh import extract_features, select_features
-    from tsfresh.utilities.dataframe_functions import impute
-    from tsfresh import extract_relevant_features
+    pass
 except Exception as e:
     logger.debug("tsfresh not available: %s", e)
 
 try:
-    from memory_profiler import profile
+    pass
 except Exception:
     logger.debug("memory_profiler not available")
 
@@ -60,18 +56,19 @@ pxcfg = join(here, '_data_', 'evaluations.yaml')
 class Evaluation:
     """Analyze input data using available and/or identified methods."""
     
-    def __init__(self, cfg: Optional[Dict[str, Any]] = None) -> None:
+    def __init__(self, cfg: dict[str, Any] | None = None) -> None:
+        logma.info("Evaluation initialized")
         if kahndor:
             self.config = kahndor(pxcfg).override(cfg or {})
         else:
             self.config = cfg or {}
         self.cycle: str = ''
         self.data: Any = None
-        self.auc: Optional[float] = None
-        self.accuracy: Optional[float] = None
-        self.dikt: Dict[str, Any] = {}
+        self.auc: float | None = None
+        self.accuracy: float | None = None
+        self.dikt: dict[str, Any] = {}
 
-    def initAnalyzer(self, data: Any) -> 'Evaluation':
+    def initAnalyzer(self, data: Any) -> Evaluation:
         self.data = data
         return self
 
@@ -82,7 +79,7 @@ class Evaluation:
         self.accuracy = metrics.accuracy_score(self.data, probabilities)
         return self.accuracy
 
-    def accuracy_details(self) -> 'Evaluation':
+    def accuracy_details(self) -> Evaluation:
         """Calculate and return details of correct prediction scores."""
         self.num_correct = 0
         for i in self.determinent:
@@ -92,20 +89,18 @@ class Evaluation:
         return self
 
     def accuracy_map(self, obsv: Any, knowns: Any, probabilities: Any,
-                     actvtr: float) -> 'Evaluation':
+                     actvtr: float) -> Evaluation:
         """Calculate Accuracy of knowns to predictions."""
         self.determinent = []
         for i in range(len(obsv)):
-            if knowns[i] == 1 and obsv[i] > actvtr:
-                self.determinent.append(1)
-            elif knowns[i] == 0 and obsv[i] < actvtr:
+            if knowns[i] == 1 and obsv[i] > actvtr or knowns[i] == 0 and obsv[i] < actvtr:
                 self.determinent.append(1)
             else:
                 self.determinent.append(0)
         self.accuracy_score(probabilities)
         return self
 
-    def auc_score(self, probabilities: Any) -> Optional[float]:
+    def auc_score(self, probabilities: Any) -> float | None:
         """Score the Area Under the Curve for the given Probabilities."""
         if not metrics:
             return None
@@ -116,7 +111,7 @@ class Evaluation:
             logger.warning("AUC analysis failed: %s", e)
         return self.auc
 
-    def logloss(self, probabilities: Any) -> Optional[float]:
+    def logloss(self, probabilities: Any) -> float | None:
         """Measure accuracy of predictions."""
         if not metrics:
             return None
@@ -126,7 +121,7 @@ class Evaluation:
             logger.warning("LogLoss analysis failed: %s", e)
             return None
 
-    def test(self, predicts: Any, how: str = 'full') -> Dict[str, Any]:
+    def test(self, predicts: Any, how: str = 'full') -> dict[str, Any]:
         """Run full evaluation suite."""
         auc = self.auc_score(predicts)
         ll = self.logloss(predicts)
@@ -141,45 +136,8 @@ class Evaluation:
         }
 
 
-class FeatureAnalysis:
-    """Feature analysis using PCA."""
-    
-    def __init__(self, df: Any, n: int = 10) -> None:
-        from sklearn.decomposition import PCA
-        self.df = df
-        self.output_features = n
-        self.pca = PCA(n_components=n)
-        self.tsne: Any = None
-        self.results: Any = None
-
-    def PCA(self) -> None:
-        """Run PCA dimensionality reduction on the stored features.
-        
-        Note: PCA is initialized in __init__ with output_features components.
-        Call fit() to perform the actual reduction.
-        """
-        logma.info('PCA: initialized with %d components', self.output_features)
-
-    def TSNE(self, perplexity: int = 40, n_iter: int = 500) -> None:
-        from sklearn.manifold import TSNE as _TSNE
-        self.tsne = _TSNE(n_components=self.output_features, verbose=1,
-                          perplexity=perplexity, max_iter=n_iter)
-
-    def fit(self) -> 'FeatureAnalysis':
-        if self.pca is not None:
-            self.results = self.pca.fit_transform(self.df)
-        elif self.tsne is not None:
-            self.results = self.tsne.fit_transform(self.df)
-        return self
-
-    def analyze(self, show: bool = False) -> Any:
-        from pandas import DataFrame
-        feature_names = [f"Component {i}" for i in range(1, self.output_features + 1)]
-        self.analysis = DataFrame(
-            list(zip(feature_names, self.pca.explained_variance_ratio_)),
-            columns=['feature_name', 'explained_variance_ratio']
-        )
-        return self.analysis
+# owl.features re-exports FeatureAnalysis (deduplicated: single implementation lives in owl/features.py)
+from owl.features import FeatureAnalysis  # noqa: F401
 
 
 # ====================================================================================================================||
