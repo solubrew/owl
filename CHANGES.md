@@ -5,29 +5,16 @@ All notable changes to Owl will be documented in this file.
 ## [Unreleased]
 
 ### Added
-- owl package with __main__.py for agent_awareness
-- owl.yaml and owl_config.yaml configuration files
-- owl/cli.py with CLI commands for all modules
-- owl/__init__.py with logging setup
-- tests/test_owl.py with basic tests
-- mkdocs.yml and docs/index.md for documentation
-- CONTRIBUTING.md for contribution guidelines
-- .github/workflows/ci.yml for CI/CD
-- LICENSE file
+- **owl[decisions]** optional dependency: `pip install owl[decisions]` installs mindot
+- `owl/__init__.py`: `DECISIONS_AVAILABLE` flag — `True` when mindot is installed
 
 ### Changed
-- Improve README with features section
-- Add CLI.md with Usage, Arguments, Examples sections
-- Replace lambda anti-patterns with direct functions
-- Replace bare except with Exception type
-- Add 15 module CLI commands, improve README
+- **`owl/decision.py`**: deprecated; `DeprecationWarning` now points to `mindot.mindot_owl.OwlMethod`
+- **`owl/algorithms/algo.py`**: removed (dead copy of `owl/algorithms/zeros.py`)
 
 ### Fixed
-- Config file detection for owl.yaml
-- CHANGES.md entries for recent commits
-- Add more CLI commands for module coverage
-- Add type annotations to owl/__init__.py
-- Fix CHANGES.md entry formatting
+- **`BREWCE.__init__`**: fixed `BOT.__int__` typo → `BOT.__init__`; removed undefined `model()` reference
+- **`devfunctions.storeData()`**: fixed undefined `file_df` variable → `DataFrame()`
 
 ## [0.1.0] - 2026-03-15
 

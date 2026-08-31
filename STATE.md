@@ -20,21 +20,18 @@ Owl is a Python module built to run various machine learning algorithms against 
 ```
 owl/
 ├── owl/                  # Main package
-│   ├── algorythms/       # ML algorithms (neuralnet, zero_algorythms, actv)
-│   ├── platforms/       # Platform integrations (tsfresh, sklearn)
-│   ├── utils/           # Utilities (utils, utilDataSets)
-│   ├── algo.py
-│   ├── decision.py
+│   ├── algorithms/       # ML algorithms (neuralnet, zeros, actv)
+│   ├── platforms/      # Platform integrations (tsfresh, sklearn)
+│   ├── utils/          # Utilities (utils, utilDataSets)
+│   ├── prediction.py   # Prediction pipeline (Engine class)
+│   ├── decision.py     # Decision engine (DEPRECATED — use MindOT)
 │   ├── functions.py
-│   ├── neuralnet.py
-│   └── prediction.py
-├── cmds/                # Command runners (runTrain, runTrainModel)
-├── _work/               # Work-in-progress modules
-├── setup.py
-└── setup.cfg
+│   ├── metrics.py      # OwlMetrics, ModelMetrics, OwlEvaluation
+│   ├── features.py     # FeatureAnalysis (PCA, TSNE)
+│   └── sources.py      # DataSource, OwlStorage
+├── cmds/               # Command runners
+└── setup.py
 ```
-
----
 
 ## Dependencies
 
@@ -43,7 +40,13 @@ owl/
 | backoff | Retry logic |
 | click | CLI framework |
 | defusedxml | XML security |
-| futures | Async support (py2) |
+| kahndor | YAML config + logging |
+| metrologic | Statistical calculations |
+| mindot | Decision engine (optional: `pip install owl[decisions]`) |
+| micromole | Data ingestion |
+| pandas | Data handling |
+| scikit-learn | ML pipeline |
+| fxsquirl | Data pipeline |
 | six | Python 2/3 compat |
 | pypiwin32 | Windows support |
 
