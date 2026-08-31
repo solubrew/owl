@@ -60,6 +60,20 @@ except ImportError:
     ModelMetrics: type = None  # type: ignore
     OwlEvaluation: type = None  # type: ignore
 
+METRICS_AVAILABLE: bool = OwlMetrics is not None
+
+
+# ── Decision engine — optional: pip install owl[decisions]
+try:
+    from mindot import MindOT
+    from mindot.mindot import Decision, Method
+except ImportError:
+    MindOT = None  # type: ignore
+    Decision = None  # type: ignore
+    Method = None  # type: ignore
+
+DECISIONS_AVAILABLE: bool = MindOT is not None
+
 
 if __name__ == "__main__":
     sys.exit(main())

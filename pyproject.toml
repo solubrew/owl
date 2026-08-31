@@ -23,6 +23,9 @@ tsfresh = [
 metrics = [
     "metrologic>=0.1.0",
 ]
+decisions = [
+    "mindot>=0.1.0",
+]
 
 [tool.sasquatch]
 license = "MIT"
@@ -34,6 +37,7 @@ license = "MIT"
 "subtrix" = "MIT"
 "micromole" = "MIT"
 "metrologic" = "MIT"
+"mindot" = "MIT"
 
 [tool.isort]
 profile = "black"
