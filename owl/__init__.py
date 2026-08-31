@@ -55,10 +55,12 @@ def initialize(config_path: str | None = None) -> bool:
 # Optional: pip install owl[metrics]
 try:
     from owl.metrics import OwlMetrics, ModelMetrics, OwlEvaluation
+    from owl.prediction.base import PredictionEngine
 except ImportError:
     OwlMetrics: type = None  # type: ignore
     ModelMetrics: type = None  # type: ignore
     OwlEvaluation: type = None  # type: ignore
+    PredictionEngine: type = None  # type: ignore
 
 METRICS_AVAILABLE: bool = OwlMetrics is not None
 
