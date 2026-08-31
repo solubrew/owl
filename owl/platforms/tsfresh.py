@@ -1,21 +1,20 @@
-#@@@@@@@@@@@@@@@@Pheonix.Molecules.Logicizer.NN@@@@@@@@@@@@@@@@@@@@@@@@@||
-'''
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+"""
 ---
 <(META)>:
-	DOCid:
-	name: Molecules Level  Module  Python Document
+	docid:
+	name:
 	description: >
 	version: 0.0.0.0.0.0
-	path: <[LEXIvrs]>/panda/LEXI/LEXI.yaml
-	outline:
-	expire: <^[expire]^>
-	authority: document|this
-	security: sec|lvl2
+	authority: filesystem
+	security: seclvl2
 	<(WT)>: -32
-'''
-#!/usr/bin/env python
-# -*- coding: utf-8 -*-
-#=======================================================================||
+"""
+# -*- coding: utf-8 -*
+# ======================================Standard Library Modules======================================================||
+from os.path import abspath, dirname, join
+import datetime as dt
+# ======================================3rd Party Library Modules=====================================================||
 from pandas import show_versions
 from tsfresh import extract_features
 from tsfresh import select_features
@@ -23,13 +22,18 @@ from tsfresh.utilities.dataframe_functions import impute
 
 from tsfresh.examples.robot_execution_failures import download_robot_execution_failures
 from tsfresh.examples.robot_execution_failures import load_robot_execution_failures
+# ======================================Solutions Brewer Library Modules==============================================||
+from kahndor import kahndor
+from kahndor.logma import Logma
 
-#=======================================================================||
-here = os.path.join(os.path.dirname(__file__),'')#						||
-there = os.path.abspath(os.path.join('../../..'))#						||set path at pheonix level
-version = '0.0.0.0.0.0'#												||
-print(show_versions())
-#=======================================================================||
+# ====================================================================================================================||
+here = join(dirname(__file__), '')  # ||
+log = True
+logma = Logma(__name__)
+
+# ====================================================================================================================||
+pxcfg = join(here, '_data_', '.yaml')
+
 class engine(object):
 	def __init__(self, dataseries):
 		self.dataseries = dataseries
@@ -37,26 +41,8 @@ class engine(object):
 		''
 		self.features = extract_features(self.dataseries, column_id=id, column_sort=sort)
 		return self
-#==========================Source Materials=============================||
-#
-#============================:::DNA:::==================================||
-'''
----
-<@[datetime]@>:
-	<[class]>:
-		version: <[active:.version]>
-		test:
-		description: >
-			<[description]>
-		work:
-			- <@[work_datetime]@>
-<[datetime]>:
-	here:
-		version: <[active:.version]>
-		test:
-		description: >
-			<[description]>
-		work:
-			- <@[work_datetime]@>
-'''
-#@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+
+# ====================================================================================================================||
+
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+

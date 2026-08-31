@@ -25,7 +25,7 @@ here = join(dirname(__file__), '')  # ||
 logma = Logma(__name__)
 
 # ====================================================================================================================||
-pxcfg = join(here, '_data_', '.yaml')
+pxcfg = join(here, '../_data_', '.yaml')
 class RandomAlgo():
 	""""""
 	def __init__(self):

@@ -1,33 +1,44 @@
-#sklearn algorythms are handled directly by processing the yaml functions
-#any pre/post processing of data for feeding sklearn will be written here
-#@@@@@@@@@@@@@@@@@@@@@@ Pheonix.Molecules.Logicizer.PyOD @@@@@@@@@@@@@@@@@@@@@@@||
-'''  #																			||
----  #																			||
-<(META)>:  #																	||
-	DOCid:   #						||
-	name: Pheonix.Molecules.Logicizer.PyOD  #									||
-	description: >  #															||
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+"""
+---
+<(META)>:
+	docid:
+	name:
+	description: >
+		#sklearn algorythms are handled directly by processing the yaml functions
+		any pre/post processing of data for feeding sklearn will be written here
 		Integrate Python Outlier Detection Model with Pheonix Logicizer #		||
-	expirary: <[expiration]>  #													||
-	version: <[version]>  #														||
-	path: <[LEXIvrs]>  #														||
-	outline: <[outline]>  #														||
-	authority: document|this  #													||
-	security: sec|lvl2  #														||
-	<(WT)>: -32  #																||
-''' #																			||
-# -*- coding: utf-8 -*-#														||
-#================================Core Modules===================================||
-from os.path import abspath, dirname, join
-#===============================================================================||
 
-#===============================================================================||
-here = join(dirname(__file__),'')#									 			||
-there = join(dirname(__file__))#												||
-where = abspath(join('../..'))#													||set path at pheonix level
-module_path = abspath(join('../../../../'))#										||
-version = '0.0.0.0.0.0'#														||
-#===============================================================================||
+	version: 0.0.0.0.0.0
+	authority: filesystem
+	security: seclvl2
+	<(WT)>: -32
+"""
+# -*- coding: utf-8 -*
+# ======================================Standard Library Modules======================================================||
+from os.path import abspath, dirname, join
+import datetime as dt
+# ======================================3rd Party Library Modules=====================================================||
+
+# ======================================Solutions Brewer Library Modules==============================================||
+from kahndor import kahndor
+from kahndor.logma import Logma
+
+# ====================================================================================================================||
+here = join(dirname(__file__), '')  # ||
+log = True
+logma = Logma(__name__)
+
+# ====================================================================================================================||
+pxcfg = join(here, '_data_', '.yaml')
+
 class engine(object):
 	def __init__(self):
 		''
+
+
+# ====================================================================================================================||
+
+# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+
+
