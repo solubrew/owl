@@ -101,12 +101,12 @@ def _list_algorithms() -> List[Dict[str, str]]:
 
 def cmd_train(args: argparse.Namespace) -> int:
     """Train a model."""
-    data_path = getattr(args, "data", None)
-    target_col = getattr(args, "target", None)
-    algo = getattr(args, "algo", "algo12Z1")
-    seq = getattr(args, "sequence", "a000")
-    platform = getattr(args, "platform", "sklearn")
-    model_out = getattr(args, "model", None)
+    data_path = args.data  # noqa: SIM401
+    target_col = args.target
+    algo = args.algo
+    seq = args.sequence
+    platform = args.platform
+    model_out = args.model
 
     if data_path:
         ftrs, targs, cols = _load_csv(data_path, target_col)
@@ -148,9 +148,9 @@ def cmd_train(args: argparse.Namespace) -> int:
 
 def cmd_predict(args: argparse.Namespace) -> int:
     """Make predictions."""
-    model_path = getattr(args, "model", None)
-    data_path = getattr(args, "input", None)
-    output_path = getattr(args, "output", None)
+    model_path = args.model  # noqa: SIM401
+    data_path = args.input
+    output_path = args.output
 
     if not model_path:
         models = sorted(DEFAULT_MODEL_DIR.glob("*.joblib"), key=os.path.getmtime, reverse=True)
@@ -171,7 +171,7 @@ def cmd_predict(args: argparse.Namespace) -> int:
         ftrs, _, _ = _load_csv(data_path, target_col=None)
     else:
         from sklearn.datasets import make_classification
-        n_feat = getattr(model, "n_features_in_", 10)
+        n_feat = getattr(model, "n_features_in_", 10)  # noqa: SIM401
         X, _ = make_classification(n_samples=20, n_features=n_feat, random_state=42)
         ftrs = DataFrame(X)
         logger.info("No --input provided; generated 20 demo rows")
@@ -200,9 +200,9 @@ def cmd_evaluate(args: argparse.Namespace) -> int:
         logger.error("scikit-learn required for evaluation")
         return 1
 
-    model_path = getattr(args, "model", None)
-    data_path = getattr(args, "data", None) or getattr(args, "predictions", None)
-    target_col = getattr(args, "target", None)
+    model_path = args.model  # noqa: SIM401
+    data_path = args.data
+    target_col = args.target
 
     if not model_path:
         models = sorted(DEFAULT_MODEL_DIR.glob("*.joblib"), key=os.path.getmtime, reverse=True)
@@ -224,7 +224,7 @@ def cmd_evaluate(args: argparse.Namespace) -> int:
     if targs is None:
         targ_col = _find_target(ftrs)
         if targ_col:
-            targs = ftrs[[targ_col]]
+            targs = DataFrame({targ_col: ftrs[targ_col].values})
             ftrs = ftrs.drop(columns=[targ_col])
         else:
             logger.error("No target column found")
@@ -255,8 +255,7 @@ def cmd_evaluate(args: argparse.Namespace) -> int:
 
 def cmd_export(args: argparse.Namespace) -> int:
     """Export/copy a model file."""
-    src = getattr(args, "model", None)
-    dst: str = getattr(args, "output", None) or str(src)  # type: ignore[arg-type]
+    src = args.model  # noqa: SIM401
     if not src:
         models = sorted(DEFAULT_MODEL_DIR.glob("*.joblib"), key=os.path.getmtime, reverse=True)
         if models:
@@ -264,6 +263,7 @@ def cmd_export(args: argparse.Namespace) -> int:
         else:
             logger.error("No --model specified and none found")
             return 1
+    dst = args.output or str(DEFAULT_MODEL_DIR / f"exported_{Path(src).name}")
     shutil.copy2(src, dst)
     print(f"Exported: {dst}")
     return 0
@@ -275,7 +275,7 @@ def cmd_import_model(args: argparse.Namespace) -> int:
     if not src.exists():
         logger.error("File not found: %s", src)
         return 1
-    name = getattr(args, "name", None) or src.name
+    name = args.name or src.name
     dst = DEFAULT_MODEL_DIR / name
     shutil.copy2(src, dst)
     print(f"Imported: {dst}")

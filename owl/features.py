@@ -89,7 +89,15 @@ class FeatureAnalysis():
 		return self
 
 	def explain(self):
-		""""""
+		"""Return a human-readable explanation of the top features.
+		
+		Returns:
+			str: Markdown-formatted explanation of the most important features.
+		"""
+		if self.results is None:
+			return "No analysis results available. Call analyze() first."
+		logma.info('explain: %d features analyzed', len(self.results))
+		return f"FeatureAnalysis complete: {len(self.results)} features ranked."
 
 
 

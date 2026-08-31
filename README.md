@@ -1,6 +1,11 @@
 # Owl
 
+## Project Overview
+
 Owl is an AI Agent Platform for machine learning and prediction tasks.
+It provides a unified CLI for training, evaluating, and deploying models
+across multiple ML platforms (sklearn, tsfresh, neuralnet, ensemble)
+using a configuration-driven approach backed by `kahndor` YAML configs.
 
 ## Features
 

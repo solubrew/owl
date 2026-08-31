@@ -173,7 +173,7 @@ def train(algo: str, version: str, platform: str,
 				how = 'full'
 			logma.info(f'Fit Ravel Attempt Failed {e}')
 	if done == False and how == 'partial':
-		# TODO: get datatypes from TARG dataframe
+		# T-NEW-001: infer target dtype from TARGs column to auto-select partialfit strategy
 		try:
 			TARGfloat = [float(y) for y in TARGs.values.ravel()]  # ||
 			model.partialfit(FTRs, TARGfloat)

@@ -1,5 +1,12 @@
 # Owl CLI
 
+## Purpose
+
+Owl is an AI Agent Platform providing a unified ML model management
+CLI. It trains, evaluates, and deploys models across multiple
+platforms (sklearn, tsfresh, neuralnet, ensemble) using a
+configuration-driven approach backed by `kahndor` YAML configs.
+
 ## Usage
 
 ```bash

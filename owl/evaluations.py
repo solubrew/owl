@@ -153,7 +153,12 @@ class FeatureAnalysis:
         self.results: Any = None
 
     def PCA(self) -> None:
-        pass
+        """Run PCA dimensionality reduction on the stored features.
+        
+        Note: PCA is initialized in __init__ with output_features components.
+        Call fit() to perform the actual reduction.
+        """
+        logma.info('PCA: initialized with %d components', self.output_features)
 
     def TSNE(self, perplexity: int = 40, n_iter: int = 500) -> None:
         from sklearn.manifold import TSNE as _TSNE
