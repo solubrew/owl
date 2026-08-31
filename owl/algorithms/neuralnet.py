@@ -16,17 +16,15 @@
 # !/usr/bin/env python
 # -*- coding: utf-8 -*-
 # ===============================================================================||
-import random  # ||
-from os.path import abspath, dirname, join
-# ===============================================================================||
-from numpy import random
-# ===============================================================================||
-from kahndor import kahndor  # ||
+from __future__ import annotations
 
-# ===============================================================================||
+import logging
+import random  # ||
+from os.path import dirname, join
+
+logger = logging.getLogger(__name__)
+
 here = join(dirname(__file__), '')  # ||
-there = abspath(join('../../..'))  # ||set path at pheonix level
-version = '0.0.0.0.0.0'  # ||
 random.seed(32)  # ||seeding for random number generation
 
 
@@ -60,7 +58,7 @@ class perceptronNN(object):
 			self.LAYERs[layer + 1]['size'] = n_outputs  # ||
 		else:  # ||
 			self.LAYERs = self.config.dikt['ActiveNetwork']['Construction']  # ||
-		print(self.LAYERs)
+		logger.debug("Network layers: %s", self.LAYERs)
 		#		with open('layers.txt', 'w') as doc:
 		#			doc.write(json.dumps(self.LAYERs))
 		return self
@@ -130,11 +128,11 @@ class perceptronNN(object):
 	
 	def fit(self, FTRs, TARGs, type='predict', n_epoch=None):
 		''
-		print('Run Fit')
+		logger.debug("Run Fit")
 		self.predictions = []
 		for row in FTRs:
 			for n_layer in self.LAYERs.keys():
-				print('Layers', n_layer)
+				logger.debug("Layers %s", n_layer)
 				wts = self.LAYERs[n_layer]['wts']
 				if wts == []:
 					continue
@@ -144,7 +142,7 @@ class perceptronNN(object):
 	
 	def train(self, FTRs, TARGs, type='predict', n_epoch=None):
 		'fit each row of data to each layer of the NN nepoch times'
-		print('Run Train')
+		logger.debug("Run Train")
 		#		print('Fit FTRs', FTRs[0])
 		#		print('Fit TARGs', TARGs[0])
 		if type == 'predict':
@@ -157,7 +155,7 @@ class perceptronNN(object):
 				if n_layer == len(self.LAYERs.keys()) - 1:
 					self.predictions = []
 				for n_row in range(len(FTRs)):
-					print('Row Number', len(FTRs[n_row]), len(wts))
+					logger.debug("Row %d: ftrs=%d weights=%d", n_row, len(FTRs[n_row]), len(wts))
 					if type == 'train' and n_layer != len(self.LAYERs.keys()) - 1:
 						prediction = self.predict(FTRs[n_row], wts)
 						self.backPropagate(FTRs[n_row], TARGs[n_row], prediction, wts, n_layer)
@@ -165,7 +163,7 @@ class perceptronNN(object):
 	
 	def predict(self, FTRsRow, weights):
 		''
-		print('Weights', weights)
+		logger.debug("Weights: %s", weights[:5])
 		activation = weights[0]
 		for i in range(len(FTRsRow) - 1):
 			#			print('Predict I', i)

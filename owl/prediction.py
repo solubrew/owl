@@ -25,11 +25,15 @@
 '''
 # -*- coding: utf-8 -*-
 #===============================================================================||
+from __future__ import annotations
+
+import logging
 from os.path import abspath, dirname, join
-import datetime as dt, gc#, multiprocessing as mp#					||
-#===============================================================================||
-from memory_profiler import profile
+import datetime as dt, gc
+
 from pandas import DataFrame
+
+logger = logging.getLogger(__name__)
 try:
 	from joblib import jobdump, jobload
 except Exception as e:
@@ -110,12 +114,12 @@ class Engine(analyzer.engine):#worker.engine):#													||=>Define class
 		'''Create predictions from model and score those predictions if possible
 			expand to allow this method to leverage multiple threads on local
 			machine to engage multiple processors'''
-		print('Predict Model', model)
+		logger.debug('Predict Model: %s', model)
 		if model == None:
 			model = self.model
 		if model == None:
 			return False
-		print('Predict Model',model)
+		logger.debug('Predict Model: %s', model)
 		result = DataFrame()
 		result['ids'] = ids
 		result['BinaryTargets'] = targs
@@ -129,7 +133,7 @@ class Engine(analyzer.engine):#worker.engine):#													||=>Define class
 		code = f'{self.code}_{what}_{targn}'
 		utils._save(self.writer, result, self.name, code, model, scores, self.start)#	||save predictions to db
 		if limit != None and scores != None and scores['LogLoss'] > limit:
-			print(scores['LogLoss'])
+			logger.debug('LogLoss: %s', scores.get('LogLoss'))
 			return False
 		return True
 
@@ -184,7 +188,7 @@ class Engine(analyzer.engine):#worker.engine):#													||=>Define class
 
 	def train(self, algoN, seqN, platN, ftrs,targs,ids,what=None, how='full'):#	||
 		'Train Model using the give algorythm'
-		print('CONFIG', self.config.dikt)
+		logger.debug('CONFIG: %s', self.config.dikt)
 		cfg = self.config.dikt[algoN][seqN]['platform'][platN]#					||
 		TAG = thing.what().uuid().ruuid#										||
 		targTAG, trainTAG = TAG[-5:], TAG[:5]#									||
@@ -197,8 +201,8 @@ class Engine(analyzer.engine):#worker.engine):#													||=>Define class
 			model = self.model
 		self.code = self._code(self.tag, algoN, seqN, platN, targTAG)#			||
 #		print('Train Code', self.code)
-		print('Train', targs.head())
-		print('FTRs', ftrs.head())
+		logger.debug('Train targets: %s', targs.head())
+		logger.debug('Features: %s', ftrs.head())
 		if not isinstance(targs, DataFrame):#									||
 			targs = DataFrame(targs)
 		done = False
@@ -214,7 +218,7 @@ class Engine(analyzer.engine):#worker.engine):#													||=>Define class
 			del ftrs
 			del targs
 			gc.collect()
-		print('Trained Model', model)
+		logger.info('Trained Model: %s', model)
 		self.model = model
 		return self#															||
 
@@ -294,7 +298,7 @@ def testModel(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN, targets,
 		       'targBIN': targBIN}  # ||
 		params = {'cycl': thing.what().uuid().ruuid[:5], 'what': 'test',  # ||
 		          'targn': list(columns.keys())[targBIN]}  # ||
-		print('Test Model', model.predict)
+		logger.info('Test Model: %s', model.predict)
 		done = utils._procData(cfg, params, dbo, model.predict, targets, None, None, limit)  # ||
 		return done  # ||
 
@@ -304,18 +308,18 @@ def testModel(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN, targets,
 def _predict(model, x):#														||
 	done = False
 	try:
-		if log: print('Predict From this Model',model)
+		if log: logger.info('Predict From this Model: %s', model)
 		r = model.predict_proba(x)
 		r = DataFrame(data={'probability': r[:, 0]})
 		done = True
 	except Exception as e0:
-		if log: print('Model',model,'Prediction Failed',e0)
+		if log: logger.info('Model %s Prediction Failed: %s', model, e0)
 		try:
 			r = model.predict(x)
 			r = DataFrame(data={'probability': [float(i) for i in r]})
 			done = True
 		except Exception as e1:
-			if log: print('Model',model,'Prediction Failed',e1)
+			if log: logger.info('Model %s Prediction Failed: %s', model, e1)
 	if done == False:
 		return done
 	return r
@@ -332,10 +336,10 @@ def csvFromDB():
 			data = next(viewRDR, None)
 			predicts = DataFrame()
 			if data == None:
-				print('Break on count', cnt)
+				logger.debug('Break on count: %s', cnt)
 				break
 			# need to add the columns to the records
-			print(data.dikt.keys())
+			logger.debug('Data keys: %s', data.dikt.keys())
 			df = DataFrame(data.dikt[t]['records'], columns=data.dikt[t]['columns'])
 			for model in smodels.keys():
 				f = f'{setPath}{When}/Submission_{smodels[model]}.csv'

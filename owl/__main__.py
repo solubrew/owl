@@ -13,9 +13,9 @@ logger = logging.getLogger(__name__)
 
 
 def main() -> int:
-    """Main entry point for owl."""
-    logger.info("Owl platform starting...")
-    return 0
+    """Main entry point for owl CLI."""
+    from owl.cli import main as cli_main
+    return cli_main()
 
 
 if __name__ == "__main__":

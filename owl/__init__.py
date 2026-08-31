@@ -31,7 +31,11 @@ def configure_logging(level: Optional[str] = None) -> None:
         level: Logging level (DEBUG, INFO, WARNING, ERROR, CRITICAL)
     """
     if level:
-        logger.setLevel(getattr(logging, level.upper()))
+        _level = level.upper()
+        if not hasattr(logging, _level):
+            logger.warning("Invalid logging level '%s', using INFO", level)
+            _level = "INFO"
+        logger.setLevel(getattr(logging, _level))
 
 
 def initialize(config_path: Optional[str] = None) -> bool:

@@ -12,14 +12,22 @@
 """
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
-from os.path import abspath, dirname, join
-import datetime as dt, gc
+from __future__ import annotations
+
+from importlib import import_module
+import gc
+import logging as _log
+from os.path import dirname, join
+from typing import Any, Dict, Optional
+
+_log.basicConfig(level=_log.INFO)
+_log.getLogger('PIL').setLevel(_log.WARNING)
 
 # ======================================3rd Party Library Modules=====================================================||
 from pandas import DataFrame
 
 # ======================================Solutions Brewer Library Modules==============================================||
-from kahndor import kahndor
+from kahndor import Instruct as kahndor
 from kahndor.logma import Logma
 #from falcon.profilers.memory_profilers import memProfiler
 #from subtrix import thing
@@ -35,26 +43,62 @@ algos = join(here, '_data_', 'algos.yaml')
 nsmbls = join(here, '_data_', 'nsmbls.yaml')
 actvs = join(here, '_data_', 'activations.yaml')
 
+def _instantiate_from_path(model_path: str, args: dict) -> object:
+	"""Instantiate a class from a dotted module path.
+	
+	Args:
+		model_path: Dotted path like 'sklearn.linear_model.LinearRegression'
+		args: Keyword arguments to pass to the constructor
+		
+	Returns:
+		Instantiated model object
+	"""
+	try:
+		parts = model_path.rsplit('.', 1)
+		if len(parts) == 2:
+			module_path, class_name = parts
+			module = import_module(module_path)
+			cls = getattr(module, class_name)
+		else:
+			cls = import_module(model_path)
+		# Filter out None values
+		clean_args = {k: v for k, v in (args or {}).items() if v is not None}
+		return cls(**clean_args)
+	except Exception as e:
+		logma.info(f"Failed to instantiate {model_path}: {e}")
+		# Fallback: try direct import
+		module = import_module(model_path)
+		return module
+
+
 def code(self, tag, algo, seq, plat, targ):
-	""""""
+	""" """
 	algon = f'{algo}_{seq}'
 	plat = plat
 	return f'{tag}_{algo}_{seq}_{plat}_{targ}'  # ||
 
 #@memProfiler(stream=fp)
-def predict(model, features):
-	""""""
+def predict(model: Any, features: Any) -> Any:
+	"""Make predictions using a trained model.
+	
+	Args:
+		model: Trained model with predict() or predict_proba() method
+		features: Feature data
+		
+	Returns:
+		DataFrame with 'probability' column
+	"""
 	r = DataFrame()
 	try:
 		r = DataFrame(data={'probability': model.predict_proba(features)[:, 0]})
 		if log: logma.info(f'Model {model} prediction successful using predict_proba')
-	except Exception as e:
-		if log: logma.info(f'Model {model} prediction failed {e}')
+	except Exception:
+		if log: logma.info(f'Model {model} prediction failed')
 		try:
 			r = DataFrame(data={'probability': [float(i) for i in model.predict(features)]})
 			if log: logma.info(f"Model {model} prediction successful using predict")
-		except Exception as e:
-			if log: logma.info(f'Model {model} prediction failed {e}')
+		except Exception:
+			if log: logma.info(f'Model {model} prediction failed')
 	return r
 
 def save(writer, res, name, code, model, scores={}, start=None):  # ||
@@ -78,7 +122,7 @@ def save(writer, res, name, code, model, scores={}, start=None):  # ||
 		cfs = model.coef_  # ||
 	except Exception:
 		cfs = None
-	print('Save Model', model)
+	logger.debug('Save Model: %s', model)
 	try:  # ||
 		params = model.get_params()  # ||
 	except Exception:
@@ -97,13 +141,15 @@ def save(writer, res, name, code, model, scores={}, start=None):  # ||
 		print('Model Score Write Failed', e)  # ||
 
 #	cfg = self.config.dikt[algoN][seqN]['platform'][platN]#					||
-def train(algo, version, platform, FTRs, TARGs, how='full', cfg=None):
+def train(algo: str, version: str, platform: str,
+          FTRs: DataFrame, TARGs: DataFrame,
+          how: str = 'full', cfg: Optional[Dict[str, Any]] = None) -> Any:
 	"""Train Model using the giveb algorythm
 
 		Modulize model and fit piecewise if possible and if not fit fully
 
 	"""
-	config = kahndor.instruct(algos).override(cfg)
+	config = kahndor(algos).override(cfg)
 	cfg = config.dikt[algo][version]['platform'][platform]
 	if cfg['valid'] == 0:
 		return None
@@ -116,7 +162,7 @@ def train(algo, version, platform, FTRs, TARGs, how='full', cfg=None):
 	if FTRs.shape[0] != TARGs.shape[0]:
 		return done
 	if isinstance(model, str):
-		model = kahndor.instruct(model).modulize().obj(**args)
+		model = _instantiate_from_path(model, args)
 	if done == False and how == 'partial':
 		try:
 			model.partialfit(FTRs, TARGs.values.ravel())

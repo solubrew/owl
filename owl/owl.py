@@ -2,243 +2,348 @@
 """
 ---
 <(META)>:
-	docid:
-	name:
-	description: >
-	version: 0.0.0.0.0.0
-	authority: filesystem
-	security: seclvl2
-	<(WT)>: -32
+    docid: 51e8dc2d-df40-4375-a1c6-56a34d81e9e0
+    name: Owl Core
+    description: >
+        Machine learning orchestration engine.
+        Loads algorithm configurations from YAML and trains/predicts using
+        sklearn, tsfresh, and other platforms.
+    version: 0.1.0
+    authority: filesystem
+    security: seclvl2
+    <(WT)>: -32
 """
 # -*- coding: utf-8 -*
 # ======================================Standard Library Modules======================================================||
-from os.path import abspath, dirname, join
-import gc
-import datetime as dt
+from __future__ import annotations
 
-# ======================================3rd Party Library Modules=====================================================||
+import datetime as dt
+import gc
+import logging
+import uuid
+from os.path import join
+from typing import Any, Dict, List, Optional
+
 from pandas import DataFrame
 
-# ======================================Solutions Brewer Library Modules==============================================||
-from kahndor import kahndor
-from kahndor.logma import Logma
-from owl.functions import train, predict, save
-from sentinel.sentinel import Sentinel
-from squirl.orgnql import sonql
+from owl.functions import predict as _predict, save as _save, train as _train
+from owl._platforms import load_platforms
 
 # ====================================================================================================================||
-here = join(dirname(__file__), '')  # ||
-log = True
-logma = Logma(__name__)
+logger = logging.getLogger(__name__)
 
-# ====================================================================================================================||
+here = join(__file__, '..', '')
 pxcfg = join(here, '_data_', 'owl.yaml')
 algos = join(here, '_data_', 'algos.yaml')
 nsmbls = join(here, '_data_', 'nsmbls.yaml')
 actvs = join(here, '_data_', 'activations.yaml')
 
-class Owl(Sentinel):
-	""""""
-	def __init__(self, tag: str, cfg=None):
-		""""""
-		self.config = kahndor.instruct(pxcfg).override(algos).override(nsmbls).override(cfg)
-		name = 'Owl'
-		Sentinel.__init__(self, name, self.config)
-		self.code = None
-		self.cycle = thing.What().uuid().ruuid
-		self.FTRs = None
-		self.model = None
-		self.tag = tag
-		self.start = dt.datetime.now()
-		self.workername = f'WRKR_{self.tag}'
-		self.active_model = None
 
+class Owl:
+    """Machine learning orchestration engine.
+    
+    Loads algorithm configurations from YAML and trains/predicts using
+    sklearn, tsfresh, and other platforms.
+    """
+    
+    def __init__(self, tag: str, cfg: Optional[Dict[str, Any]] = None) -> None:
+        """Initialize Owl with a unique tag.
+        
+        Args:
+            tag: Unique identifier for this Owl instance
+            cfg: Optional configuration overrides
+        """
+        self.tag = tag
+        self.config = cfg or {}
+        self.code: Optional[str] = None
+        self.cycle = str(uuid.uuid4())[:8]
+        self.FTRs: Optional[DataFrame] = None
+        self.model: Any = None
+        self.start = dt.datetime.now()
+        self.workername = f'WRKR_{self.tag}'
+        self.active_model: Optional[Dict[str, str]] = None
+        self.data_library: Optional[str] = None
+        self.models: List[List[str]] = []
+        self.algon: str = ''
+        self.plat: str = ''
+        self.platforms = load_platforms()
+        logger.info("Owl initialized with tag: %s", tag)
 
-	def setActiveModel(self, algoN, seqN, platN):
-		""""""
-		self.active_model = {'algoN': algoN, 'seqN': seqN, 'platN': platN}
+    # --------------------------------------------------------------------------------------------------- #
+    def setActiveModel(self, algoN: str, seqN: str, platN: str) -> 'Owl':
+        """Set the active algorithm/sequence/platform combination.
+        
+        Args:
+            algoN: Algorithm name (e.g., 'algo12Z1')
+            seqN: Sequence name (e.g., 'a000')
+            platN: Platform name (e.g., 'sklearn')
+        """
+        self.active_model = {'algoN': algoN, 'seqN': seqN, 'platN': platN}
+        return self
 
+    def setDataLibrary(self, data_library: str) -> 'Owl':
+        """Set the data library identifier."""
+        self.data_library = data_library
+        return self
 
-	def setDataLibrary(self, data_library):
-		""""""
-		self.data_library = data_library
-		return self
+    def setModels(self, models: List[List[str]]) -> 'Owl':
+        """Set the list of models to train/predict with."""
+        self.models = models
+        return self
 
-	def setModels(self, models):
-		""""""
-		self.model = models
-		return self
+    def addModel(self, algoN: str, seqN: str, platform: str) -> 'Owl':
+        """Add a model to the models list."""
+        self.models.append([algoN, seqN, platform])
+        return self
 
-	def addModel(self, algoN, seqN, platform):
-		""""""
-		self.models.append([algoN, seqN, platform])
-		return self
+    def cross_validate(self, ftrs: DataFrame, targs: DataFrame,
+                       n_splits: int = 5,
+                       models: Optional[List[Dict[str, str]]] = None) -> Dict[str, Any]:
+        """Run k-fold cross-validation across configured models.
+        
+        Args:
+            ftrs: Features DataFrame
+            targs: Targets DataFrame  
+            n_splits: Number of CV folds (default: 5)
+            models: List of model configs [{algoN, seqN, platN}, ...]
+                    Defaults to self.models or single active model
+        
+        Returns:
+            Dict mapping model codes to per-fold scores and aggregates
+        """
+        try:
+            from sklearn.model_selection import KFold
+        except ImportError:
+            logger.error("scikit-learn required for cross_validate")
+            return {}
+        
+        if models is None:
+            if self.models:
+                models = [{'algoN': m[0], 'seqN': m[1], 'platN': m[2]} for m in self.models]
+            elif self.active_model:
+                models = [self.active_model]
+            else:
+                logger.error("No models configured for cross-validation")
+                return {}
+        
+        kf = KFold(n_splits=n_splits, shuffle=True, random_state=42)
+        results: Dict[str, Any] = {}
+        
+        for model_cfg in models:
+            algoN = model_cfg['algoN']
+            seqN = model_cfg.get('seqN', 'a000')
+            platN = model_cfg.get('platN', 'sklearn')
+            
+            self.setActiveModel(algoN, seqN, platN)
+            code = f'{algoN}_{seqN}_{platN}'
+            logger.info("CV: %s with %s folds", code, n_splits)
+            
+            fold_scores: List[Dict[str, float]] = []
+            for fold_idx, (train_idx, val_idx) in enumerate(kf.split(ftrs)):
+                f_train = ftrs.iloc[train_idx]
+                t_train = targs.iloc[train_idx]
+                f_val = ftrs.iloc[val_idx]
+                t_val = targs.iloc[val_idx]
+                
+                self.tag = f'cv_{fold_idx}'
+                self.train(f_train, t_train)
+                
+                if self.model is None:
+                    continue
+                
+                preds = _predict(self.model, f_val)
+                fold_result = self.predict(
+                    cycl=f'cv_{fold_idx}',
+                    ftrs=f_val,
+                    targs=t_val.values.ravel(),
+                    ids=[str(i) for i in val_idx],
+                    targn='cv_target',
+                    what='cross_validate'
+                )
+                
+                scores = self.score(t_val, fold_result['Predicts'])
+                fold_scores.append(scores)
+                logger.info("CV fold %d %s: %s", fold_idx, code, scores)
+                
+                del f_train, t_train, f_val, t_val
+                gc.collect()
+            
+            if fold_scores:
+                results[code] = {
+                    'folds': fold_scores,
+                    'mean_accuracy': sum(s.get('accuracy', 0) for s in fold_scores) / len(fold_scores),
+                    'mean_logloss': sum(s.get('LogLoss', 0) for s in fold_scores) / len(fold_scores),
+                }
+        
+        logger.info("CV complete: %s", {k: v['mean_accuracy'] for k, v in results.items()})
+        return results
 
-	def cross_validate(self):
-		""""""
+    # --------------------------------------------------------------------------------------------------- #
+    def evaluate(self, train_targs: DataFrame, valid_targs: DataFrame,
+                 runs: Optional[List[str]] = None,
+                 vplats: Optional[List[str]] = None) -> 'Owl':
+        """Run full suite of training and predictions.
+        
+        Args:
+            train_targs: Training target data
+            valid_targs: Validation target data
+            runs: List of algorithm runs (default: all)
+            vplats: List of validation platforms (default: all)
+        """
+        logger.info("Evaluate not yet implemented for this configuration")
+        return self
 
-		return self
+    # --------------------------------------------------------------------------------------------------- #
+    def predict(self, cycl: str, ftrs: DataFrame, targs: DataFrame,
+                ids: List[Any], targn: str, what: Optional[str] = None,
+                model: Any = None, limit: float = 0.8) -> DataFrame:
+        """Create predictions from model and score those predictions.
+        
+        Args:
+            cycl: Cycle identifier
+            ftrs: Features DataFrame
+            targs: Targets DataFrame
+            ids: Row identifiers
+            targn: Target name
+            what: Run type (train/predict/validate)
+            model: Optional model override
+            limit: LogLoss limit for early stopping
+            
+        Returns:
+            DataFrame with predictions
+        """
+        if model is None:
+            model = self.model
+        if model is None:
+            logger.error("No model available for prediction")
+            return DataFrame()
 
-	def evaluate(self, train_targs, valid_targs, runs=None, vplats=None):
-		"""Run full suite of training and predictions against provided data
+        result = DataFrame()
+        result['ids'] = ids
+        result['BinaryTargets'] = targs
+        
+        predicts = _predict(model, ftrs)
+        result['Predicts'] = predicts
+        
+        result['foldcycl'] = [self.tag for _ in range(len(ids))]
+        result['algoname'] = [self.algon for _ in range(len(ids))]
+        result['platform'] = [self.plat for _ in range(len(ids))]
+        result['runtype'] = [what for _ in range(len(ids))]
+        result['targetname'] = [targn for _ in range(len(ids))]
 
-			need to generalize
+        scores = self.score(targs, result['Predicts'])
+        logger.info("Prediction scores: %s", scores)
+        
+        return result
 
-		"""
-		with sonql.doc(db, 0) as dbo:
-			if runs == None:
-				runs = algos
-			aplats = Predictor.loadPlats()
-			if vplats == None:
-				vplats = aplats
+    # --------------------------------------------------------------------------------------------------- #
+    def score(self, targs, predicts) -> Dict[str, float]:
+        """Score predictions against targets.
+        
+        Args:
+            targs: Target values (array-like)
+            predicts: Predicted values — accepts DataFrame from _predict
+                      (with 'probability' col) or raw array-like
+        
+        Returns:
+            Dictionary of scoring metrics
+        """
+        scores: Dict[str, float] = {}
+        try:
+            from sklearn.metrics import accuracy_score, log_loss
+            
+            # Extract probability values — _predict returns DataFrame with 'probability' col
+            if hasattr(predicts, 'columns') and 'probability' in predicts.columns:
+                proba = predicts['probability'].values
+            elif hasattr(predicts, 'values'):
+                proba = predicts.values
+            else:
+                proba = predicts
+            
+            if hasattr(model := self.model or [], 'predict_proba'):
+                # Binary classification: use class 1 probability
+                scores['accuracy'] = float(accuracy_score(targs, (proba >= 0.5).astype(int)))
+                scores['LogLoss'] = float(log_loss(targs, proba))
+            else:
+                preds = proba.ravel() if hasattr(proba, 'ravel') else proba
+                scores['accuracy'] = float(accuracy_score(targs, preds))
+                scores['LogLoss'] = 0.0
+        except Exception as e:
+            logger.warning("Scoring failed: %s", e)
+            scores['LogLoss'] = 1.0
+            scores['accuracy'] = 0.0
+        return scores
 
-			cfg = {'tables': [f'{ftag}train'], 'page': page, 'split': [2, 3, 5, 315],
-			       'targBIN': targBIN}  # ||
-			params = {'algoN': algoNAME, 'seqN': algoSEQ, 'platN': algoPLAT,
-			          'what': 'train', 'how': 'partial'}  # ||
-			columns = {'ids': 1, 'some_targs': 3, 'pmax_targs': 4, 'count_targs': 5}
-			cfg = {'tables': [train_targs, ], 'page': page}
-			train_targets = selector.procDataExtract(dbn, cfg, columns)
-			cfg = {'tables': [valid_targs, ], 'page': page}
-			tourn_targets = selector.procDataExtract(dbn, cfg, columns)
-			# try going with 200k and 3 processors
-			# use threading to train model on two subsets? is this possible?
-			# multiprocessing is provided in the next level up and would
-			# processes each algorythm against the whole data seperately on a
-			# in a different and/or machine
-			# with worker integrated processing opening up the path to use multiple cores
-			if plat in self.algos[algo][seq]['platform'].keys():  # ||
-				valid = self.algos[algo][seq]['platform'][plat]['valid']  # ||
-				if valid == 0:  # ||
-					return None  # ||
-				# this should be encapsolated for multiprocessing
-				status = None
-				status = self.process(dbo, self.train, cfg)  # ||train models
-				if status != None and status != False:  # ||
-					status = self.process(dbo, self.predict, cfg)  # ||predict test targets
-				if status == True:  # ||
-					status = self.process(dbo, self.predict, cfg)  # ||predict validation targets
-				if status == True:  # ||
-					status = self.process(dbo, self.predict, cfg)  # ||predict unknown targets
-		return self
+    # --------------------------------------------------------------------------------------------------- #
+    def train(self, ftrs: DataFrame, targs: DataFrame,
+              how: str = 'full') -> 'Owl':
+        """Train the model based on the active model configuration.
+        
+        Args:
+            ftrs: Features DataFrame
+            targs: Targets DataFrame
+            how: Training method ('full' or 'partial')
+            
+        Returns:
+            Self for chaining
+        """
+        if self.active_model is None:
+            logger.error("No active model set. Call setActiveModel() first.")
+            return self
+            
+        algoN = self.active_model['algoN']
+        seqN = self.active_model['seqN']
+        platN = self.active_model['platN']
+        
+        TAG = str(uuid.uuid4())[:8]
+        targTAG = TAG[-5:]
+        trainTAG = TAG[:5]
+        
+        self.code = self._code(self.tag, algoN, seqN, platN, targTAG)
+        
+        if not isinstance(targs, DataFrame):
+            targs = DataFrame(targs)
+            
+        self.model = _train(algoN, seqN, platN, ftrs, targs, how, self.model)
+        
+        del ftrs
+        del targs
+        gc.collect()
+        
+        logger.info("Model trained: %s", self.code)
+        return self
 
-	def predict(self, cycl, ftrs, targs, ids, targn, what=None, model=None, limit=0.8):
-		"""Create predictions from model and score those predictions if possible
-			expand to allow this method to leverage multiple threads on local
-			machine to engage multiple processors"""
-		logma.info(f'Predict Model {model}')
-		if model == None:
-			model = self.model
-		if model == None:
-			return False
-		logma.info('Predict Model', model)
-		result = DataFrame()
-		result['ids'] = ids
-		result['BinaryTargets'] = targs
-		result['Predicts'] = predict(model, ftrs)  # ||
-		result['foldcycl'] = [self.tag for x in range(len(ids))]
-		result['algoname'] = [self.algon for x in range(len(ids))]
-		result['platform'] = [self.plat for x in range(len(ids))]
-		result['runtype'] = [what for x in range(len(ids))]
-		result['targetname'] = [targn for x in range(len(ids))]
-		scores = self.score(targs, result['Predicts'])
-		code = f'{self.code}_{what}_{targn}'
-		save(self.writer, result, self.name, code, model, scores, self.start) #  save predictions to db
-		if limit != None and scores != None and scores['LogLoss'] > limit:
-			logma.info(scores['LogLoss'])
+    # --------------------------------------------------------------------------------------------------- #
+    def add_bias(self, adjusters: Any) -> 'Owl':
+        """Apply bias adjustment to model weights.
+        
+        Args:
+            adjusters: Adjustment factor (float, dict, or list)
+        """
+        logger.info("Bias adjustment not yet implemented")
+        return self
 
-	def run_train(self):
-		""""""
-		for model in self.models:
-			self.setActiveModel(model[0], model[1], model[2])
-			self.spawnProcess(self.train, args=(self.features, self.targets))
+    # --------------------------------------------------------------------------------------------------- #
+    def _code(self, tag: str, algo: str, seq: str, plat: str, targ: str) -> str:
+        """Generate a unique code for this training run."""
+        self.algon = f'{algo}_{seq}'
+        self.plat = plat
+        return f'{tag}_{algo}_{seq}_{plat}_{targ}'
 
-	def score(self, targs, predicts):
-		""" """
-		self.initAnalyzer(targs)
-		scores = self.test(result['Predicts'], 'full')  # ||
-		return scores
+    # --------------------------------------------------------------------------------------------------- #
+    def _rtr(self, kind: str, dmap: Optional[Dict] = None) -> 'Owl':
+        """Route given inputs into the appropriate algorithm."""
+        self.kind = kind
+        if dmap is None:
+            dmap = self.config.get('dmap', {})
+        if isinstance(self.FTRs, str):
+            self.dtype = 'STR'
+        elif isinstance(self.FTRs, (int, float)):
+            self.dtype = 'INT'
+        else:
+            self.dtype = 'DATA'
+        return self
 
-	def train(self, ftrs, targs, how='full'):  # ||
-		"""
-		:param algoN: (str) Algorithm name.
-		:param seqN: (str) Sequence name.
-		:param platN: (str) Platform name.
-		:param ftrs: (pandas.DataFrame) Features.
-		:param targs: (pandas.DataFrame) Targets.
-		:param ids: (pandas.DataFrame) IDS.
-		:param what: (object) Object to determine tags.
-		:param how: (str) Training method. Default is 'full'.
-		:return: (object) Self.
-
-		Trains the model based on the specified parameters.
-
-		This method:
-		- Retrieves the configuration for the specified algorithm, sequence, and platform.
-		- Generates tags based on the provided object.
-		- Checks if the configuration is valid.
-		- Sets the model based on the configuration. If a custom model is provided, it is used instead.
-		- Generates code for the training process.
-		- Logs the target and feature data.
-		- Converts the targets to a DataFrame if necessary.
-		- Trains the model using the specified features, targets, model, and additional arguments.
-		- Deletes the feature and target data if training is successful.
-		- Logs the trained model.
-		- Updates the self.model with the trained model.
-		- Returns the self object.
-		"""
-		algoN = self.active_model['algoN']
-		seqN = self.active_model['seqN']
-		platN = self.active_model['platN']
-		TAG = thing.What().uuid().ruuid  # ||
-		targTAG, trainTAG = TAG[-5:], TAG[:5]  # ||
-		self.code = self._code(self.tag, algoN, seqN, platN, targTAG)  # ||
-		if not isinstance(targs, DataFrame):  # ||
-			targs = DataFrame(targs)
-		model = train(algoN, seqN, platN, ftrs, targs, how, None)  # ||
-		del ftrs
-		del targs
-		gc.collect()
-		self.model = model
-		return self  # ||
-
-	def add_bias(self, adjusters):  # need to allow various manipulations of weight values...
-		""" """
-		# between limits of 0 and 1
-		# between limits of -1 and 1
-		# between limits of -1, i and 1
-		if isinstance(adjusters, float):
-			df = df.DataFrame(self.data['trainfeats'])
-			df.applymap(lambda x: adjusters * x)
-			#			df.apply(adjust, axis=1, (adjusters,))
-			self.data
-		elif isinstance(adjusters, dict):
-			pass
-		elif isinstance(adjusters, list):
-			pass
-		return self
-
-	def _code(self, tag, algo, seq, plat, targ):
-		self.algon = f'{algo}_{seq}'
-		self.plat = plat
-		return f'{tag}_{algo}_{seq}_{plat}_{targ}'  # ||
-
-	def _rtr(self, kind, dmap=None):  # ||=>Define method
-		"""Route given inputs into the appropriate algorythm"""  # ||=>Describe method
-		self.kind = kind
-		if dmap == None:  # ||check decision map
-			dmap = self.config.dikt['dmap']
-		if isinstance(self.FTRs, str):  # ||
-			self.dtype = 'STR'  # ||
-			self.handler = anal_text  # ||
-		elif isinstance(self.FTRs, int) or isinstance(self.FTRs, float):  # ||
-			self.dtype = 'INT'  # ||
-			self.handler = anal_num  # ||
-		else:  # ||
-			self.dtype = 'DATA'  # ||
-			self.hanlder = ''  # anal_data#										||
-		return self  # ||
 
 # ====================================================================================================================||
-
 # @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||

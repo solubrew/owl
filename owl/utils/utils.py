@@ -15,19 +15,39 @@
 """
 # -*- coding: utf-8 -*-
 # ===============================================================================||
+from __future__ import annotations
+
+import datetime as dt
+import gc
+import logging
+import zipfile as zipf
 from os.path import abspath, dirname, join
-import datetime as dt, gc, zipfile as zipf  # , multiprocessing as mp#					||
+
+logger = logging.getLogger(__name__)
+
 # ===============================================================================||
 from memory_profiler import profile
 from pandas import DataFrame
 
 try:
 	from joblib import jobdump, jobload
-except Exception as e:
+except Exception:
 	pass
 # ===============================================================================||
-from excalc import ts as calcts  # ||
-from kahndor import kahndor, thing  # ||
+try:
+	from excalc import ts as calcts
+except Exception:
+	calcts = None  # type: ignore
+
+try:
+	from kahndor import Instruct as kahndor
+except Exception:
+	kahndor = None  # type: ignore
+
+try:
+	from subtrix import thing
+except Exception:
+	thing = None  # type: ignore
 from fxsquirl import encoder
 
 # ===============================================================================||
@@ -39,7 +59,7 @@ log = True
 def _procData(cfg, params, dbo, fx, targs, filtr=None, ftrs=None, limit=0.8):
 	"""Process logicizer using provided data and configurations
 		generalize to the processor module	"""
-	print('ProcData Params', params)
+	logger.debug('ProcData Params: %s', params)
 	if 'tables' in cfg.keys():
 		tables = cfg['tables']
 	elif 'views' in cfg.keys():
@@ -82,7 +102,7 @@ def _procData(cfg, params, dbo, fx, targs, filtr=None, ftrs=None, limit=0.8):
 def _runAlgo(FTRs, TARGs, model, args, how='full'):
 	"""Modulize model and fit piecewise if possible and if not fit fully"""
 	done = False
-	print('FTRs', FTRs.shape, 'TARGs', TARGs.shape)
+	logger.debug('FTRs %s x TARGs %s', FTRs.shape, TARGs.shape)
 	if FTRs.shape[0] != TARGs.shape[0]:
 		return done
 	if isinstance(model, str):
@@ -91,58 +111,58 @@ def _runAlgo(FTRs, TARGs, model, args, how='full'):
 		try:
 			model.partialfit(FTRs, TARGs.values.ravel())
 			done = True
-			print('Partial Fit Ravel Attempt Successful')
+			logger.debug('Partial Fit Ravel Attempt Successful')
 		except Exception as e:
 			if "object has no attribute 'partialfit'" in e.__str__():
 				how = 'full'
-			print('Fit Ravel Attempt Failed', e)
+			logger.debug('Fit Ravel Attempt Failed: %s', e)
 	if done == False and how == 'partial':
 		try:
 			TARGfloat = [float(y) for y in TARGs.values.ravel()]  # ||
 			model.partialfit(FTRs, TARGfloat)
 			done = True
-			print('Partial Fit Float Attempt Successful')
+			logger.debug('Partial Fit Float Attempt Successful')
 			del TARGfloat
 		except Exception as e:
 			if "object has no attribute 'partialfit'" in e:
 				how = 'full'
-			print('Fit Float Attempt Failed', e)
+			logger.debug('Full Fit Float Attempt Failed: %s', e)
 	if done == False and how == 'partial':
 		try:
 			TARGint = [int(y) for y in TARGs.values.ravel()]  # ||
 			model.partialfit(FTRs, TARGint)
 			done = True
-			print('Partial Fit Int Attempt Successful')
+			logger.debug('Partial Fit Int Attempt Successful')
 			del TARGint
 		except Exception as e:
 			if "object has no attribute 'partialfit'" in e:
 				how = 'full'
-			print('Partial Fit Int Attempt Failed', e)
+			logger.debug('Partial Fit Int Attempt Failed: %s', e)
 	if done == False and how == 'partial':
 		try:
 			model.partialfit(FTRs, TARGs)
 			done = True
-			print('Partial Fit Failed')
+			logger.debug('Partial Fit Attempt Successful')
 		except Exception as e:
 			if "object has no attribute 'partialfit'" in e:
 				how = 'full'
-			print('Partial Fit Failed', e)
+			logger.debug('Partial Fit Attempt Failed: %s', e)
 	if done == False and how == 'full':
 		try:
 			model.fit(FTRs, TARGs.values.ravel())
 			done = True
-			print('Full Fit Ravel Attempt Successful')
+			logger.debug('Full Fit Ravel Attempt Successful')
 		except Exception as e:
-			print('Fit Ravel Attempt Failed', e)
+			logger.debug('Fit Ravel Attempt Failed: %s', e)
 	if done == False and how == 'full':
 		try:
 			TARGfloat = [float(y) for y in TARGs.values.ravel()]  # ||
 			model.fit(FTRs, TARGfloat)
 			done = True
-			print('Full Fit Float Attempt Successful')
+			logger.debug('Full Fit Float Attempt Successful')
 			del TARGfloat
 		except Exception as e:
-			print('Fit Float Attempt Failed', e)
+			logger.debug('Full Fit Float Attempt Failed: %s', e)
 	if done == False and how == 'full':
 		try:
 			TARGfloat = [float(y) for y in TARGs.values.ravel()]  # ||
@@ -152,26 +172,26 @@ def _runAlgo(FTRs, TARGs, model, args, how='full'):
 					FTRsfloat.append(float(x))
 			model.fit(FTRsfloat, TARGfloat)
 			done = True
-			print('Full Fit Float Attempt Successful')
+			logger.debug('Full Fit Float Attempt Successful')
 			del TARGfloat
 		except Exception as e:
-			print('Fit Float Attempt Failed', e)
+			logger.debug('Full Fit Float Attempt Failed: %s', e)
 	if done == False and how == 'full':
 		try:
 			TARGint = [int(y) for y in TARGs.values.ravel()]  # ||
 			model.fit(FTRs, TARGint)
 			done = True
-			print('Full Fit Int Attempt Successful')
+			logger.debug('Full Fit Int Attempt Successful')
 			del TARGint
 		except Exception as e:
-			print('Full Fit Int Attempt Failed', e)
+			logger.debug('Full Fit Int Attempt Failed: %s', e)
 	if done == False and how == 'full':
 		try:
 			model.fit(FTRs, TARGs)
 			done = True
-			print('Full Fit Successful')
+			logger.debug('Full Fit Successful')
 		except Exception as e:
-			print('Full Fit Failed', e)
+			logger.debug('Full Fit Failed: %s', e)
 	del FTRs
 	del TARGs
 	gc.collect()
@@ -195,17 +215,17 @@ def _save(writer, res, name, code, model, scores={}, start=None):  # ||
 		wrdata = {code: {'records': res, 'columns': predictCOLs}}  # ||
 		writer.write(wrdata)  # ||
 	except Exception as e:
-		print('Prediction Write Failed', e, 'Save Code', wrdata.keys())  # ||
+		logger.warning('Prediction Write Failed: %s (keys: %s)', e, wrdata.keys())
 	del wrdata
 	try:  # ||
 		cfs = model.coef_  # ||
 	except Exception:
 		cfs = None
-	print('Save Model', model)
+	logger.debug('Save Model: %s', model)
 	try:  # ||
 		params = model.get_params()  # ||
 	except Exception:
-		print('Save Model Params Failed for ', model)  # ||
+		logger.warning('Save Model Params Failed for: %s', model)
 		params = None
 	if scores == None:
 		scores = {}
@@ -217,7 +237,7 @@ def _save(writer, res, name, code, model, scores={}, start=None):  # ||
 		wrdata = {'models': {'records': serialize, 'columns': seriCols}}  # ||
 		writer.write(wrdata)  # ||
 	except Exception as e:  # ||
-		print('Model Score Write Failed', e)  # ||
+			logger.warning('Model Score Write Failed: %s', e)
 
 
 # def loadAlgos():

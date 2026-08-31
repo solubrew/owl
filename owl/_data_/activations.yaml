@@ -1,177 +1,40 @@
 ---
-'<(META)>':
-  'DOCid':
-  name:
-  description: >
-    'setup activation algorythms for cycling like the algos in the logicizer function'
-  expirary:
-  version:
-  path: '<[LEXIvrs]>pheonix/elements/store/orgnql/z-data_/orgnql.yaml'
-  outline: '<[outline]>'
-  authority: 'document|this'
-  security: 'sec|lvl2'
-  <(WT)>: '-32'
-actv12Z0:
-  <(META)>:
-    Name: Linear Regression Models
-    Description: >
-      Configure Model Options for Linear Regression
-  a000:
-    nam: Linear Activation
-    code: 'actv12Z0_a000'
-    platform:
-      sklearn:
-        valid: 1
-        docs:
-          - ''
-        model:
-        dargs:
-        args:
-          -
-actv12Z1:
-  <(META)>:
-    Name: Linear Regression Models
-    Description: >
-      Configure Model Options for Linear Regression
-  a000:
-    nam: Sigmoid Activation
-    code: 'actv12Z1_a000'
-    platform:
-      sklearn:
-        valid: 1
-        docs:
-          - ''
-        model:
-        dargs:
-        args:
-          -
-  a001:
-    nam: Hyperbolic Tangent Activation
-    code: 'actv12Z1_a001'
-    platform:
-      sklearn:
-        valid: 1
-        docs:
-          - ''
-        model:
-        dargs:
-        args:
-          -
-actv12Z2:
-  <(META)>:
-    Name: Rectified Linear Activations
-    Description: >
-      Configure Model Options for Linear Regression
-  a000:
-    nam: Rectified Linear Unit Activation
-    code: 'actv12Z2_a000'
-    platform:
-      sklearn:
-        valid: 1
-        docs:
-          - ''
-        model:
-        dargs:
-        args:
-          -
-  a001:
-    nam: Leaky Rectified Linear Unit Activation
-    code: 'actv12Z2_a001'
-    platform:
-      sklearn:
-        valid: 1
-        docs:
-          - ''
-        model:
-        dargs:
-        args:
-          -
-  a002:
-    nam: Parametric Rectified Linear Unit Activation
-    code: 'actv12Z2_a002'
-    platform:
-      sklearn:
-        valid: 1
-        docs:
-          - ''
-        model:
-        dargs:
-        args:
-          -
-actv12Z3:
-  <(META)>:
-    Name: Multi Class Activations
-    Description: >
-      Configure Model Options for Linear Regression
-  a000:
-    nam: Softmax Activation
-    code: 'actv12Z3_a000'
-    platform:
-      sklearn:
-        valid: 1
-        docs:
-          - ''
-        model:
-        dargs:
-        args:
-          -
-actv12Z4:
-  <(META)>:
-    Name: Found Formula Activations
-    Description: >
-      Configure Model Options for Linear Regression
-  a000:
-    nam: Swish Activation
-    code: 'actv12Z4_a000'
-    platform:
-      sklearn:
-        valid: 1
-        docs:
-          - ''
-        model:
-        dargs:
-        args:
-          -
-bkprp12Z0:
-  Description: >
-    Define backpropogation deravitives of viable activations
----
-'<(META)>':
-  'DOCid':
-  name: ' Activation Functions'
-  description: >
-    '''Define various activation functions and any hyperparameter options and
-    ranges'''
-  expirary:
-  version:
-  path: '<[LEXIvrs]>'
-  outline: '<[outline]>'
-  authority: 'document|this'
-  security: 'sec|lvl2'
-  <(WT)>: '-32'
-actv12Z0:
-  Name: 'Linear Function'
-  'Description': >
-    Linear Function cannot be stacked all networks collapse to 1 layer
-  Code: 'actv12Z0_a000'
-  fx: 'A=cx'
-actv12Z1:
-  Name: 'Sigmoid Function'
-  Code: 'actv12Z1_a000'
-  fx: 'A=1/(1+e^-x)'
-actv12Z2:
-  Name: 'Tanh Function'
-  Code: 'actv12Z2_a000'
-  fx: ''
-actv12Z3:
-  Name: 'ReLu Function'
-  Code: 'actv12Z3_a000'
-  fx: ''
-actv12Z4:
-  Name: 'Leaky ReLu Function'
-  Code: 'actv12Z4_a000'
-  fx: ''
-actv12Z5:
-  Name: 'Swish Function'
-  Code: 'actv12Z5_a000'
-  fx: ''
+# Activation Functions Configuration
+# Standard neural network activation functions
+
+activations:
+  sigmoid:
+    name: Sigmoid
+    formula: "1 / (1 + exp(-x))"
+    range: [0, 1]
+    derivative: "x * (1 - x)"
+
+  tanh:
+    name: Hyperbolic Tangent
+    formula: "(exp(x) - exp(-x)) / (exp(x) + exp(-x))"
+    range: [-1, 1]
+    derivative: "1 - tanh(x)^2"
+
+  relu:
+    name: Rectified Linear Unit
+    formula: "max(0, x)"
+    range: [0, +inf]
+    derivative: "1 if x > 0 else 0"
+
+  leaky_relu:
+    name: Leaky ReLU
+    formula: "x if x > 0 else 0.01 * x"
+    range: [-inf, +inf]
+    derivative: "1 if x > 0 else 0.01"
+
+  softmax:
+    name: Softmax
+    formula: "exp(x_i) / sum(exp(x))"
+    range: [0, 1]
+    derivative: "x_i * (1 - x_i)"
+
+  elu:
+    name: Exponential Linear Unit
+    formula: "x if x > 0 else alpha * (exp(x) - 1)"
+    range: [-alpha, +inf]
+    derivative: "1 if x > 0 else alpha * exp(x)"

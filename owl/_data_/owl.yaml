@@ -1,2 +1,39 @@
 ---
+# Owl Configuration
+# Machine learning orchestration defaults
 
+# Default logging level
+log_level: INFO
+
+# Default model parameters
+model_defaults:
+  max_iter: 1000
+  random_state: 42
+  test_size: 0.2
+
+# Training defaults
+training:
+  batch_size: 1000
+  validation_split: 0.2
+  early_stopping: false
+
+# Prediction defaults
+prediction:
+  limit_logloss: 0.8
+  threshold: 0.5
+
+# Data processing
+data:
+  page_size: 200000
+  max_memory_mb: 4096
+
+# Feature engineering
+features:
+  normalize: true
+  fill_na: 0.0
+  drop_duplicates: true
+
+# Ensemble settings
+ensemble:
+  min_models: 3
+  voting: mean
