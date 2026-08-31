@@ -16,6 +16,7 @@ if os.path.exists(_micromole_path):
 from micromole.micromole import MicroMole
 from micromole.sources import DictionarySource, FileSource, RecordSource, TableSource
 from micromole.storage import MicroStash
+from kahndor.logma import Logma
 
 __all__ = [
     'DataSource',
@@ -27,6 +28,9 @@ __all__ = [
     'RecordSource',
     'TableSource',
 ]
+
+logma = Logma(__name__)
+
 
 class DataSource:
     """
@@ -44,6 +48,7 @@ class DataSource:
             source_type: One of 'dictionary', 'table', 'file', 'record'
             **kwargs: Source-specific parameters
         """
+        logma.info("DataSource initialized: source_type=%s", source_type)
         self.source_type = source_type
         self.kwargs = kwargs
         self._source = None
@@ -117,6 +122,7 @@ class OwlStorage:
             backend: Storage backend ('memory', 'disk', 'sqlite')
             **kwargs: Backend-specific options
         """
+        logma.info("OwlStorage initialized: backend=%s", backend)
         self.name = name
         self.backend = backend
         self.kwargs = kwargs

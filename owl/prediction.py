@@ -1,4 +1,4 @@
-#@@@@@@@@@@@@@Pheonix.Molecules.Predictor.Predictor@@@@@@@@@@@@@@@@@@@@@||
+#@@@@@@@@@@@@@@Pheonix.Molecules.Predictor.Predictor@@@@@@@@@@@@@@@@@@@@@||
 '''
 ---
 <(META)>:
@@ -36,28 +36,31 @@ from pandas import DataFrame
 
 logger = logging.getLogger(__name__)
 #===============================================================================||
-from excalc import data as calcd  #						||
+from excalc import data as calcd  #											||
 from fxsquirl import analyzer
-from fxsquirl.orgnql import sonql  #								||
+from fxsquirl.orgnql import sonql  #											||
 from kahndor import kahndor, thing  #										||
+from kahndor.logma import Logma
 
 from owl import utils
 
 #===============================================================================||
-here = join(dirname(__file__),'')#												||
+here = join(dirname(__file__),'')#										||
 page = 200000
 log = True
+logma = Logma(__name__)
 #===============================================================================||
-pxcfg = join(abspath(here), '_data_', 'predictor.yaml')#						||use default configuration
+pxcfg = join(abspath(here), '_data_', 'predictor.yaml')#					||use default configuration
 
 #uuid = thing.what().uuid().ruuid[-5:]
 #fp = open('logicizier_engine{0}.memlog'.format(uuid), 'w+')
 #@profile(stream=fp)
-class Engine(analyzer.engine):#worker.engine):#													||=>Define class
+class Engine(analyzer.engine):#worker.engine):#								||=>Define class
 	'''Analyze input data using available and/or identified methods'''#			||=>Describe class
 
 	def __init__(self, cfg: Any = None) -> None:
 		"""Initialize Engine."""
+		logma.info("Engine initialized")
 		self.config = kahndor.instruct(pxcfg)
 		self.config.override(f'{here}_data_/algos.yaml')
 		self.config.override(f'{here}_data_/nsmbls.yaml').override(cfg)
@@ -134,29 +137,21 @@ class Engine(analyzer.engine):#worker.engine):#													||=>Define class
 		logger.debug('CONFIG: %s', self.config.dikt)
 		cfg = self.config.dikt[algoN][seqN]['platform'][platN]#					||
 		TAG = thing.what().uuid().ruuid#										||
-		targTAG, trainTAG = TAG[-5:], TAG[:5]#									||
-#		print('CFG', cfg)
+		targTAG, trainTAG = TAG[-5:], TAG[:5]#								||
 		if cfg['valid'] == 0:
 			return None#														||
 		model = cfg['model']#													||
 		self.name = cfg['model']
 		if self.model is not None:#												||
 			model = self.model
-		self.code = self._code(self.tag, algoN, seqN, platN, targTAG)#			||
-#		print('Train Code', self.code)
+		self.code = self._code(self.tag, algoN, seqN, platN, targTAG)#		||
 		logger.debug('Train targets: %s', targs.head())
 		logger.debug('Features: %s', ftrs.head())
 		if not isinstance(targs, DataFrame):#									||
 			targs = DataFrame(targs)
 		done = False
 		if done == False:#														||
-#			try:#																||
-			model = utils._runAlgo(ftrs, targs, model, cfg['dargs'], how)#		||
-#				if model == False:
-#					return False
-#				done = True#													||
-#			except Exception as e:#												||
-#				print('Non pooled run failed',e)#								||
+			model = utils._runAlgo(ftrs, targs, model, cfg['dargs'], how)#	||
 		if done == True:
 			del ftrs
 			del targs
@@ -173,7 +168,6 @@ class Engine(analyzer.engine):#worker.engine):#													||=>Define class
 		if isinstance(adjusters, float):
 			df = df.DataFrame(self.data['trainfeats'])
 			df.applymap(lambda x: adjusters * x)
-#			df.apply(adjust, axis=1, (adjusters,))
 			self.data
 		elif isinstance(adjusters, dict) or isinstance(adjusters, list):
 			pass
@@ -190,13 +184,12 @@ class Engine(analyzer.engine):#worker.engine):#													||=>Define class
 	def _code(self, tag, algo, seq, plat, targ):
 		self.algon = f'{algo}_{seq}'
 		self.plat = plat
-		return f'{tag}_{algo}_{seq}_{plat}_{targ}'#			||
+		return f'{tag}_{algo}_{seq}_{plat}_{targ}'#						||
 
 def predictOutcomes(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN,
                    targs, columns):  # ||
 	'''Predict outcomes using trained model against tournament data '''
 	with sonql.doc(db, 0) as dbo:
-		# ---------------Generate Predictions--------------------------------------------
 		cfg = {'tables': ['numerai_tournament_data'], 'page': page,
 		       'split': [1, 3, 4, 314], 'targBIN': targBIN}  # ||
 		params = {'cycl': thing.what().uuid().ruuid[:5], 'what': 'predict',
@@ -229,7 +222,6 @@ def trainModel(db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN, targets):  # ||
 		done = utils._procData(cfg, params, dbo, model.train, targets)
 		return done, model
 
-
 def testModel(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN, targets,
               limit, columns):  # ||
 	'''Test model against holdout set'''
@@ -242,10 +234,10 @@ def testModel(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN, targets,
 		done = utils._procData(cfg, params, dbo, model.predict, targets, None, None, limit)  # ||
 		return done  # ||
 
-#uuid = thing.what().uuid().ruuid[-5:]#											||
-#fp = open('logicizier__procData{0}.memlog'.format(uuid), 'w+')#					||
-#@profile(stream=fp)#															||
-def _predict(model, x):#														||
+#uuid = thing.what().uuid().ruuid[-5:]#										||
+#fp = open('logicizier__procData{0}.memlog'.format(uuid), 'w+')#			||
+#@profile(stream=fp)#													||
+def _predict(model, x):#													||
 	done = False
 	try:
 		if log: logger.info('Predict From this Model: %s', model)
@@ -278,7 +270,6 @@ def csvFromDB():
 			if data == None:
 				logger.debug('Break on count: %s', cnt)
 				break
-			# need to add the columns to the records
 			logger.debug('Data keys: %s', data.dikt.keys())
 			df = DataFrame(data.dikt[t]['records'], columns=data.dikt[t]['columns'])
 			for model in smodels.keys():

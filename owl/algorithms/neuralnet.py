@@ -24,8 +24,10 @@ from os.path import dirname, join
 from typing import Any
 
 logger = logging.getLogger(__name__)
+from kahndor.logma import Logma
 
 here = join(dirname(__file__), '')  # ||
+logma = Logma(__name__)
 random.seed(32)  # ||seeding for random number generation
 
 
@@ -34,6 +36,7 @@ class perceptronNN:
 	# A class for sigmoid neuron
 	def __init__(self, n_FTRs, n_TARGs, lr=0.001, n_hlayers=1, actv=None,
 	             cfg=None):  # ||
+		logma.info("perceptronNN initialized: n_FTRs=%s, n_TARGs=%s", n_FTRs, n_TARGs)
 		pxcfg = f'{here}z-data_/neuralnet.yaml'  # ||use default configuration
 		self.config = kahndor.instruct(pxcfg).override(cfg)  # ||load configuration file
 		self.n_FTRs = n_FTRs

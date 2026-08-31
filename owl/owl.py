@@ -25,6 +25,7 @@ from os.path import join
 from typing import Any
 
 from pandas import DataFrame
+from kahndor.logma import Logma
 
 from owl._platforms import load_platforms
 from owl.functions import predict as _predict
@@ -34,6 +35,7 @@ from owl.functions import train as _train
 logger = logging.getLogger(__name__)
 
 here = join(__file__, '..', '')
+logma = Logma(__name__)
 pxcfg = join(here, '_data_', 'owl.yaml')
 algos = join(here, '_data_', 'algos.yaml')
 nsmbls = join(here, '_data_', 'nsmbls.yaml')
@@ -54,6 +56,7 @@ class Owl:
             tag: Unique identifier for this Owl instance
             cfg: Optional configuration overrides
         """
+        logma.info("Owl initialized: tag=%s", tag)
         self.tag = tag
         self.config = cfg or {}
         self.code: str | None = None

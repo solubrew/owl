@@ -26,6 +26,10 @@ from __future__ import annotations
 
 from typing import TYPE_CHECKING, Any, cast
 
+from kahndor.logma import Logma
+
+logma = Logma(__name__)
+
 # ==============================================================================
 # Core metrics — always available (sklearn only)
 # ==============================================================================
@@ -57,6 +61,9 @@ class OwlMetrics:
     All methods are lightweight wrappers around sklearn.metrics.
     No Metrologic dependency required.
     """
+
+    def __init__(self) -> None:
+        logma.info("OwlMetrics initialized")
 
     # ── Classification ────────────────────────────────────────────────────────
 
@@ -121,6 +128,7 @@ class ModelMetrics:
     """High-level model evaluation combining multiple OwlMetrics."""
 
     def __init__(self) -> None:
+        logma.info("ModelMetrics initialized")
         self._metrics = OwlMetrics()
 
     def evaluate_classification(
@@ -193,6 +201,7 @@ class OwlEvaluation:
 
     def __new__(cls) -> OwlEvaluation:
         """Lazy-init Metrologic only when first used."""
+        logma.info("OwlEvaluation initialized")
         if cls._data_table_eval is None:
             try:
                 from metrologic.analytics.evaluation import DataTableEvaluation

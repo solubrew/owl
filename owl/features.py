@@ -46,6 +46,7 @@ class FeatureAnalysis:
 	"""
 	def __init__(self, df: Any, n: int = 10) -> None:
 		"""Initialize FeatureAnalysis."""
+		logma.info("FeatureAnalysis initialized: n_components=%d", n)
 		self.df = df
 		self.output_features = n
 		self.pca = None
