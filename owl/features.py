@@ -83,19 +83,22 @@ class FeatureAnalysis():
 		:return: The analysis results, including the feature names and their explained variance ratios.
 		:rtype: DataFrame
 		"""
+		if self.pca is None:
+			logma.warning('analyze: PCA not initialized, call PCA() first')
+			return DataFrame()
 		feature_names = [f"Component {i}" for i in range(1, self.output_features + 1)]
 		columns = ['feature_name', 'explained_variance_ratio']
-		self.analysis = DataFrame(list(zip(feature_names, self.results.explained_variance_ratios)), columns=columns)
-		return self
+		self.analysis = DataFrame(list(zip(feature_names, self.pca.explained_variance_ratio_)), columns=columns)
+		return self.analysis
 
 	def explain(self):
 		"""Return a human-readable explanation of the top features.
-		
+
 		Returns:
 			str: Markdown-formatted explanation of the most important features.
 		"""
-		if self.results is None:
-			return "No analysis results available. Call analyze() first."
+		if not hasattr(self, 'results') or self.results is None:
+			return "No analysis results available. Call PCA() then fit() first."
 		logma.info('explain: %d features analyzed', len(self.results))
 		return f"FeatureAnalysis complete: {len(self.results)} features ranked."
 

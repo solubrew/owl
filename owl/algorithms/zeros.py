@@ -5,89 +5,94 @@
 	docid:
 	name:
 	description: >
-	version: 0.0.0.0.0.0
+version: 0.0.0.0.0.0
 	authority: filesystem
 	security: seclvl2
 	<(WT)>: -32
 """
-# -*- coding: utf-8 -*
+# -*- coding: utf-8 -*-
 # ======================================Standard Library Modules======================================================||
-from os.path import abspath, dirname, join
+from __future__ import annotations
+
+import logging
+from os.path import dirname, join
 from random import randrange
 
-# ======================================3rd Party Library Modules=====================================================||
-
 # ======================================Solutions Brewer Library Modules==============================================||
-from kahndor import kahndor
-from kahndor.logma import Logma
+try:
+    from kahndor import Instruct as _kahndor_class
+except Exception:
+    _kahndor_class = None
+
+if _kahndor_class:
+    kahndor = _kahndor_class
+else:
+    kahndor = None
+
+try:
+    from kahndor.logma import Logma
+except Exception:
+    Logma = None
 
 # ====================================================================================================================||
-here = join(dirname(__file__), '')  # ||
-logma = Logma(__name__)
-
-# ====================================================================================================================||
+logger = logging.getLogger(__name__)
+here = join(dirname(__file__), '')
 pxcfg = join(here, '_data_', '.yaml')
-class RandomAlgo(object):
-	""""""
-	def __init__(self):
-		""""""
-		self.config = kahndor.instruct(pxcfg).select('RandomAlgo')
-
-	def fit(self, FTRs, TARGs):
-		""""""
-		return self
-
-	def predict(self, targets, predict_type='category'):
-		""""""
-		if predict_type == 'category':
-			predictions = [list(set(targets))[randrange(len(list(set(targets))))] for x in targets]
-		else:
-			predictions = [randrange(min(targets), max(targets)) for x in targets]
-		return predictions
-
-class ZeroClassAlgo(object):
-	""""""
-	def __init__(self):
-		""""""
-		self.config = kahndor.instruct(pxcfg).select('ZeroAlgo')
-
-	def fit(self, FTRs, TARGs):
-		""""""
-		return self
-
-	def predict(self, targets):
-		""""""
-		return [max(list(set(targets)), key=list(set(targets)).count) for i in targets]
 
 
-class ZeroRegressionAlgo(object):
-	""""""
-	def __init__(self):
-		""""""
-		self.config = kahndor.instruct(pxcfg).select('ZeroRegressionAlgo')
+class RandomAlgo:
+    """Zero-stub random prediction algorithm."""
 
-	def fit(self, FTRs, TARGs):
-		""""""
-		return self
+    def __init__(self) -> None:
+        self.config = None
 
-	def predict(self, targets):
-		""""""
-		return [sum(targets) / float(len(targets)) for i in targets]
+    def fit(self, ftrs, targs):
+        return self
 
-class ZeroTimeSeriesAlgo(object):
-	""""""
-	def __init__(self):
-		""""""
-		self.config = kahndor.instruct(pxcfg).select('ZeroTimeSeriesAlgo')
+    def predict(self, targets, predict_type: str = 'category'):
+        if predict_type == 'category':
+            vals = list(set(targets))
+            return [vals[randrange(len(vals))] for _ in targets]
+        return [randrange(min(targets), max(targets)) for _ in targets]
 
-	def fit(self, FTRs, TARGs):
-		""""""
-		return self
 
-	def predict(self, targets):
-		""""""
-		return [sum(targets) / float(len(targets)) for i in targets]
+class ZeroClassAlgo:
+    """Zero-stub majority-class prediction algorithm."""
 
-# ====================================================================================================================||
+    def __init__(self) -> None:
+        self.config = None
 
-# @@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@||
+    def fit(self, ftrs, targs):
+        return self
+
+    def predict(self, targets):
+        majority = max(set(targets), key=list(targets).count)
+        return [majority for _ in targets]
+
+
+class ZeroRegressionAlgo:
+    """Zero-stub mean-regression prediction algorithm."""
+
+    def __init__(self) -> None:
+        self.config = None
+
+    def fit(self, ftrs, targs):
+        return self
+
+    def predict(self, targets):
+        mean = sum(targets) / len(targets)
+        return [mean for _ in targets]
+
+
+class ZeroTimeSeriesAlgo:
+    """Zero-stub time-series prediction algorithm."""
+
+    def __init__(self) -> None:
+        self.config = None
+
+    def fit(self, ftrs, targs):
+        return self
+
+    def predict(self, targets):
+        mean = sum(targets) / len(targets)
+        return [mean for _ in targets]

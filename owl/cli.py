@@ -34,7 +34,9 @@ DEFAULT_MODEL_DIR.mkdir(parents=True, exist_ok=True)
 
 def _load_csv(path: str, target_col: Optional[str] = None) -> tuple[DataFrame, Optional[DataFrame], List[str]]:
     """Load CSV and optionally split into features and targets."""
-    df = read_csv(path)
+    import pandas as pd
+
+    df = pd.read_csv(path)
     logger.info("Loaded %s rows, %s cols from %s", df.shape[0], df.shape[1], path)
 
     if target_col and target_col in df.columns:
@@ -109,7 +111,14 @@ def cmd_train(args: argparse.Namespace) -> int:
     model_out = args.model
 
     if data_path:
-        ftrs, targs, cols = _load_csv(data_path, target_col)
+        try:
+            ftrs, targs, cols = _load_csv(data_path, target_col)
+        except FileNotFoundError:
+            logger.error("CSV file not found: %s", data_path)
+            return 1
+        except Exception as e:
+            logger.error("Failed to read CSV %s: %s", data_path, e)
+            return 1
         if targs is None:
             targ_col = _find_target(ftrs)
             if targ_col:

@@ -176,7 +176,7 @@ class FeatureAnalysis:
         from pandas import DataFrame
         feature_names = [f"Component {i}" for i in range(1, self.output_features + 1)]
         self.analysis = DataFrame(
-            list(zip(feature_names, self.results.explained_variance_ratios)),
+            list(zip(feature_names, self.pca.explained_variance_ratio_)),
             columns=['feature_name', 'explained_variance_ratio']
         )
         return self.analysis
