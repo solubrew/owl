@@ -9,9 +9,6 @@ import sys
 import os
 
 from metrologic.metrologic import Metrologic
-from kahndor.logma import Logma
-
-logma = Logma(__name__)
 
 __all__ = [
     'Metrologic',
@@ -29,7 +26,6 @@ class OwlMetrics:
     """
     
     def __init__(self):
-        logma.info("OwlMetrics initialized (zz-hist_)")
         self._metrologic = Metrologic()
         
     # Classification Metrics
