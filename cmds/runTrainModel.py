@@ -22,7 +22,7 @@ crow.crowLoad('Owl', 'DELTA')
 
 # ===============================================================================||
 from ogma.logma import Logma
-from _work.llm import Chat
+from zz_work.llm import Chat
 
 # ===============================================================================||
 here = join(dirname(__file__), '')  # ||

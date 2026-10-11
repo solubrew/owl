@@ -390,25 +390,25 @@ dimensions:
       - file: cmds/runTrain.py
         module: kahndor.logma
         project: ogma
-      - file: _work/neuralnet.py
+      - file: zz_work/neuralnet.py
         module: kahndor
         project: kahndor
-      - file: _work/prediction.py
+      - file: zz_work/prediction.py
         module: kahndor
         project: kahndor
-      - file: _work/prediction.py
+      - file: zz_work/prediction.py
         module: kahndor
         project: kahndor
-      - file: _work/ensemble.py
+      - file: zz_work/ensemble.py
         module: kahndor
         project: kahndor
-      - file: _work/ensemble.py
+      - file: zz_work/ensemble.py
         module: kahndor
         project: kahndor
-      - file: _work/actv.py
+      - file: zz_work/actv.py
         module: kahndor.logma
         project: ogma
-      - file: _work/owl.py
+      - file: zz_work/owl.py
         module: kahndor
         project: kahndor
       internal_imports: 37
@@ -542,7 +542,7 @@ dimensions:
   logging:
     details:
       print_files:
-      - _work/neuralnet.py
+      - zz_work/neuralnet.py
       - cmds/runTrain.py
       print_statements: 98
       score: 75
@@ -676,7 +676,7 @@ dimensions:
       missing_files: []
       present_dirs:
       - cmds
-      - _work
+      - zz_work
       - docs
       - owl
       - tests

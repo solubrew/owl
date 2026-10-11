@@ -22,7 +22,7 @@ crow.crowLoad('Owl', 'DELTA')
 
 # ===============================================================================||
 from ogma.logma import Logma
-from _work.llm import Chat
+from zz_work.llm import Chat
 from squirl.objnql import tblonql
 from owl.functions import train, predict
 from owl.owl import Owl

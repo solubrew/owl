@@ -18,6 +18,6 @@ logging:
 
 # Data paths
 paths:
-  work_dir: "_work"
+  work_dir: "zz_work"
   data_dir: "owl/_data_"
   models_dir: "owl/_models_"
