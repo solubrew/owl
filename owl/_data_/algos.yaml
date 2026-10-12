@@ -24,7 +24,7 @@ algo12Z0:
         valid: 0
         docs:
           -
-        model: ZeroRegressionAlgo
+        model: 'owl.algorithms.zeros.ZeroRegressionAlgo'
         genericEQ:
         training:
           incremental:
@@ -44,7 +44,7 @@ algo12Z0:
         valid: 0
         docs:
           -
-        model: RandomAlgo
+        model: 'owl.algorithms.zeros.RandomAlgo'
         genericEQ:
         training:
           incremental:
@@ -63,7 +63,7 @@ algo12Z0:
         valid: 0
         docs:
           -
-        model: ZeroClassAlgo
+        model: 'owl.algorithms.zeros.ZeroClassAlgo'
         genericEQ:
         training:
           incremental:
@@ -82,7 +82,7 @@ algo12Z0:
         valid: 0
         docs:
           -
-        model: ZeroTimeSeriesAlgo
+        model: 'owl.algorithms.zeros.ZeroTimeSeriesAlgo'
         genericEQ:
         training:
           incremental:
@@ -1658,7 +1658,7 @@ algo11Z16:
         valid: 1
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.simpleNN'
+        model: 'owl.algorithms.neuralnet.simpleNN'
         metrics:
           size: 32
           speed: 32
@@ -1700,7 +1700,7 @@ algo11Z16:
         valid: 1
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.perceptronNN'
+        model: 'owl.algorithms.neuralnet.perceptronNN'
         metrics:
           size: 32
           speed: 32
@@ -1709,7 +1709,7 @@ algo11Z16:
         status: >
         opargs:
         dargs:
-          layers: 1
+          n_hlayers: 1
         args:
           -
   a002:
@@ -1719,7 +1719,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.backpropagateNN'
+        model: 'owl.algorithms.neuralnet.backpropagateNN'
         metrics:
           size: 32
           speed: 32
@@ -1735,7 +1735,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.feedforwardNN'
+        model: 'owl.algorithms.neuralnet.feedforwardNN'
         metrics:
           size: 32
           speed: 32
@@ -1751,7 +1751,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.radialbasisNN'
+        model: 'owl.algorithms.neuralnet.radialbasisNN'
         metrics:
           size: 32
           speed: 32
@@ -1767,7 +1767,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.recurrentNN'
+        model: 'owl.algorithms.neuralnet.recurrentNN'
         metrics:
           size: 32
           speed: 32
@@ -1783,7 +1783,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.longshortmemoryNN'
+        model: 'owl.algorithms.neuralnet.longshortmemoryNN'
         metrics:
           size: 32
           speed: 32
@@ -1799,7 +1799,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.gatedrecurrentunitNN'
+        model: 'owl.algorithms.neuralnet.gatedrecurrentunitNN'
         metrics:
           size: 32
           speed: 32
@@ -1815,7 +1815,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.autoencoderNN'
+        model: 'owl.algorithms.neuralnet.autoencoderNN'
         metrics:
           size: 32
           speed: 32
@@ -1831,7 +1831,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.variantionAENN'
+        model: 'owl.algorithms.neuralnet.variationAENN'
         metrics:
           size: 32
           speed: 32
@@ -1847,7 +1847,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.denoisingAENN'
+        model: 'owl.algorithms.neuralnet.denoisingAENN'
         metrics:
           size: 32
           speed: 32
@@ -1863,7 +1863,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.sparseAENN'
+        model: 'owl.algorithms.neuralnet.sparseAENN'
         metrics:
           size: 32
           speed: 32
@@ -1879,7 +1879,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.markovchainNN'
+        model: 'owl.algorithms.neuralnet.markovchainNN'
         metrics:
           size: 32
           speed: 32
@@ -1895,7 +1895,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.hopfieldNN'
+        model: 'owl.algorithms.neuralnet.hopfieldNN'
         metrics:
           size: 32
           speed: 32
@@ -1911,7 +1911,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.boltzmannmachineNN'
+        model: 'owl.algorithms.neuralnet.boltzmannmachineNN'
         metrics:
           size: 32
           speed: 32
@@ -1927,7 +1927,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.restrictedBMNN'
+        model: 'owl.algorithms.neuralnet.restrictedBMNN'
         metrics:
           size: 32
           speed: 32
@@ -1943,7 +1943,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.deepbeliefNN'
+        model: 'owl.algorithms.neuralnet.deepbeliefNN'
         metrics:
           size: 32
           speed: 32
@@ -1959,7 +1959,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.deepconvolutionalNN'
+        model: 'owl.algorithms.neuralnet.deepconvolutionalNN'
         metrics:
           size: 32
           speed: 32
@@ -1975,7 +1975,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.deconvolutionalNN'
+        model: 'owl.algorithms.neuralnet.deconvolutionalNN'
         metrics:
           size: 32
           speed: 32
@@ -1991,7 +1991,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.deepconvolutionalinversegraphicsNN'
+        model: 'owl.algorithms.neuralnet.deepconvolutionalinversegraphicsNN'
         metrics:
           size: 32
           speed: 32
@@ -2007,7 +2007,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.generativeadversarialNN'
+        model: 'owl.algorithms.neuralnet.generativeadversarialNN'
         metrics:
           size: 32
           speed: 32
@@ -2023,7 +2023,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.liquidstatemachineNN'
+        model: 'owl.algorithms.neuralnet.liquidstatemachineNN'
         metrics:
           size: 32
           speed: 32
@@ -2039,7 +2039,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.extremelearningmachineNN'
+        model: 'owl.algorithms.neuralnet.extremelearningmachineNN'
         metrics:
           size: 32
           speed: 32
@@ -2055,7 +2055,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.echostateNN'
+        model: 'owl.algorithms.neuralnet.echostateNN'
         metrics:
           size: 32
           speed: 32
@@ -2071,7 +2071,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.deepresidualNN'
+        model: 'owl.algorithms.neuralnet.deepresidualNN'
         metrics:
           size: 32
           speed: 32
@@ -2087,7 +2087,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.kohonenNN'
+        model: 'owl.algorithms.neuralnet.kohonenNN'
         metrics:
           size: 32
           speed: 32
@@ -2103,7 +2103,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.supportvectormachineNN'
+        model: 'owl.algorithms.neuralnet.supportvectormachineNN'
         metrics:
           size: 32
           speed: 32
@@ -2119,7 +2119,7 @@ algo11Z16:
         valid: 0
         docs:
           - ''
-        model: 'owl.molecules.logicizer.NN.neuralturingmachineNN'
+        model: 'owl.algorithms.neuralnet.neuralturingmachineNN'
         metrics:
           size: 32
           speed: 32

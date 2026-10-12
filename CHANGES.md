@@ -4,17 +4,50 @@ All notable changes to Owl will be documented in this file.
 
 ## [Unreleased]
 
-### Added
-- **owl[decisions]** optional dependency: `pip install owl[decisions]` installs mindot
-- `owl/__init__.py`: `DECISIONS_AVAILABLE` flag — `True` when mindot is installed
-
-### Changed
-- **`owl/decision.py`**: deprecated; `DeprecationWarning` now points to `mindot.mindot_owl.OwlMethod`
-- **`owl/algorithms/algo.py`**: removed (dead copy of `owl/algorithms/zeros.py`)
-
 ### Fixed
-- **`BREWCE.__init__`**: fixed `BOT.__int__` typo → `BOT.__init__`; removed undefined `model()` reference
-- **`devfunctions.storeData()`**: fixed undefined `file_df` variable → `DataFrame()`
+- **YAML→class resolution contract**: every `owl`-platform `model:` string in
+  `owl/_data_/algos.yaml` now resolves to a real, importable class. The 28 dead
+  `owl.molecules.logicizer.NN.*` paths were remapped to the actual class
+  locations in `owl.algorithms.neuralnet.*`; the 4 bare zero-stub names
+  (`RandomAlgo`, `ZeroClassAlgo`, `ZeroRegressionAlgo`, `ZeroTimeSeriesAlgo`)
+  were prefixed with `owl.algorithms.zeros.`; the `variantionAENN` typo was
+  corrected to `variationAENN`. The `dargs` key was renamed `layers` →
+  `n_hlayers` to match the constructor kwarg.
+- **`owl.algorithms.neuralnet.perceptronNN.__init__`**: added missing
+  `from kahndor import Instruct` import, fixed `kahndor.instruct(pxcfg)` →
+  `self._loadConfig(pxcfg, cfg)` (in-memory fallback when `z-data_/neuralnet.yaml`
+  is absent), swapped `random.normal` → `np.random.normal` and `scipy.special.expit` →
+  `special.expit` (added `import numpy as np` and `from scipy import special`).
+  Constructor now accepts `n_FTRs=None` / `n_TARGs=None` and defers layer
+  construction until `fit()` provides data dims, so the YAML→class resolver
+  can instantiate NN classes from `dargs` alone.
+- **`owl.algorithms.neuralnet` subclass constructors**: 27 subclasses had
+  unbound `perceptronNN.__init__(...)` calls (missing `self`) and 5-positional
+  arity mismatches against the 7-arg `perceptronNN.__init__` signature.
+  All rewritten with the standard `(inodes, hnodes, onodes, lr, layers, actv, cfg)`
+  signature and `perceptronNN.__init__(self, ...)` super-call.
+- **Missing NN classes**: `simpleNN`, `backpropagateNN`, `feedforwardNN` were
+  referenced in `algos.yaml` but not defined; added as thin `perceptronNN`
+  subclasses so the YAML path resolves.
+- **`owl.algorithms.neuralnet.fit` / `train` / `predict`**: rewritten to be
+  safe against `pandas.DataFrame` inputs (was iterating column names, not
+  rows), numpy `wts` arrays (was using `wts == []` which raises on numpy),
+  and `LAYERs` deferred until data arrives. Predictions now accumulated per
+  layer-output instead of overwritten.
+- **`owl.algorithms.neuralnet.__sigmoid`**: undefined `exp` → `np.exp`.
+- **`owl.algorithms/__init__.py`**: re-exported activation classes
+  (`linear`, `sigmoid`, `tanh`, `relu`, `leakyrelu`, `swish`) so the package
+  surface makes them available to callers wiring custom activation functions.
+- **`owl.algorithms.zeros`**: removed dead `try/except kahndor.Instruct` dance
+  and unused `pxcfg` path that wrapped `Logma` in a guarded import. Module
+  now imports `kahndor.logma.Logma` directly.
+
+### Added
+- **`tests/test_neuralnet_yaml.py`**: 31-test contract suite that pins the
+  YAML→class resolution contract for every `owl`-platform entry in
+  `algos.yaml`, the construction contract for `perceptronNN` and all 27
+  subclasses, and the activation-class re-export surface. RED-first: written
+  before the fixes above to encode the failure modes.
 
 ## [0.1.0] - 2026-03-15
 

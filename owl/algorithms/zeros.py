@@ -15,43 +15,23 @@
 from __future__ import annotations
 
 import logging
-from os.path import dirname, join
 import secrets
 from typing import Any
 
 # ======================================Solutions Brewer Library Modules==============================================||
-try:
-    from kahndor import Instruct as _kahndor_class
-except Exception:
-    _kahndor_class = None
-
-if _kahndor_class:
-    kahndor = _kahndor_class
-else:
-    kahndor = None
-
-try:
-    from kahndor.logma import Logma
-except Exception:
-    Logma = None
+from kahndor.logma import Logma
 
 # ====================================================================================================================||
 logger = logging.getLogger(__name__)
-here = join(dirname(__file__), '')
-pxcfg = join(here, '_data_', '.yaml')
 
-if Logma:
-    logma = Logma(__name__)
-else:
-    logma = logger
+logma = Logma(__name__)
 
 
 class RandomAlgo:
     """Zero-stub random prediction algorithm."""
 
     def __init__(self) -> None:
-        if Logma:
-            logma.info("RandomAlgo initialized")
+        logma.info("RandomAlgo initialized")
         self.config = None
 
     def fit(self, ftrs: Any, targs: Any) -> 'RandomAlgo':
@@ -68,8 +48,7 @@ class ZeroClassAlgo:
     """Zero-stub majority-class prediction algorithm."""
 
     def __init__(self) -> None:
-        if Logma:
-            logma.info("ZeroClassAlgo initialized")
+        logma.info("ZeroClassAlgo initialized")
         self.config = None
 
     def fit(self, ftrs: Any, targs: Any) -> 'ZeroClassAlgo':
@@ -84,8 +63,7 @@ class ZeroRegressionAlgo:
     """Zero-stub mean-regression prediction algorithm."""
 
     def __init__(self) -> None:
-        if Logma:
-            logma.info("ZeroRegressionAlgo initialized")
+        logma.info("ZeroRegressionAlgo initialized")
         self.config = None
 
     def fit(self, ftrs: Any, targs: Any) -> 'ZeroRegressionAlgo':
@@ -100,8 +78,7 @@ class ZeroTimeSeriesAlgo:
     """Zero-stub time-series prediction algorithm."""
 
     def __init__(self) -> None:
-        if Logma:
-            logma.info("ZeroTimeSeriesAlgo initialized")
+        logma.info("ZeroTimeSeriesAlgo initialized")
         self.config = None
 
     def fit(self, ftrs: Any, targs: Any) -> 'ZeroTimeSeriesAlgo':
