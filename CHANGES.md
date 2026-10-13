@@ -4,6 +4,20 @@ All notable changes to Owl will be documented in this file.
 
 ## [Unreleased]
 
+### Removed
+- **Local machine paths + dead path-holding module**: scrubbed every
+  `/home/`, `/mnt/`, and `file://` string from tracked files.
+  - `cmds/runTrain.py`: dataset path now read from `OWL_DATA_PATH` env var
+    (fail-loud `SystemExit` when unset) instead of hardcoded
+    `REDACTED/_work/DataRepo/housing.tab`; dead `setPath` constant removed.
+  - `owl/prediction.py` deleted — shadowed by the `owl/prediction/` package,
+    unimportable standalone, referenced by nothing.
+  - `STATE.md` / `CI_CD.md`: local filesystem references genericized to
+    `SB_STACK_ROOT` env var / descriptive text.
+  - `requirements.txt`: uv header comment rewritten to relative-path form.
+  - New guard test `tests/test_no_local_paths.py` (4 tests) sweeps tracked
+    files for local-path patterns and emails, keeping the repo clean.
+
 ### Fixed
 - **YAML→class resolution contract**: every `owl`-platform `model:` string in
   `owl/_data_/algos.yaml` now resolves to a real, importable class. The 28 dead

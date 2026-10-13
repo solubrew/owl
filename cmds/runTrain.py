@@ -12,8 +12,9 @@
 	security: sec|lvl2  #														||
 	<(WT)>: -32  #																||
 """  # ||
-# -*- coding: utf-8 -*-#														||
+# -*- coding: utf-8 -*-#							||
 # =================================Core Modules==================================||
+import os
 from os.path import dirname, join
 from sys import argv
 
@@ -34,6 +35,21 @@ logma = Logma(__name__)
 
 # ===============================================================================||
 pxcfg = join(here, '_data_', 'owl.yaml')
+
+# OWL_DATA_PATH: path to a tabular dataset with a 'MEDV' target column.
+# Required when running this command. No local default — set the env var
+# to the dataset on your host.
+DATA_PATH = os.environ.get('OWL_DATA_PATH')
+
+
+def _require_data_path() -> str:
+	"""Return OWL_DATA_PATH or raise a clear error if unset."""
+	if not DATA_PATH:
+		raise SystemExit(
+			'OWL_DATA_PATH is not set. Point it at a tabular dataset with a MEDV target column.'
+		)
+	return DATA_PATH
+
 
 def predictOutcomes(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN,
                    targs, columns):  # ||
@@ -63,7 +79,6 @@ def predictValidation(model, db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN,
 
 def trainModel(db, ftag, algoNAME, algoSEQ, algoPLAT, targBIN, targets):  # ||
 	"""Train algorithm against known targets"""
-	setPath = 'REDACTED/DataWorkRepo/NumeraiSETs/'  # ||
 	with sonql.doc(db, 0) as dbo:
 		with sonql.doc(db) as dbi:
 			model = engine().initPredictor(ftag, dbi)
@@ -98,7 +113,7 @@ def runr(args):
 		platform = 'sklearn'
 		features = ''
 		targets = ''
-		path = 'REDACTED/_work/DataRepo/housing.tab'
+		path = _require_data_path()
 		df = next(tblonql.Doc(path).read())
 		df = df.drop(df.index[[0, 1]])
 		target_columns = ['MEDV']
@@ -116,7 +131,7 @@ def runr(args):
 		algo = 'algo12Z1'
 		version = 'a000'
 		platform = 'sklearn'
-		path = 'REDACTED/_work/DataRepo/housing.tab'
+		path = _require_data_path()
 		df = next(tblonql.Doc(path).read())
 		df = df.drop(df.index[[0, 1]])
 		target_columns = ['MEDV']

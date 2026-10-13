@@ -4,7 +4,7 @@
 
 **Name:** Owl  
 **Type:** Machine Learning Framework  
-**Repository:** `file://REDACTED/SBST01/vein/GitVein/owl.git`  
+**Repository:** local GitVein remote (`SBST01/vein/GitVein/owl.git`)
 **Branch:** `gamma` (cloned to `morg-ws` for workspace)
 
 ---

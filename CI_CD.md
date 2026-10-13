@@ -60,13 +60,12 @@ maintainability, dependency strategy, etc.). A score of
 
 ```bash
 PYTHONPATH=... python3 << 'EOF'
-import sys, json
-sys.path.insert(0, 'REDACTED/.hermes/projects/sasquatch')
-sys.path.insert(0, 'REDACTED/.hermes/projects/falcon')
-sys.path.insert(0, 'REDACTED/.hermes/projects/taskaxn')
-sys.path.insert(0, 'REDACTED/.hermes/projects/pycurity')
+import sys, json, os
+SB_STACK = os.environ['SB_STACK_ROOT']  # e.g. "<workspace>/projects"
+for dep in ('sasquatch', 'falcon', 'taskaxn', 'pycurity'):
+    sys.path.insert(0, os.path.join(SB_STACK, dep))
 from sasquatch.analysis.auditors.project import ProjectAuditor
-r = ProjectAuditor('REDACTED/.hermes/projects/owl', agent='m3rl1n').audit()
+r = ProjectAuditor(os.path.join(SB_STACK, 'owl'), agent='m3rl1n').audit()
 print(json.dumps({"overall_score": r["overall_score"]}, indent=2))
 EOF
 ```
